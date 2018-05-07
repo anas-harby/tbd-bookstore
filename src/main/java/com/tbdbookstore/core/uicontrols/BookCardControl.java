@@ -65,7 +65,6 @@ public class BookCardControl extends VBox {
 
     public void setPublisher(String publisher) {
         this.publisher.setText(publisher);
-
     }
 
     public void setOnCartButtonClick(EventHandler<? super MouseEvent> eventHandler) {

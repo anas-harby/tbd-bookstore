@@ -2,15 +2,22 @@
 
 <?import com.gluonhq.charm.glisten.control.Icon?>
 <?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
-<fx:root type="javafx.scene.layout.VBox" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" style="fx-background-color: #000000;">
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.geometry.Insets?>
+<fx:root fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="800.0" style="fx-background-color: #FF0000;" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <AnchorPane prefHeight="200.0" prefWidth="817.0">
+        <AnchorPane prefHeight="200.0" prefWidth="817.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);" >
+            <padding>
+                <Insets top="10.0" />
+            </padding>
             <children>
-                <ImageView fitHeight="150.0" fitWidth="100.0" layoutX="14.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="450.0" AnchorPane.topAnchor="25.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5, 0, 0, 0);">
+                <ImageView fitHeight="150.0" fitWidth="100.0" layoutX="14.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5, 0, 0, 0);" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="450.0" AnchorPane.topAnchor="25.0">
                     <image>
                         <Image url="@../img/cover.png" />
                     </image>
