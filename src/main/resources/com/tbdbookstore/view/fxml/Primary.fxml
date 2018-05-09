@@ -2,7 +2,7 @@
 
 <?import com.gluonhq.charm.glisten.control.Icon?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import com.tbdbookstore.core.control.BookTableController?>
+<?import com.tbdbookstore.core.uicontrols.BookTableControl?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -51,7 +51,7 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </BorderPane.margin>
          <center>
-            <BookTableController fx:id="userTable" />
+            <BookTableControl fx:id="userTable" />
          </center>
       </BorderPane>
    </center>
