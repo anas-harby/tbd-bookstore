@@ -263,8 +263,8 @@
  */
 
 .tree-table-view {
-    -fx-tree-table-color: rgba(255, 0, 0, 0.2);
-    -fx-tree-table-rippler-color: rgba(255, 0, 0, 0.4);
+    -fx-tree-table-color: rgba(0, 0, 0, 0.1);
+    -fx-tree-table-rippler-color: rgba(0, 0, 0, 0.4);
 }
 
 .tree-table-view .jfx-text-field{
@@ -318,11 +318,11 @@
 
 .tree-table-view .menu-item:focused {
     -fx-background-color: -fx-tree-table-color;
-
 }
 
 .tree-table-view .menu-item .label {
     -fx-padding: 5 0 5 0;
+    -fx-background-color: black;
 }
 
 
