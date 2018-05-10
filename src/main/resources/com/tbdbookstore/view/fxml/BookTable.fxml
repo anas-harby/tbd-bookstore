@@ -12,6 +12,7 @@
         <JFXTreeTableColumn fx:id="genreCol" text="Genre" minWidth='100' resizable="false"/>
         <JFXTreeTableColumn fx:id="publisherCol" text="Publisher" minWidth='100' resizable="false"/>
         <JFXTreeTableColumn fx:id="quantityCol" text="Quantity" minWidth='100' resizable="false"/>
+        <JFXTreeTableColumn fx:id="cartBtnCol" sortable="false" />
     </columns>
     <BorderPane.margin>
         <Insets bottom="10.0" right="10.0" top="20.0" />

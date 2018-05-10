@@ -1,19 +1,24 @@
 package com.tbdbookstore.core.uicontrols;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
+import com.jfoenix.controls.cells.editors.base.JFXTreeTableCell;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.util.function.Function;
@@ -27,6 +32,7 @@ public class BookTableControl extends JFXTreeTableView {
     @FXML private JFXTreeTableColumn<BookEntry, String> genreCol;
     @FXML private JFXTreeTableColumn<BookEntry, String> publisherCol;
     @FXML private JFXTreeTableColumn<BookEntry, Integer> quantityCol;
+    @FXML private JFXTreeTableColumn<BookEntry, Boolean> cartBtnCol;
 
     private ObservableList<BookEntry> data;
 
@@ -40,7 +46,8 @@ public class BookTableControl extends JFXTreeTableView {
         setupCellValueFactory(genreCol, BookEntry::genreProperty);
         setupCellValueFactory(publisherCol, BookEntry::publisherProperty);
         setupCellValueFactory(quantityCol, b -> b.quantityProperty().asObject());
-
+        cartBtnCol.setCellValueFactory(features -> new SimpleBooleanProperty(features.getValue() != null));
+        cartBtnCol.setCellFactory(col -> new ButtonCell());
         data = FXCollections.observableArrayList();
         root.setRoot(new RecursiveTreeItem<>(data, RecursiveTreeObject::getChildren));
         root.setShowRoot(false);
@@ -75,6 +82,29 @@ public class BookTableControl extends JFXTreeTableView {
             data.add(new BookEntry());
             final IntegerProperty currCountProp = root.currentItemsCountProperty();
             currCountProp.set(currCountProp.get() + 1);
+        }
+    }
+
+    class ButtonCell extends JFXTreeTableCell<BookEntry, Boolean> {
+        private StackPane pane = null;
+        private JFXButton addToCart = null;
+
+        ButtonCell() {
+            pane = new StackPane();
+            addToCart = new JFXButton("Add to Cart");
+
+            pane.getChildren().add(addToCart);
+            addToCart.setOnMousePressed(mouseEvent -> System.out.println("CART"));
+        }
+
+        @Override
+        protected void updateItem(Boolean item, boolean empty) {
+            super.updateItem(item, empty);
+            if (!empty) {
+                setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                setGraphic(pane);
+            } else
+                setGraphic(null);
         }
     }
 
