@@ -9,5 +9,6 @@ public enum Error {
     DUPLICATE_ITEM,
     UNKNOWN_ITEM, // Ex: adding a new book having an invalid category
     KEY_FIELD_MISSING, // Obligatory field left empty, handled in the UI?
+    DATA_TOO_LONG, // Input data are too long
     UNSPECIFIED // General error
 }

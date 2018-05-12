@@ -33,5 +33,6 @@ public class ErrorHandler {
         errorMap.put(1216, Error.UNKNOWN_ITEM); // Cannot add or update a child row: a foreign key constraint fails
         // errorMap.put(1217, Error.UNKNOWN_ITEM); // Deleting a parent row
         errorMap.put(1364, Error.KEY_FIELD_MISSING); // A key/NOT-NULL field with no default value is left empty
+        errorMap.put(1406, Error.DATA_TOO_LONG);
     }
 }
