@@ -1,28 +1,22 @@
 package com.tbdbookstore.core.pojo;
 
 public class Book {
-    private String isbn;
+
+    private String ISBN;
     private String title;
-    private String author;
-    private String publisher;
-    private int year;
-    private int quantity;
+    private String genre;
+    private String publicationYear;
+    private int publisherID;
+    private int sellingPrice;
+    private int stockQuantity;
+    private int minQuantity;
 
-    public Book(String isbn, String title, String author, String publisher, int year, int quantity) {
-        this.isbn = isbn;
-        this.title = title;
-        this.author = author;
-        this.publisher = publisher;
-        this.year = year;
-        this.quantity = quantity;
+    public Book(String ISBN) {
+        this.ISBN = ISBN;
     }
 
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
+    public String getISBN() {
+        return ISBN;
     }
 
     public String getTitle() {
@@ -33,35 +27,51 @@ public class Book {
         this.title = title;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getGenre() {
+        return genre;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
-    public String getPublisher() {
-        return publisher;
+    public String getPublicationYear() {
+        return publicationYear;
     }
 
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
+    public void setPublicationYear(String publicationYear) {
+        this.publicationYear = publicationYear;
     }
 
-    public int getYear() {
-        return year;
+    public int getPublisherID() {
+        return publisherID;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setPublisherID(int publisherID) {
+        this.publisherID = publisherID;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getSellingPrice() {
+        return sellingPrice;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setSellingPrice(int sellingPrice) {
+        this.sellingPrice = sellingPrice;
+    }
+
+    public int getStockQuantity() {
+        return stockQuantity;
+    }
+
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
+    }
+
+    public int getMinQuantity() {
+        return minQuantity;
+    }
+
+    public void setMinQuantity(int minQuantity) {
+        this.minQuantity = minQuantity;
     }
 }
