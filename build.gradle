@@ -45,21 +45,6 @@ dependencies {
     jasperreports 'net.sf.jasperreports:jasperreports:6.5.1'
 }
 
-task compileJasperJava(dependsOn: 'compileJava') {
-    doLast {
-        def jasperSourceDir = file('src/main/jasperreports')
-        def jasperTargetDir = file('build/classes/main/jasperreports')
-        ant {
-            taskdef(name: 'jrc', classname: 'net.sf.jasperreports.ant.JRAntCompileTask', classpath: configurations.jasperreports.asPath)
-            jasperTargetDir.mkdirs()
-            jrc(srcdir: jasperSourceDir, destdir: jasperTargetDir) {
-                classpath(path: sourceSets.main.output.classesDir)
-                include(name: '**/*.jrxml')
-            }
-        }
-    }
-}
-classes.dependsOn compileJasperJava
 buildscript {
     dependencies {
         classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: '8.8.2'

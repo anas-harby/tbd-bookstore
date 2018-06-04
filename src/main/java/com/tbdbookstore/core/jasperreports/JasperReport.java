@@ -1,5 +1,7 @@
 package com.tbdbookstore.core.jasperreports;
 
+import java.sql.Connection;
+
 public interface JasperReport {
 
     public enum Format{
@@ -11,7 +13,7 @@ public interface JasperReport {
     }
     void compileReport(String jrxmlPath);
 
-    void fillReport(String jasperPath);
+    void fillReport(String jasperPath,Connection connection);
 
     void viewReport();
 

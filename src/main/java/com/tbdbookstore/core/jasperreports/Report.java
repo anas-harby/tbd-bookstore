@@ -1,23 +1,23 @@
 package com.tbdbookstore.core.jasperreports;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import java.sql.Connection;
+import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.swing.JRViewer;
 
+import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Report implements JasperReport {
 
-    String printFileName;
-    String jasperSource;
+    private JasperPrint print;
+    private String jasperSource;
 
-    public Report(String jrxmlPath) {
+    public Report(String jrxmlPath, Connection connection) {
         compileReport(jrxmlPath);
+        jasperSource = getFileName(jrxmlPath) + ".jasper";
+        fillReport(jasperSource,connection);
     }
 
     @Override
@@ -28,6 +28,7 @@ public class Report implements JasperReport {
              * the JRXML file name
              */
             JasperCompileManager.compileReportToFile(jrxmlPath);
+            System.out.println("Report Compilation Done !");
         } catch (JRException e) {
             e.printStackTrace();
         }
@@ -35,11 +36,14 @@ public class Report implements JasperReport {
     }
 
     @Override
-    public void fillReport(String jasperPath) {
+    public void fillReport(String jasperPath, Connection connection) {
 
-
-        Map parameters = new HashMap();
-        printFileName = JasperFillManager.fillReportToFile(jasperSource, parameters,  );
+        try {
+            Map parameters = new HashMap();
+            print = JasperFillManager.fillReport(jasperPath,parameters,connection);
+        } catch (JRException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -51,7 +55,7 @@ public class Report implements JasperReport {
                  * export to PDF
                  */
                 case PDF:
-                    JasperExportManager.exportReportToPdfFile(printFileName, outputFileName + ".pdf");
+                    JasperExportManager.exportReportToPdfFile(print, outputFileName + ".pdf");
                     break;
 
                 /**
@@ -59,7 +63,7 @@ public class Report implements JasperReport {
                  */
                 case XLS:
                     JRXlsExporter exporter = new JRXlsExporter();
-                    exporter.setParameter(JRExporterParameter.INPUT_FILE_NAME, printFileName);
+                    exporter.setParameter(JRExporterParameter.INPUT_FILE_NAME, print);
                     exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, outputFileName + ".xls");
                     exporter.exportReport();
                     break;
@@ -67,7 +71,7 @@ public class Report implements JasperReport {
                  * export to HTML
                  */
                 case HTML:
-                    JasperExportManager.exportReportToHtmlFile(printFileName, outputFileName + ".html");
+                    JasperExportManager.exportReportToHtmlFile(print, outputFileName + ".html");
 
                     break;
                 case XML:
@@ -83,6 +87,15 @@ public class Report implements JasperReport {
 
     @Override
     public void viewReport() {
+        JFrame frame = new JFrame("Sales Report");
+        frame.getContentPane().add(new JRViewer(print));
+        frame.pack();
+        frame.setVisible(true);
 
+    }
+
+    private String getFileName(String fileName){
+        String[] tokens = fileName.split("\\.(?=[^\\.]+$)");
+        return tokens[0];
     }
 }
