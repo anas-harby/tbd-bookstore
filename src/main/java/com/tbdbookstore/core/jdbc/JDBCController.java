@@ -230,7 +230,7 @@ public class JDBCController implements Connector {
         Properties prop = new Properties();
         InputStream input = null;
         try {
-            input = new FileInputStream("config.properties");
+            input = new FileInputStream("src/main/resources/com/tbdbookstore/core/config.properties");
             prop.load(input);
             driver = prop.getProperty("driver");
             dbURL = prop.getProperty("dbURL");

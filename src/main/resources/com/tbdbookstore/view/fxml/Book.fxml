@@ -2,6 +2,7 @@
 
 <?import com.gluonhq.charm.glisten.control.Icon?>
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -9,10 +10,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.geometry.Insets?>
-<fx:root fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="800.0" style="fx-background-color: #FF0000;" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="800.0" style="fx-background-color: #FF0000;" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <AnchorPane prefHeight="200.0" prefWidth="817.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);" >
+        <AnchorPane prefHeight="200.0" prefWidth="817.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);">
             <padding>
                 <Insets top="10.0" />
             </padding>
@@ -62,7 +62,8 @@
                         </HBox>
                     </children>
                 </VBox>
-                <JFXButton fx:id="cartButton" layoutX="328.0" layoutY="146.0" style="-fx-background-color: #2F39470f; -fx-text-fill: BLACK" text="ADD TO CART (9)">
+            <HBox layoutX="323.8999938964844" layoutY="142.89999389648438" />
+                <JFXButton fx:id="cartButton" layoutX="348.0" layoutY="143.0" style="-fx-background-color: #2F39470f; -fx-text-fill: BLACK" text="20 EGP (9)">
                     <graphic>
                         <Icon content="SHOPPING_CART" style="-fx-text-fill: WHITE;" />
                     </graphic>
