@@ -331,20 +331,20 @@
 }
 
 .list-view {
-    -fx-background-color:  #242E3D;
+    -fx-background-color:  #616161;
 }
 
 .list-view .list-cell:hover {
-    -fx-background-color: #182638;
+    -fx-background-color: #616161;
 }
 
 .list-view .list-cell:selected {
-    -fx-background-color: #2D3A4A;
+    -fx-background-color: #FFFFFF;
     -fx-text-fill: black;
 }
 
 .list-view .list-cell {
-    -fx-background-color: #242E3D;
+    -fx-background-color: #393E38;
 }
 
 .list-view .label {

@@ -5,8 +5,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
-<?import java
-        fx.scene.image.ImageView?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -23,7 +22,7 @@
                         <Image url="@../img/cover.png" />
                     </image>
                 </ImageView>
-                <VBox layoutX="133.0" layoutY="77.0" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" spacing="5.0" AnchorPane.bottomAnchor="77.0" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="70.0">
+                <VBox layoutX="133.0" layoutY="77.0" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" spacing="5.0" AnchorPane.bottomAnchor="77.0" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="50.0">
                     <children>
                         <Label fx:id="title" style="-fx-font-family: Serif; -fx-text-fill: #607D8B; -fx-font-size: 20;" text="Book Title">
                         </Label>
@@ -33,9 +32,21 @@
                                 <Label fx:id="author" maxWidth="280.0" style="-fx-font-family: Serif; -fx-text-fill: #757575;" text="Author Name" HBox.hgrow="SOMETIMES" />
                             </children>
                         </HBox>
+                        <HBox maxWidth="180.0" minWidth="180.0" prefWidth="180.0" spacing="3.0">
+                            <children>
+                                <Label maxWidth="100.0" minWidth="90.0" prefHeight="16.0" prefWidth="80.0" style="-fx-font-family: Serif;" text="Published By" />
+                                <Label fx:id="publisher1" prefWidth="130.0" style="-fx-font-family: Serif; -fx-text-fill: #757575;" text="Penguin" />
+                            </children>
+                        </HBox>
+                        <HBox maxWidth="180.0" minWidth="180.0" prefWidth="180.0" spacing="3.0">
+                            <children>
+                                <Label maxWidth="75.0" minWidth="65.0" prefHeight="16.0" prefWidth="75.0" style="-fx-font-family: Serif;" text="Quantity:" />
+                                <Label fx:id="publisher" prefWidth="130.0" style="-fx-font-family: Serif; -fx-text-fill: #757575;" text="40" />
+                            </children>
+                        </HBox>
                     </children>
                 </VBox>
-                <VBox layoutX="480.0" layoutY="56.0" maxWidth="200.0" minWidth="200.0" prefHeight="89.0" prefWidth="200.0" spacing="5.0" AnchorPane.leftAnchor="500.0">
+                <VBox layoutX="480.0" layoutY="56.0" maxWidth="200.0" minWidth="200.0" prefHeight="89.0" prefWidth="200.0" spacing="5.0" AnchorPane.leftAnchor="500.0" AnchorPane.topAnchor="45.0">
                     <children>
                         <HBox minWidth="180.0" spacing="3.0">
                             <children>
@@ -49,29 +60,39 @@
                                 <Label fx:id="genre" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" style="-fx-font-family: Serif; -fx-text-fill: #757575;" text="Drama" />
                             </children>
                         </HBox>
-                        <HBox maxWidth="180.0" minWidth="180.0" prefWidth="180.0" spacing="3.0">
-                            <children>
-                                <Label maxWidth="75.0" minWidth="75.0" prefHeight="16.0" prefWidth="75.0" style="-fx-font-family: Serif;" text="Publisher:" />
-                                <Label fx:id="publisher" prefWidth="130.0" style="-fx-font-family: Serif; -fx-text-fill: #757575;" text="Penguin" />
-                            </children>
-                        </HBox>
                         <HBox minWidth="160.0" spacing="3.0">
                             <children>
                                 <Label maxWidth="75.0" minWidth="75.0" prefHeight="16.0" prefWidth="75.0" style="-fx-font-family: Serif;" text="Published:" />
                                 <Label fx:id="year" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" style="-fx-font-family: Serif; -fx-text-fill: #757575;" text="1990" />
                             </children>
                         </HBox>
+                        <HBox minWidth="160.0" spacing="3.0">
+                            <children>
+                                <Label maxWidth="75.0" minWidth="75.0" prefHeight="16.0" prefWidth="75.0" style="-fx-font-family: Serif;" text="Price:" />
+                                <Label fx:id="price" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" style="-fx-font-family: Serif; -fx-text-fill: #757575;" text="20 EGP" />
+                            </children>
+                        </HBox>
                     </children>
                 </VBox>
-            <HBox layoutX="323.8999938964844" layoutY="142.89999389648438">
-               <children>
-                      <JFXButton fx:id="cartButton" style="-fx-background-color: #2F39470f; -fx-text-fill: BLACK" text="ADD TO CART (9)">
-                          <graphic>
-                              <Icon content="SHOPPING_CART" style="-fx-text-fill: WHITE;" />
-                          </graphic>
-                      </JFXButton>
-               </children>
-            </HBox>
+                <HBox layoutX="325.0" layoutY="148.0" style="-fx-background-color: #2F39470f;">
+                    <children>
+                        <JFXButton fx:id="editButton" mnemonicParsing="false" style="-fx-background-color: rgba(0,0,0,0);">
+                            <graphic>
+                                <Icon content="MODE_EDIT" style="-fx-text-fill: #757575;" />
+                            </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="deleteButton" mnemonicParsing="false" style="-fx-background-color: #00000000;">
+                            <graphic>
+                                <Icon content="DELETE" style="-fx-text-fill: #B00020;" />
+                            </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="editButton1" mnemonicParsing="false" style="-fx-background-color: rgba(0,0,0,0);">
+                            <graphic>
+                                <Icon content="CHECK" style="-fx-text-fill: #757575;" />
+                            </graphic>
+                        </JFXButton>
+                    </children>
+                </HBox>
             </children>
         </AnchorPane>
     </children>
