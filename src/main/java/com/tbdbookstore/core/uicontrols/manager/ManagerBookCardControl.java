@@ -1,10 +1,9 @@
-package com.tbdbookstore.core.uicontrols;
+package com.tbdbookstore.core.uicontrols.manager;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -12,7 +11,8 @@ import javafx.scene.layout.VBox;
 import javax.swing.text.html.ImageView;
 import java.io.IOException;
 
-public class BookCardControl extends VBox {
+public class BookCardManagerControl extends VBox {
+
     /* Model properties. */
     @FXML private ImageView coverimg;
     @FXML private Label title;
@@ -21,11 +21,12 @@ public class BookCardControl extends VBox {
     @FXML private Label genre;
     @FXML private Label publisher;
     @FXML private Label year;
-    @FXML private JFXButton cartButton;
-    @FXML private JFXDialog dialog;
+    @FXML private Label price;
+    @FXML private Button editButton;
+    @FXML private Button deleteButton;
 
-    public BookCardControl() {
-        loadFxml("/com/tbdbookstore/view/fxml/Book.fxml");
+    public BookCardManagerControl() {
+        loadFxml("/com/tbdbookstore/view/fxml/manager/ManagerBookCard.fxml");
     }
 
     private void loadFxml(String path) {
@@ -69,7 +70,11 @@ public class BookCardControl extends VBox {
         this.publisher.setText(publisher);
     }
 
-    public void setOnCartButtonClick(EventHandler<? super MouseEvent> eventHandler) {
-        this.cartButton.setOnMouseClicked(eventHandler);
+    public void setOnEditButtonClick(EventHandler<? super MouseEvent> eventHandler) {
+        this.editButton.setOnMouseClicked(eventHandler);
+    }
+
+    public void setOnDeleteButtonClick(EventHandler<? super MouseEvent> eventHandler) {
+        this.deleteButton.setOnMouseClicked(eventHandler);
     }
 }

@@ -10,15 +10,11 @@ import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.util.function.Function;
@@ -55,7 +51,7 @@ public class BookTableControl extends JFXTreeTableView {
 
     private void loadFxml() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
-                "/com/tbdbookstore/view/fxml/BookTable.fxml"));
+                "/com/tbdbookstore/view/fxml/user/UserBookTable.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
 

@@ -5,11 +5,10 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.base.ValidatorBase;
 import com.tbdbookstore.core.Main;
-import com.tbdbookstore.core.uicontrols.BookCardManagerControl;
+import com.tbdbookstore.core.uicontrols.manager.BookCardManagerControl;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ManagerHomeController implements Initializable {
+public class ManagerHomeViewController implements Initializable {
     @FXML private CardPane cardPane;
     @FXML private JFXDialog addBookDialog;
 

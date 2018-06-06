@@ -9,7 +9,7 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ManagerOrdersController implements Initializable {
+public class ManagerOrdersViewController implements Initializable {
     @FXML
     private CardPane cardPane;
 

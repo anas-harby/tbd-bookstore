@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.tbdbookstore.core.control.manager.ManagerOrdersController"
+            fx:controller="com.tbdbookstore.core.control.manager.ManagerOrdersViewController"
             prefHeight="400.0" prefWidth="600.0" >
     <padding>
         <Insets left="20.0" top="10" right="10.0"/>

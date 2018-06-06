@@ -3,14 +3,10 @@
 <?import com.gluonhq.charm.glisten.control.Icon?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
-<?import java
-        fx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
 <fx:root fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="800.0" style="fx-background-color: #FF0000;" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <AnchorPane prefHeight="200.0" prefWidth="817.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);">
@@ -20,7 +16,7 @@
             <children>
                 <ImageView fitHeight="150.0" fitWidth="100.0" layoutX="14.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5, 0, 0, 0);" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="450.0" AnchorPane.topAnchor="25.0">
                     <image>
-                        <Image url="@../img/cover.png" />
+                        <Image url="@../../img/cover.png" />
                     </image>
                 </ImageView>
                 <VBox layoutX="133.0" layoutY="77.0" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" spacing="5.0" AnchorPane.bottomAnchor="77.0" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="70.0">
@@ -35,7 +31,7 @@
                         </HBox>
                     </children>
                 </VBox>
-                <VBox layoutX="480.0" layoutY="56.0" maxWidth="200.0" minWidth="200.0" prefHeight="89.0" prefWidth="200.0" spacing="5.0" AnchorPane.leftAnchor="500.0">
+                <VBox layoutX="480.0" layoutY="56.0" maxWidth="200.0" minWidth="200.0" prefHeight="89.0" prefWidth="200.0" spacing="5.0" AnchorPane.leftAnchor="500.0" AnchorPane.topAnchor="45.0">
                     <children>
                         <HBox minWidth="180.0" spacing="3.0">
                             <children>
@@ -61,17 +57,28 @@
                                 <Label fx:id="year" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" style="-fx-font-family: Serif; -fx-text-fill: #757575;" text="1990" />
                             </children>
                         </HBox>
+                  <HBox minWidth="160.0" spacing="3.0">
+                     <children>
+                        <Label maxWidth="75.0" minWidth="75.0" prefHeight="16.0" prefWidth="75.0" style="-fx-font-family: Serif;" text="Price:" />
+                        <Label fx:id="price" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" style="-fx-font-family: Serif; -fx-text-fill: #757575;" text="20 EGP" />
+                     </children>
+                  </HBox>
                     </children>
                 </VBox>
-            <HBox layoutX="323.8999938964844" layoutY="142.89999389648438">
+                <HBox layoutX="346.0" layoutY="145.0" style="-fx-background-color: #2F39470f;">
                <children>
-                      <JFXButton fx:id="cartButton" style="-fx-background-color: #2F39470f; -fx-text-fill: BLACK" text="ADD TO CART (9)">
-                          <graphic>
-                              <Icon content="SHOPPING_CART" style="-fx-text-fill: WHITE;" />
-                          </graphic>
-                      </JFXButton>
+                  <JFXButton mnemonicParsing="false" fx:id="editButton" style="-fx-background-color: rgba(0,0,0,0);">
+                     <graphic>
+                        <Icon content="MODE_EDIT" style="-fx-text-fill: #757575;" />
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton mnemonicParsing="false" fx:id="deleteButton" style="-fx-background-color: #00000000;">
+                     <graphic>
+                        <Icon content="DELETE" style="-fx-text-fill: #B00020;" />
+                     </graphic>
+                  </JFXButton>
                </children>
-            </HBox>
+                </HBox>
             </children>
         </AnchorPane>
     </children>

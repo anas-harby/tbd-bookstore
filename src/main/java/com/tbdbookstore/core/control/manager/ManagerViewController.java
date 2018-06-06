@@ -25,7 +25,7 @@ public class ManagerViewController implements Initializable {
         } catch (Exception ignored) { }
         try {
             BorderPane homePane = FXMLLoader.load(getClass().getResource(
-                    "/com/tbdbookstore/view/fxml/ManagerHome.fxml"));
+                    "/com/tbdbookstore/view/fxml/manager/ManagerHomeView.fxml"));
             mainPane.setCenter(homePane);
         } catch (IOException e) {
             e.printStackTrace();
@@ -38,7 +38,7 @@ public class ManagerViewController implements Initializable {
         } catch (Exception ignored) { }
         try {
             BorderPane ordersPane = FXMLLoader.load(getClass().getResource(
-                    "/com/tbdbookstore/view/fxml/ManagerOrders.fxml"));
+                    "/com/tbdbookstore/view/fxml/manager/ManagerOrdersView.fxml"));
             mainPane.setCenter(ordersPane);
         } catch (IOException e) {
             e.printStackTrace();
