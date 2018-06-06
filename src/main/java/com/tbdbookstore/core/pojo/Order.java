@@ -2,6 +2,7 @@ package com.tbdbookstore.core.pojo;
 
 public class Order {
 
+    private int id;
     private String ISBN;
     private int quantity;
 
@@ -9,6 +10,10 @@ public class Order {
         this.ISBN = ISBN;
         this.quantity = quantity;
     }
+
+    public int getId() { return id; }
+
+    public void setId(int id) { this.id = id; }
 
     public String getISBN() {
         return ISBN;

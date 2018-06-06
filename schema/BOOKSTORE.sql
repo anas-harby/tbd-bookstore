@@ -25,14 +25,23 @@ DROP TABLE IF EXISTS `AUTHOR`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `AUTHOR` (
-  `AUTHOR_ID` int(11) NOT NULL AUTO_INCREMENT,
   `AUTHOR_NAME` varchar(200) NOT NULL,
-  `BOOK_ISBN` int(11) NOT NULL,
-  PRIMARY KEY (`AUTHOR_ID`,`BOOK_ISBN`),
+  `BOOK_ISBN` char(13) NOT NULL,
+  PRIMARY KEY (`AUTHOR_NAME`,`BOOK_ISBN`),
   KEY `BOOK_ISBN` (`BOOK_ISBN`),
   CONSTRAINT `AUTHOR_ibfk_1` FOREIGN KEY (`BOOK_ISBN`) REFERENCES `BOOK` (`BOOK_ISBN`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AUTHOR`
+--
+
+LOCK TABLES `AUTHOR` WRITE;
+/*!40000 ALTER TABLE `AUTHOR` DISABLE KEYS */;
+INSERT INTO `AUTHOR` VALUES ('Author1','12345678book1'),('Author2','12345678book1'),('Author1','12345678book2'),('Author3','12345678book2'),('Author2','12345678book3');
+/*!40000 ALTER TABLE `AUTHOR` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `BOOK`
@@ -42,10 +51,10 @@ DROP TABLE IF EXISTS `BOOK`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `BOOK` (
-  `BOOK_ISBN` int(11) NOT NULL,
+  `BOOK_ISBN` char(13) NOT NULL,
   `BOOK_TITLE` varchar(500) NOT NULL,
-  `PUBLISHER_ID` int(11) NOT NULL,
   `GENRE_NAME` varchar(50) NOT NULL,
+  `PUBLISHER_ID` int(11) NOT NULL,
   `PUBLICATION_YEAR` year(4) NOT NULL,
   `SELLING_PRICE` double NOT NULL,
   `STOCK_QUANTITY` int(11) NOT NULL DEFAULT '0',
@@ -59,6 +68,16 @@ CREATE TABLE `BOOK` (
   CONSTRAINT `BOOK_ibfk_2` FOREIGN KEY (`GENRE_NAME`) REFERENCES `GENRE` (`GENRE_NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `BOOK`
+--
+
+LOCK TABLES `BOOK` WRITE;
+/*!40000 ALTER TABLE `BOOK` DISABLE KEYS */;
+INSERT INTO `BOOK` VALUES ('12345678book1','Title1','Art',1,1990,100,150,50),('12345678book2','Title2','History',2,2003,200,250,50),('12345678book3','Title3Modified','History',2,2000,200,120,50);
+/*!40000 ALTER TABLE `BOOK` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -92,7 +111,7 @@ DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `BOOKSTORE`.`BOOK_AFTER_UPDATE` AFTER UPDATE ON `BOOK` FOR EACH ROW
 BEGIN
     IF(NEW.STOCK_QUANTITY < OLD.MIN_QUANTITY)THEN
-       CALL PLACE_ORDER(NEW.BOOK_ISBN,OLD.MIN_QUANTITY - NEW.STOCK_QUANTITY);
+       CALL PLACE_ORDER(NEW.BOOK_ISBN, 2 * OLD.MIN_QUANTITY - NEW.STOCK_QUANTITY);
     END IF;
 END */;;
 DELIMITER ;
@@ -115,6 +134,16 @@ CREATE TABLE `GENRE` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `GENRE`
+--
+
+LOCK TABLES `GENRE` WRITE;
+/*!40000 ALTER TABLE `GENRE` DISABLE KEYS */;
+INSERT INTO `GENRE` VALUES ('Art'),('Geography'),('History'),('Religion'),('Science');
+/*!40000 ALTER TABLE `GENRE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `ORDER`
 --
 
@@ -123,13 +152,22 @@ DROP TABLE IF EXISTS `ORDER`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ORDER` (
   `ORDER_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `BOOK_ISBN` int(11) NOT NULL,
+  `BOOK_ISBN` char(13) NOT NULL,
   `QUANTITY` int(11) NOT NULL,
   PRIMARY KEY (`ORDER_ID`),
   KEY `BOOK_ISBN` (`BOOK_ISBN`),
   CONSTRAINT `ORDER_ibfk_1` FOREIGN KEY (`BOOK_ISBN`) REFERENCES `BOOK` (`BOOK_ISBN`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ORDER`
+--
+
+LOCK TABLES `ORDER` WRITE;
+/*!40000 ALTER TABLE `ORDER` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ORDER` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `PUBLISHER`
@@ -145,8 +183,75 @@ CREATE TABLE `PUBLISHER` (
   `PUBLISHER_TELNO` varchar(50) NOT NULL,
   PRIMARY KEY (`PUBLISHER_ID`),
   KEY `PUBLISHER_NAME` (`PUBLISHER_NAME`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PUBLISHER`
+--
+
+LOCK TABLES `PUBLISHER` WRITE;
+/*!40000 ALTER TABLE `PUBLISHER` DISABLE KEYS */;
+INSERT INTO `PUBLISHER` VALUES (1,'Dar Al-Shrouq','Alexandria, Egypt','01068596321'),(2,'Al-Dar Al-Arabeya','Abu Dhabi, Dubai','01068596321');
+/*!40000 ALTER TABLE `PUBLISHER` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `SALES`
+--
+
+DROP TABLE IF EXISTS `SALES`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `SALES` (
+  `SALE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `USERNAME` varchar(32) NOT NULL,
+  `BOOK_ISBN` char(13) NOT NULL,
+  `QUANTITY` int(11) NOT NULL,
+  PRIMARY KEY (`SALE_TIME`),
+  KEY `SALES_ibfk_1` (`USERNAME`),
+  KEY `SALES_ibfk_2` (`BOOK_ISBN`),
+  CONSTRAINT `SALES_ibfk_1` FOREIGN KEY (`USERNAME`) REFERENCES `USER` (`USERNAME`),
+  CONSTRAINT `SALES_ibfk_2` FOREIGN KEY (`BOOK_ISBN`) REFERENCES `BOOK` (`BOOK_ISBN`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SALES`
+--
+
+LOCK TABLES `SALES` WRITE;
+/*!40000 ALTER TABLE `SALES` DISABLE KEYS */;
+/*!40000 ALTER TABLE `SALES` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `USER`
+--
+
+DROP TABLE IF EXISTS `USER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `USER` (
+  `USERNAME` varchar(32) NOT NULL,
+  `LAST_NAME` varchar(20) NOT NULL,
+  `FIRST_NAME` varchar(20) NOT NULL,
+  `EMAIL` varchar(100) NOT NULL,
+  `TELNO` varchar(50) NOT NULL,
+  `SHIPPING_ADDRESS` varchar(500) NOT NULL,
+  PRIMARY KEY (`USERNAME`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `USER`
+--
+
+LOCK TABLES `USER` WRITE;
+/*!40000 ALTER TABLE `USER` DISABLE KEYS */;
+INSERT INTO `USER` VALUES ('head','Head First','Head Last','head@gmail.com','01213141516','Head Address'),('new','Last','First','new@gmail.com','01001010101','Address, City, Country');
+/*!40000 ALTER TABLE `USER` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Dumping events for database 'BOOKSTORE'
@@ -155,7 +260,7 @@ CREATE TABLE `PUBLISHER` (
 --
 -- Dumping routines for database 'BOOKSTORE'
 --
-/*!50003 DROP PROCEDURE IF EXISTS `ADD_BOOK` */;
+/*!50003 DROP PROCEDURE IF EXISTS `add_book` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -165,16 +270,18 @@ CREATE TABLE `PUBLISHER` (
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ADD_BOOK`(IN `BOOK_ISBN`  INT ,
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_book`(IN `BOOK_ISBN`  CHAR(13) ,
 IN `BOOK_TITLE`        VARCHAR(500),
-IN `PUBLISHER_ID`      INT ,
 IN `GENRE_NAME`        VARCHAR(50),
+IN `PUB_NAME`    	   VARCHAR(200),
 IN `PUBLICATION_YEAR`  YEAR,
 IN `SELLING_PRICE`     DOUBLE,
 IN `STOCK_QUANTITY`    INT,
 IN `MIN_QUANTITY`      INT)
 BEGIN
-INSERT INTO `BOOK` VALUES (`BOOK_ISBN`,`BOOK_TITLE`,`PUBLISHER_ID`,`GENRE_NAME`,
+DECLARE `PUB_ID` INT;
+SELECT PUBLISHER_ID INTO `PUB_ID` FROM PUBLISHER WHERE PUBLISHER_NAME = `PUB_NAME`;
+INSERT INTO `BOOK` VALUES (`BOOK_ISBN`,`BOOK_TITLE`,`GENRE_NAME`,`PUB_ID`,
 `PUBLICATION_YEAR`,`SELLING_PRICE`,`STOCK_QUANTITY`,`MIN_QUANTITY`);
 END ;;
 DELIMITER ;
@@ -182,7 +289,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `CONFIRM_ORDER` */;
+/*!50003 DROP PROCEDURE IF EXISTS `add_book_author` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -192,15 +299,94 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `CONFIRM_ORDER`(IN ORDER_ID INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_book_author`(IN ISBN CHAR(13), IN AUTHOR VARCHAR(200))
 BEGIN
-DECLARE ISBN INT;
-DECLARE QUANTITY INT;
-DECLARE CONTINUE HANDLER FOR SQLEXCEPTION rollback; 
+
+INSERT INTO AUTHOR VALUES (AUTHOR, ISBN);
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `add_user` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_user`(IN `USERNAME` VARCHAR(32),
+IN `PASSWORD` VARCHAR(100),
+IN `LAST_NAME` VARCHAR(20),
+IN `FIRST_NAME` VARCHAR(20),
+IN `EMAIL` VARCHAR(100),
+IN `TELNO` VARCHAR(50),
+IN `SHIPPING_ADDRESS` VARCHAR(500))
+BEGIN
+ 
 START TRANSACTION;
-SELECT BOOK_ISBN , QUANTITY INTO ISBN , QUANTITY FROM `ORDER` WHERE `ORDER`.ORDER_ID = ORDER_ID;
-UPDATE BOOK SET STOCK_QUANTITY = STOCK_QUANTITY + QUANTITY WHERE BOOK_ISBN = ISBN;
-DELETE FROM `ORDER` WHERE `ORDER`.ORDER_ID = ORDER_ID;
+
+-- Creating a new user
+SET @CREATE_QUERY = CONCAT('CREATE USER "', `USERNAME`, '"@"localhost" IDENTIFIED BY "', `PASSWORD`, '"');
+PREPARE STMT FROM @CREATE_QUERY;
+EXECUTE STMT;
+
+INSERT INTO `USER` VALUES (`USERNAME`, `LAST_NAME`, `FIRST_NAME`, `EMAIL`, `TELNO`, `SHIPPING_ADDRESS`);
+
+-- Setting privileges
+SET @GRANT_QUERY = CONCAT('GRANT SELECT ON BOOKSTORE.BOOK TO "', `USERNAME`, '"@"localhost"');
+PREPARE STMT FROM @GRANT_QUERY;
+EXECUTE STMT;
+
+SET @GRANT_QUERY = CONCAT('GRANT SELECT ON BOOKSTORE.AUTHOR TO "', `USERNAME`, '"@"localhost"');
+PREPARE STMT FROM @GRANT_QUERY;
+EXECUTE STMT;
+
+SET @GRANT_QUERY = CONCAT('GRANT SELECT ON BOOKSTORE.PUBLISHER TO "', `USERNAME`, '"@"localhost"');
+PREPARE STMT FROM @GRANT_QUERY;
+EXECUTE STMT;
+
+SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.edit_user_info TO "', `USERNAME`, '"@"localhost"');
+PREPARE STMT FROM @GRANT_QUERY;
+EXECUTE STMT;
+
+SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.edit_user_password TO "', `USERNAME`, '"@"localhost"');
+PREPARE STMT FROM @GRANT_QUERY;
+EXECUTE STMT;
+
+DEALLOCATE PREPARE STMT;
+
+COMMIT;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `confirm_order` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `confirm_order`(IN ORD_ID INT)
+BEGIN
+DECLARE ISBN CHAR(13);
+DECLARE QUNT INT; 
+START TRANSACTION;
+SELECT BOOK_ISBN, QUANTITY INTO ISBN, QUNT FROM `ORDER` WHERE `ORDER`.ORDER_ID = ORD_ID;
+UPDATE BOOK SET STOCK_QUANTITY = STOCK_QUANTITY + QUNT WHERE BOOK_ISBN = ISBN;
+DELETE FROM `ORDER` WHERE `ORDER`.ORDER_ID = ORD_ID;
 COMMIT;  
 END ;;
 DELIMITER ;
@@ -208,7 +394,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `PLACE_ORDER` */;
+/*!50003 DROP PROCEDURE IF EXISTS `edit_user_info` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -218,10 +404,160 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `PLACE_ORDER`(IN BOOK_ISBN  INT,
-IN QUANTITY  INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `edit_user_info`(IN `NEW_USERNAME` VARCHAR(32),
+IN `NEW_LAST` VARCHAR(20),
+IN `NEW_FIRST` VARCHAR(20),
+IN `NEW_EMAIL` VARCHAR(100),
+IN `NEW_TELNO` VARCHAR(50),
+IN `NEW_ADDRESS` VARCHAR(500))
 BEGIN
-INSERT INTO `ORDER` (`BOOK_ISBN`,`QUANTITY`) VALUES (BOOK_ISBN,QUANTITY);
+
+UPDATE	`USER`
+SET		LAST_NAME = `NEW_LAST`,
+		FIRST_NAME = `NEW_FIRST`,
+        EMAIL = `NEW_EMAIL`,
+        TELNO = `NEW_TELNO`,
+        SHIPPING_ADDRESS = `NEW_ADDRESS`
+WHERE	USERNAME = `NEW_USERNAME`;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `edit_user_password` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `edit_user_password`(IN `USERNAME` VARCHAR(32), IN `PASSWORD` VARCHAR(100))
+BEGIN
+
+SET @EDIT_QUERY = CONCAT('ALTER USER "', `USERNAME`, '"@"localhost" IDENTIFIED BY "', `PASSWORD`, '" ');
+PREPARE STMT FROM @EDIT_QUERY;
+EXECUTE STMT;
+DEALLOCATE PREPARE STMT;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `modify_book` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `modify_book`(IN `ISBN`  CHAR(13) ,
+IN `BOOK_TITLE`        VARCHAR(500),
+IN `GENRE_NAME`        VARCHAR(50),
+IN `PUB_NAME`    	   VARCHAR(200),
+IN `PUBLICATION_YEAR`  YEAR,
+IN `SELLING_PRICE`     DOUBLE,
+IN `STOCK_QUANTITY`    INT,
+IN `MIN_QUANTITY`      INT)
+BEGIN
+
+DECLARE `PUB_ID` INT;
+SELECT PUBLISHER_ID INTO `PUB_ID` FROM PUBLISHER WHERE PUBLISHER_NAME = `PUB_NAME`;
+
+UPDATE	`BOOK`
+SET		BOOK_TITLE = `BOOK_TITLE`,
+        GENRE_NAME = `GENRE_NAME`,
+        PUBLISHER_ID = `PUB_ID`,
+        PUBLICATION_YEAR = `PUBLICATION_YEAR`,
+        SELLING_PRICE = `SELLING_PRICE`,
+        STOCK_QUANTITY = `STOCK_QUANTITY`,
+        MIN_QUANTITY = `MIN_QUANTITY`
+WHERE	BOOK_ISBN = `ISBN`;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `place_order` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `place_order`(IN BOOK_ISBN  CHAR(13),
+IN QUANTITY  INT, OUT ORDER_ID INT)
+BEGIN
+
+INSERT INTO `ORDER` (`BOOK_ISBN`,`QUANTITY`) VALUES (BOOK_ISBN, QUANTITY);
+SELECT LAST_INSERT_ID() INTO ORDER_ID;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `promote_user` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `promote_user`(IN `USERNAME` VARCHAR(32))
+BEGIN
+
+SET max_sp_recursion_depth = 255;
+
+-- Adding privileges
+SET @GRANT_QUERY = CONCAT('GRANT SELECT ON BOOKSTORE.* TO "', `USERNAME`, '"@"localhost"');
+PREPARE STMT FROM @GRANT_QUERY;
+EXECUTE STMT;
+
+SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.add_book TO "', `USERNAME`, '"@"localhost"');
+PREPARE STMT FROM @GRANT_QUERY;
+EXECUTE STMT;
+
+SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.add_book_author TO "', `USERNAME`, '"@"localhost"');
+PREPARE STMT FROM @GRANT_QUERY;
+EXECUTE STMT;
+
+SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.modify_book TO "', `USERNAME`, '"@"localhost"');
+PREPARE STMT FROM @GRANT_QUERY;
+EXECUTE STMT;
+
+SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.place_order TO "', `USERNAME`, '"@"localhost"');
+PREPARE STMT FROM @GRANT_QUERY;
+EXECUTE STMT;
+
+SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.confirm_order TO "', `USERNAME`, '"@"localhost"');
+PREPARE STMT FROM @GRANT_QUERY;
+EXECUTE STMT;
+
+SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.promote_user TO "', `USERNAME`, '"@"localhost"');
+PREPARE STMT FROM @GRANT_QUERY;
+EXECUTE STMT;
+
+DEALLOCATE PREPARE STMT;
+
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -238,4 +574,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-05 12:20:01
+-- Dump completed on 2018-06-06 22:43:04
