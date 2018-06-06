@@ -221,7 +221,7 @@ GROUP BY	`BOOK_TITLE`;]]>
 			</frame>
 			<image>
 				<reportElement x="470" y="0" width="105" height="132" uuid="cdbc2148-c393-40bc-bf0e-1b3ad7f104d3"/>
-				<imageExpression><![CDATA["/home/salma/IdeaProjects/tbd-bookstore/src/main/resources/com/tbdbookstore/view/img/icons8-books-480(1).png"]]></imageExpression>
+				<imageExpression><![CDATA["com/tbdbookstore/view/img/books.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>
@@ -239,7 +239,7 @@ GROUP BY	`BOOK_TITLE`;]]>
 			</staticText>
 			<image>
 				<reportElement x="23" y="10" width="57" height="57" uuid="25e74602-0b29-4086-80d1-abd83c510999"/>
-				<imageExpression><![CDATA["/home/salma/IdeaProjects/tbd-bookstore/src/main/resources/com/tbdbookstore/view/img/icons8-coins-64.png"]]></imageExpression>
+				<imageExpression><![CDATA["com/tbdbookstore/view/img/coins.png"]]></imageExpression>
 			</image>
 			<componentElement>
 				<reportElement x="0" y="81" width="470" height="129" uuid="60e5ff8f-4b48-4d42-a3ea-bbb67805b1ca">
@@ -307,7 +307,7 @@ GROUP BY	`BOOK_TITLE`;]]>
 			</staticText>
 			<image>
 				<reportElement x="22" y="260" width="58" height="57" uuid="eff7721d-95bc-4c79-8d4b-346475cf1662"/>
-				<imageExpression><![CDATA["/home/salma/IdeaProjects/tbd-bookstore/src/main/resources/com/tbdbookstore/view/img/icons8-customer-64.png"]]></imageExpression>
+				<imageExpression><![CDATA["com/tbdbookstore/view/img/customer.png"]]></imageExpression>
 			</image>
 			<componentElement>
 				<reportElement x="0" y="320" width="470" height="100" uuid="8c135dbb-fdc8-40e1-9358-490d5313a26f">
@@ -374,7 +374,7 @@ GROUP BY	`BOOK_TITLE`;]]>
 			</staticText>
 			<image>
 				<reportElement x="20" y="460" width="58" height="59" uuid="0a1a6a4c-21b2-4152-af90-11482b54e1b9"/>
-				<imageExpression><![CDATA["/home/salma/IdeaProjects/tbd-bookstore/src/main/resources/com/tbdbookstore/view/img/icons8-prize-64.png"]]></imageExpression>
+				<imageExpression><![CDATA["com/tbdbookstore/view/img/prize.png"]]></imageExpression>
 			</image>
 		</band>
 	</columnHeader>

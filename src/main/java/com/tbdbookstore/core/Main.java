@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -26,8 +27,9 @@ public class Main extends Application {
         primaryStage.show();
 
         /*for jasper trial only*/ //TODO remove later
-        Connection connection =  connectToDatabase("jdbc:mysql://localhost:3306/BOOKSTORE","root", "sara1201");
-        Report report = new Report("/home/salma/IdeaProjects/tbd-bookstore/src/main/resources/com/tbdbookstore/view/jrxml/trial.jrxml",connection);
+        //Connection connection =  connectToDatabase("jdbc:mysql://localhost:3306/BOOKSTORE","root", "root");
+
+        //Report report = new Report(getClass().getResource("/com/tbdbookstore/view/jrxml/trial.jrxml").toURI().toString(),connection);
     }
 
     public static Connection connectToDatabase(String databaseName, String userName, String password) {
