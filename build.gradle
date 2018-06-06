@@ -31,6 +31,9 @@ dependencies {
     compile group: 'com.jfoenix', name: 'jfoenix', version: '8.0.4'
     compile "com.gluonhq:charm:0.0.2"
     compile group: 'io.datafx', name: 'core', version: '8.0'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.46'
+    compile group: 'com.mchange', name: 'c3p0', version: '0.9.5.2'
+    compile group: 'com.mchange', name: 'mchange-commons-java', version: '0.2.11'
     compile group: 'com.cathive.fonts', name: 'fonts-roboto', version: '2012023.1'
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.46'
     compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.5.1'
@@ -64,6 +67,13 @@ repositories {
 
 apply plugin: 'javafx-gradle-plugin'
 
+sourceSets {
+    main {
+        resources {
+            srcDirs = ['src/main/resources', 'src/main/resources/com/tbdbookstore/core']
+        }
+    }
+}
 
 jfx {
     mainClass = 'com.tbdbookstore.core.Main'

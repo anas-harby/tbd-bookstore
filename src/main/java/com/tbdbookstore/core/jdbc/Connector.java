@@ -2,6 +2,7 @@ package com.tbdbookstore.core.jdbc;
 
 import com.tbdbookstore.core.pojo.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface Connector {
@@ -9,21 +10,13 @@ public interface Connector {
     /* Normal user
       ------------ */
 
-    // load homepage -> select
+    User getUserInfo(String username) throws DBException;
 
-    void signUp(User user) throws DBException;
+    void editUserInfo(User user) throws DBException;
 
-    void logIn(String username, String password) throws DBException;
+    HashMap<String, Book> search(Book book, int offset, int count) throws DBException;
 
-    void logOut();
-
-    // get user info
-
-    void editInfo(User user) throws DBException;
-
-    List<Book> search(Book book) throws DBException;
-
-    void checkOut(int creditCardNum, String expiryDate) throws DBException;
+    void checkOut(List<Book> books) throws DBException;
 
     /* Manager Extra
       -------------- */
@@ -38,7 +31,5 @@ public interface Connector {
 
     void confirmOrder(int orderID) throws DBException;
 
-    // view orders
-
-    /* view reports */
+    List<Order> getOrders() throws DBException;
 }
