@@ -1,52 +1,31 @@
 package com.tbdbookstore.core.jdbc;
 
-
 import com.tbdbookstore.core.pojo.Book;
 import com.tbdbookstore.core.pojo.Order;
 import com.tbdbookstore.core.pojo.User;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Properties;
 
 public class JDBCController implements Connector {
 
-    private String driver;
-    private String dbURL;
-    private String currentUser;
-    private String userPassword;
+    private String username;
+    private String password;
 
-    private ErrorHandler errorHandler;
-
-    public JDBCController() {
-        setProperties();
-        errorHandler = ErrorHandler.getInstance();
-        try { // TODO: Replace when using DataSource for Connection Pooling
-            Class.forName(driver);
-        } catch (ClassNotFoundException e) {
-            System.out.println(e);
-        }
+    private JDBCController(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
-    public void main() throws DBException {
-        String sql = "CREATE USER 'new'@'localhost' IDENTIFIED BY 'new';";
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost", "root", "root");
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.execute();
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-    }
-
-    @Override
-    public void signUp(User user) throws DBException {
+    public static JDBCController signUp(User user) throws DBException {
         Connection connection = null;
         CallableStatement statement = null;
         try {
-            connection = DriverManager.getConnection(dbURL, "root", "root"); // TODO: Remove the hardcoded "root"
+            connection = DataSource.getInstance().getConnection(JDBCLoader.getAdminUsername(), JDBCLoader.getAdminPassword());
             String query = "{CALL add_user(?, ?, ?, ?, ?, ?, ?)}";
             statement = connection.prepareCall(query);
             statement.setString(1, user.getUsername());
@@ -57,45 +36,60 @@ public class JDBCController implements Connector {
             statement.setString(6, user.getPhoneNumber());
             statement.setString(7, user.getShippingAddress());
             statement.execute();
+            return new JDBCController(user.getUsername(), user.getPassword());
         } catch (SQLException e) {
-            throw new DBException(errorHandler.getError(e.getErrorCode()));
+            throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(statement, connection);
         }
     }
 
-    @Override
-    public void logIn(String username, String password) throws DBException {
+    public static JDBCController logIn(String username, String password) throws DBException {
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection(dbURL, username, password);
-            currentUser = username;
-            userPassword = password;
+            connection = DataSource.getInstance().getConnection(username, password);
+            return new JDBCController(username, password);
         } catch (SQLException e) {
-            throw new DBException(errorHandler.getError(e.getErrorCode()));
+            throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(null, connection);
         }
     }
 
     @Override
-    public void logOut() {
-        currentUser = null;
-        userPassword = null;
+    public User getUserInfo(String username) throws DBException{
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DataSource.getInstance().getConnection(username, password);
+            statement = connection.prepareStatement("SELECT * FROM USER WHERE USERNAME = '" + username + "'");
+            resultSet = statement.executeQuery();
+            return getUser(resultSet);
+        } catch (SQLException e) {
+            throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
+        } finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (SQLException ignored) {
+            }
+            cleanUpResources(statement, connection);
+        }
     }
 
     @Override
-    public void editInfo(User user) throws DBException {
+    public void editUserInfo(User user) throws DBException {
         Connection connection = null;
         CallableStatement statement = null;
         try {
-            connection = DriverManager.getConnection(dbURL, this.currentUser, userPassword);
-            if (!user.getPassword().equals(userPassword)) { // User needs to change his password (saved in mysql.user table)
+            connection = DataSource.getInstance().getConnection(username, password);
+            if (!user.getPassword().equals(password)) { // User needs to change his password (saved in mysql.user table)
                 String query = "{CALL edit_user_password(?, ?)}";
                 statement = connection.prepareCall(query);
                 statement.setString(1, user.getUsername());
                 statement.setString(2, user.getPassword());
                 statement.execute();
+                password = user.getPassword();
             }
             String query = "{CALL edit_user_info(?, ?, ?, ?, ?, ?)}";
             statement = connection.prepareCall(query);
@@ -107,20 +101,37 @@ public class JDBCController implements Connector {
             statement.setString(6, user.getShippingAddress());
             statement.execute();
         } catch (SQLException e) {
-            throw new DBException(errorHandler.getError(e.getErrorCode()));
+            throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(statement, connection);
         }
     }
 
     @Override
-    public List<Book> search(Book book) throws DBException {
-        return null;
+    public HashMap<String, Book> search(Book book, int offset, int count) throws DBException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DataSource.getInstance().getConnection(username, password);
+            statement = connection.prepareStatement(buildSelectQuery(book, offset, count));
+            resultSet = statement.executeQuery();
+            return getBooks(resultSet);
+        } catch (SQLException e) {
+            throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
+        } finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (SQLException ignored) {
+            }
+            cleanUpResources(statement, connection);
+        }
     }
 
     @Override
-    public void checkOut(int creditCardNum, String expiryDate) throws DBException {
-
+    public void checkOut(List<Book> books) throws DBException {
+        for (Book book: books)
+            modifyBook(book);
     }
 
     @Override
@@ -128,13 +139,13 @@ public class JDBCController implements Connector {
         Connection connection = null;
         CallableStatement statement = null;
         try {
-            connection = DriverManager.getConnection(dbURL, currentUser, userPassword);
+            connection = DataSource.getInstance().getConnection(username, password);
             String query = "{CALL promote_user(?)}";
             statement = connection.prepareCall(query);
             statement.setString(1, promotedUsername);
             statement.execute();
         } catch (SQLException e) {
-            throw new DBException(errorHandler.getError(e.getErrorCode()));
+            throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(statement, connection);
         }
@@ -145,20 +156,28 @@ public class JDBCController implements Connector {
         Connection connection = null;
         CallableStatement statement = null;
         try {
-            connection = DriverManager.getConnection(dbURL, currentUser, userPassword);
+            connection = DataSource.getInstance().getConnection(username, password);
             String query = "{CALL add_book(?, ?, ?, ?, ?, ?, ?, ?)}";
             statement = connection.prepareCall(query);
             statement.setString(1, book.getISBN());
             statement.setString(2, book.getTitle());
-            statement.setInt(3, book.getPublisherID());
-            statement.setString(4, book.getGenre());
+            statement.setString(3, book.getGenre());
+            statement.setString(4, book.getPublisher());
             statement.setString(5, book.getPublicationYear());
-            statement.setInt(6, book.getSellingPrice());
+            statement.setDouble(6, book.getSellingPrice());
             statement.setInt(7, book.getStockQuantity());
             statement.setInt(8, book.getMinQuantity());
             statement.execute();
+            query = "{CALL add_book_author(?, ?)}";
+            statement = connection.prepareCall(query);
+            for (String author : book.getAuthors()) {
+                statement.setString(1, book.getISBN());
+                statement.setString(2, author);
+                statement.addBatch();
+            }
+            statement.executeBatch();
         } catch (SQLException e) {
-            throw new DBException(errorHandler.getError(e.getErrorCode()));
+            throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(statement, connection);
         }
@@ -169,20 +188,20 @@ public class JDBCController implements Connector {
         Connection connection = null;
         CallableStatement statement = null;
         try {
-            connection = DriverManager.getConnection(dbURL, currentUser, userPassword);
+            connection = DataSource.getInstance().getConnection(username, password);
             String query = "{CALL modify_book(?, ?, ?, ?, ?, ?, ?, ?)}";
             statement = connection.prepareCall(query);
             statement.setString(1, book.getISBN());
             statement.setString(2, book.getTitle());
-            statement.setInt(3, book.getPublisherID());
-            statement.setString(4, book.getGenre());
+            statement.setString(3, book.getGenre());
+            statement.setString(4, book.getPublisher());
             statement.setString(5, book.getPublicationYear());
-            statement.setInt(6, book.getSellingPrice());
+            statement.setDouble(6, book.getSellingPrice());
             statement.setInt(7, book.getStockQuantity());
             statement.setInt(8, book.getMinQuantity());
             statement.execute();
         } catch (SQLException e) {
-            throw new DBException(errorHandler.getError(e.getErrorCode()));
+            throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(statement, connection);
         }
@@ -193,7 +212,7 @@ public class JDBCController implements Connector {
         Connection connection = null;
         CallableStatement statement = null;
         try {
-            connection = DriverManager.getConnection(dbURL, currentUser, userPassword);
+            connection = DataSource.getInstance().getConnection(username, password);
             String query = "{CALL place_order(?, ?, ?)}";
             statement = connection.prepareCall(query);
             statement.setString(1, order.getISBN());
@@ -202,7 +221,7 @@ public class JDBCController implements Connector {
             statement.execute();
             return statement.getInt(3);
         } catch (SQLException e) {
-            throw new DBException(errorHandler.getError(e.getErrorCode()));
+            throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(statement, connection);
         }
@@ -213,46 +232,121 @@ public class JDBCController implements Connector {
         Connection connection = null;
         CallableStatement statement = null;
         try {
-            connection = DriverManager.getConnection(dbURL, currentUser, userPassword);
+            connection = DataSource.getInstance().getConnection(username, password);
             String query = "{CALL confirm_order(?)}";
             statement = connection.prepareCall(query);
             statement.setInt(1, orderID);
             statement.execute();
         } catch (SQLException e) {
-            throw new DBException(errorHandler.getError(e.getErrorCode()));
+            throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(statement, connection);
         }
     }
 
-    private void setProperties() {
-        // TODO: Log errors
-        Properties prop = new Properties();
-        InputStream input = null;
+    @Override
+    public List<Order> getOrders() throws DBException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
-            input = new FileInputStream("src/main/resources/com/tbdbookstore/core/config.properties");
-            prop.load(input);
-            driver = prop.getProperty("driver");
-            dbURL = prop.getProperty("dbURL");
-        } catch (IOException e) {
-            System.out.println(e);
+            connection = DataSource.getInstance().getConnection(username, password);
+            statement = connection.prepareStatement("SELECT * FROM ORDER");
+            resultSet = statement.executeQuery();
+            return getOrders(resultSet);
+        } catch (SQLException e) {
+            throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    System.out.println(e);
-                }
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (SQLException ignored) {
             }
+            cleanUpResources(statement, connection);
         }
     }
 
-    private void cleanUpResources(CallableStatement statement, Connection connection) {
+    private User getUser(ResultSet resultSet) throws SQLException {
+        if (resultSet.next()) {
+            User user  = new User(resultSet.getString("USERNAME"));
+            user.setLastName(resultSet.getString("LAST_NAME"));
+            user.setFirstName(resultSet.getString("FIRST_NAME"));
+            user.setEmail(resultSet.getString("EMAIL"));
+            user.setPhoneNumber(resultSet.getString("TELNO"));
+            user.setShippingAddress(resultSet.getString("SHIPPING_ADDRESS"));
+            return user;
+        }
+        throw new SQLException();
+    }
+
+    private HashMap<String, Book> getBooks(ResultSet resultSet) throws SQLException {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy");
+        HashMap<String, Book> books = new HashMap<>();
+        String bookISBN;
+        Book book;
+        while (resultSet.next()) {
+            bookISBN = resultSet.getString("BOOK_ISBN");
+            book = books.get(bookISBN);
+            if (books.get(bookISBN) == null) {
+                book = new Book(resultSet.getString("BOOK_ISBN"));
+                book.setTitle(resultSet.getString("BOOK_TITLE"));
+                book.addAuthor(resultSet.getString("AUTHOR_NAME"));
+                book.setGenre(resultSet.getString("GENRE_NAME"));
+                book.setPublisher(resultSet.getString("PUBLISHER_NAME"));
+                book.setPublicationYear(dateFormat.format(resultSet.getDate("PUBLICATION_YEAR")));
+                book.setSellingPrice(resultSet.getDouble("SELLING_PRICE"));
+                book.setStockQuantity(resultSet.getInt("STOCK_QUANTITY"));
+                book.setMinQuantity(resultSet.getInt("MIN_QUANTITY"));
+                books.put(bookISBN, book);
+            } else {
+                book.addAuthor(resultSet.getString("AUTHOR_NAME"));
+            }
+        }
+        return books;
+    }
+
+    private List<Order> getOrders(ResultSet resultSet) throws SQLException {
+        List<Order> orders = new ArrayList<>();
+        while (resultSet.next()) {
+            Order order = new Order(resultSet.getString("BOOK_ISBN"), resultSet.getInt("QUANTITY"));
+            order.setId(resultSet.getInt("ORDER_ID"));
+            orders.add(order);
+        }
+        return orders;
+    }
+
+    private String buildSelectQuery(Book book, int offset, int count) {
+        List<String> conditions = new ArrayList<>();
+        StringBuilder query = new StringBuilder("SELECT BOOK_ISBN, BOOK_TITLE, GENRE_NAME, AUTHOR_NAME, PUBLISHER_NAME"
+                + ", PUBLICATION_YEAR, SELLING_PRICE, STOCK_QUANTITY, MIN_QUANTITY FROM BOOK NATURAL JOIN AUTHOR NATURAL JOIN PUBLISHER");
+        if (book.getISBN() != null)
+            conditions.add("BOOK_ISBN = " + "'" + book.getISBN() + "'");
+        if (book.getTitle() != null)
+            conditions.add("BOOK_TITLE = " + "'" + book.getTitle() + "'");
+        if (book.getAuthors() != null)
+            conditions.add("AUTHOR_NAME = " + "'" + book.getAuthors().get(0) + "'");
+        if (book.getGenre() != null)
+            conditions.add("GENRE_NAME = " + "'" + book.getGenre() + "'");
+        if (book.getPublisher() != null)
+            conditions.add("PUBLISHER_NAME = " + "'" + book.getPublisher() + "'");
+
+        if (!conditions.isEmpty()) {
+            int i = 0;
+            query.append(" WHERE ").append(conditions.get(i++));
+            while (i < conditions.size())
+                query.append(" AND ").append(conditions.get(i++));
+        }
+        query.append(" LIMIT ").append(Integer.toString(offset)).append(", ").append(Integer.toString(count)).append(';');
+        return query.toString();
+    }
+
+    private static void cleanUpResources(Statement statement, Connection connection) {
         if (statement != null) try {
             statement.close();
-        } catch (SQLException ignored) {}
+        } catch (SQLException ignored) {
+        }
         if (connection != null) try {
             connection.close();
-        } catch (SQLException ignored) {}
+        } catch (SQLException ignored) {
+        }
     }
 }

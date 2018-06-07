@@ -1,18 +1,23 @@
 package com.tbdbookstore.core.pojo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Book {
 
     private String ISBN;
     private String title;
+    private List<String> authors;
     private String genre;
+    private String publisher;
     private String publicationYear;
-    private int publisherID;
-    private int sellingPrice;
+    private double sellingPrice;
     private int stockQuantity;
     private int minQuantity;
 
     public Book(String ISBN) {
         this.ISBN = ISBN;
+        authors = new ArrayList<>();
     }
 
     public String getISBN() {
@@ -27,6 +32,12 @@ public class Book {
         this.title = title;
     }
 
+    public List<String> getAuthors() { return authors; }
+
+    public void setAuthors(List<String> authors) { this.authors = authors; }
+
+    public void addAuthor(String author) { authors.add(author); }
+
     public String getGenre() {
         return genre;
     }
@@ -34,6 +45,10 @@ public class Book {
     public void setGenre(String genre) {
         this.genre = genre;
     }
+
+    public String getPublisher() { return publisher; }
+
+    public void setPublisher(String publisher) { this.publisher = publisher; }
 
     public String getPublicationYear() {
         return publicationYear;
@@ -43,19 +58,11 @@ public class Book {
         this.publicationYear = publicationYear;
     }
 
-    public int getPublisherID() {
-        return publisherID;
-    }
-
-    public void setPublisherID(int publisherID) {
-        this.publisherID = publisherID;
-    }
-
-    public int getSellingPrice() {
+    public double getSellingPrice() {
         return sellingPrice;
     }
 
-    public void setSellingPrice(int sellingPrice) {
+    public void setSellingPrice(double sellingPrice) {
         this.sellingPrice = sellingPrice;
     }
 

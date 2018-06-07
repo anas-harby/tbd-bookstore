@@ -4,10 +4,10 @@ import java.util.HashMap;
 
 public class ErrorHandler {
 
-    private static ErrorHandler errorHandlerInstance = new ErrorHandler();
+    private static ErrorHandler errorHandler = new ErrorHandler();
 
     public static ErrorHandler getInstance() {
-        return errorHandlerInstance;
+        return errorHandler;
     }
 
     public Error getError(int errorCode) {
@@ -34,5 +34,6 @@ public class ErrorHandler {
         // errorMap.put(1217, Error.UNKNOWN_ITEM); // Deleting a parent row
         errorMap.put(1364, Error.KEY_FIELD_MISSING); // A key/NOT-NULL field with no default value is left empty
         errorMap.put(1406, Error.DATA_TOO_LONG);
+        errorMap.put(1644, Error.STOCK_LACK); // A corresponding error to signaling a user-defined '45000' SQLState
     }
 }

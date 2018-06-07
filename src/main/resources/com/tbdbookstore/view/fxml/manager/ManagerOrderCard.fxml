@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <fx:root fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="800.0" style="fx-background-color: #FF0000;" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <AnchorPane prefHeight="200.0" prefWidth="817.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);">
@@ -78,17 +79,17 @@
                     <children>
                         <JFXButton fx:id="editButton" mnemonicParsing="false" style="-fx-background-color: rgba(0,0,0,0);">
                             <graphic>
-                                <Icon content="MODE_EDIT" style="-fx-text-fill: #757575;" />
+                                <FontAwesomeIconView glyphName="PENCIL" fill="#757575" glyphSize="16" />
                             </graphic>
                         </JFXButton>
                         <JFXButton fx:id="deleteButton" mnemonicParsing="false" style="-fx-background-color: #00000000;">
                             <graphic>
-                                <Icon content="DELETE" style="-fx-text-fill: #B00020;" />
+                                <FontAwesomeIconView glyphName="TRASH_ALT" fill="#757575" glyphSize="16" />
                             </graphic>
                         </JFXButton>
                         <JFXButton fx:id="editButton1" mnemonicParsing="false" style="-fx-background-color: rgba(0,0,0,0);">
                             <graphic>
-                                <Icon content="CHECK" style="-fx-text-fill: #757575;" />
+                                <FontAwesomeIconView glyphName="CHECK" fill="#757575" glyphSize="16" />
                             </graphic>
                         </JFXButton>
                     </children>

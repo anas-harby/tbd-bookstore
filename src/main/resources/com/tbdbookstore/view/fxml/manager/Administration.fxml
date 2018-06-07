@@ -83,7 +83,7 @@
         </Label>
         <JFXButton contentDisplay="RIGHT" style="-fx-background-color: #a1a1a1; -fx-text-fill: #FFFFFF;" text="JASPER" GridPane.rowIndex="9" graphicTextGap="5">
             <graphic>
-                <FontAwesomeIconView glyphStyle="15" glyphName="BAR_CHART" fill="#FFFFFF"/>
+                <FontAwesomeIconView glyphStyle="15" glyphName="EXTERNAL_LINK" fill="#FFFFFF"/>
             </graphic>
             <opaqueInsets>
                 <Insets />
