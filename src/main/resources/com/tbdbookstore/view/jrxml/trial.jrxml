@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="trial" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
-	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="trial" pageWidth="595" pageHeight="842" whenNoDataType="NoPages" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
-	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false"/>
-	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false"/>
-	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="46" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="16" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="10" isBold="true"/>
 	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
 	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
 		<conditionalStyle>
@@ -95,6 +94,33 @@
 			<rightPen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
+	<style name="Table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 3_CH" mode="Opaque" backcolor="#E1E6EB">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
 	<subDataset name="Dataset" uuid="55c4b04f-ae6e-4781-adf9-932f5837681b">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
@@ -167,7 +193,29 @@ LIMIT		5;]]>
 FROM 		`BOOK` NATURAL JOIN `SALES`
 WHERE 		`DATE` >= (NOW() - INTERVAL 3 MONTH)
 GROUP BY	`BOOK_ISBN`
-ORDER BY	`TOTAL_SALES`
+ORDER BY	`TOTAL_SALES` DESC
+LIMIT		10;]]>
+		</queryString>
+		<field name="BOOK_TITLE" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="BOOK_TITLE"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="BOOK"/>
+		</field>
+		<field name="TOTAL_SALES" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="TOTAL_SALES"/>
+		</field>
+		<group name="BOOK_TITLE">
+			<groupExpression><![CDATA[$F{BOOK_TITLE}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="Dataset3" uuid="575c8c22-bb32-4ed1-b5e6-464050150f37">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
+		<queryString language="SQL">
+			<![CDATA[SELECT		`BOOK_TITLE`, SUM(`QUANTITY`) AS `TOTAL_SALES`
+FROM 		`BOOK` NATURAL JOIN `SALES`
+WHERE 		`DATE` >= (NOW() - INTERVAL 3 MONTH)
+GROUP BY	`BOOK_ISBN`
+ORDER BY	`TOTAL_SALES` DESC
 LIMIT		10;]]>
 		</queryString>
 		<field name="BOOK_TITLE" class="java.lang.String">
@@ -204,14 +252,14 @@ GROUP BY	`BOOK_TITLE`;]]>
 				<staticText>
 					<reportElement style="Title" x="90" y="0" width="370" height="66" uuid="f156034b-a631-403f-bc76-cb36573fc58e"/>
 					<textElement textAlignment="Left">
-						<font fontName="FreeSans" isBold="false" isItalic="false"/>
+						<font  isBold="false" isItalic="false"/>
 					</textElement>
 					<text><![CDATA[Sales Report]]></text>
 				</staticText>
 				<staticText>
 					<reportElement style="SubTitle" x="160" y="66" width="249" height="29" uuid="a486075e-1123-4837-bce6-7a2c2f4bed07"/>
 					<textElement>
-						<font fontName="FreeSans" size="22" isBold="false"/>
+						<font  size="18" isBold="false"/>
 					</textElement>
 					<text><![CDATA[TBD Book Store]]></text>
 				</staticText>
@@ -233,7 +281,7 @@ GROUP BY	`BOOK_TITLE`;]]>
 			<staticText>
 				<reportElement x="80" y="10" width="240" height="57" forecolor="#030161" uuid="b8bad54d-353a-4c56-a15a-31f2fb9fd9ca"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="FreeSans" size="16" isBold="true"/>
+					<font  size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ Total Book Sales Last Month ]]></text>
 			</staticText>
@@ -259,7 +307,7 @@ GROUP BY	`BOOK_TITLE`;]]>
 							<staticText>
 								<reportElement x="0" y="0" width="237" height="30" forecolor="#030161" uuid="2dfe8552-61ba-4ab5-9dc9-994e7b3f3189"/>
 								<textElement textAlignment="Center" verticalAlignment="Bottom" markup="none">
-									<font fontName="FreeSans" size="22" isBold="false"/>
+									<font  size="18" isBold="false"/>
 								</textElement>
 								<text><![CDATA[Book Title
 ]]></text>
@@ -269,7 +317,7 @@ GROUP BY	`BOOK_TITLE`;]]>
 							<textField>
 								<reportElement x="0" y="0" width="237" height="30" uuid="f42eb9c3-7bc4-49de-8be4-423ae229e09d"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="FreeSans" size="14"/>
+									<font  size="10"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{BOOK_TITLE}]]></textFieldExpression>
 							</textField>
@@ -281,7 +329,7 @@ GROUP BY	`BOOK_TITLE`;]]>
 							<staticText>
 								<reportElement x="0" y="0" width="233" height="30" forecolor="#030161" backcolor="#FFFFFF" uuid="4d58c6d2-f839-4865-b74a-90f67b664784"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="FreeSans" size="22"/>
+									<font  size="18"/>
 								</textElement>
 								<text><![CDATA[Total Sales]]></text>
 							</staticText>
@@ -290,7 +338,7 @@ GROUP BY	`BOOK_TITLE`;]]>
 							<textField>
 								<reportElement x="0" y="0" width="233" height="30" uuid="72da774c-a5a7-48b5-8864-ec21c9d9fdf2"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="FreeSans" size="14"/>
+									<font  size="10"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{TOTAL_SALES}]]></textFieldExpression>
 							</textField>
@@ -299,18 +347,18 @@ GROUP BY	`BOOK_TITLE`;]]>
 				</jr:table>
 			</componentElement>
 			<staticText>
-				<reportElement x="80" y="260" width="240" height="57" forecolor="#030161" uuid="a93a6e9b-42b4-4030-8c99-31718441a356"/>
+				<reportElement x="80" y="230" width="240" height="57" forecolor="#030161" uuid="a93a6e9b-42b4-4030-8c99-31718441a356"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="FreeSans" size="16" isBold="true"/>
+					<font  size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ Top 5 Customers]]></text>
 			</staticText>
 			<image>
-				<reportElement x="22" y="260" width="58" height="57" uuid="eff7721d-95bc-4c79-8d4b-346475cf1662"/>
+				<reportElement x="23" y="230" width="58" height="57" uuid="eff7721d-95bc-4c79-8d4b-346475cf1662"/>
 				<imageExpression><![CDATA["com/tbdbookstore/view/img/customer.png"]]></imageExpression>
 			</image>
 			<componentElement>
-				<reportElement x="0" y="320" width="470" height="100" uuid="8c135dbb-fdc8-40e1-9358-490d5313a26f">
+				<reportElement x="0" y="300" width="470" height="100" uuid="8c135dbb-fdc8-40e1-9358-490d5313a26f">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 1_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 1_CH"/>
@@ -326,7 +374,7 @@ GROUP BY	`BOOK_TITLE`;]]>
 							<staticText>
 								<reportElement x="0" y="0" width="235" height="30" forecolor="#030161" uuid="3ec842f9-12d2-4d1c-a888-d24c23c2d558"/>
 								<textElement textAlignment="Center" verticalAlignment="Bottom">
-									<font fontName="FreeSans" size="22"/>
+									<font  size="18"/>
 								</textElement>
 								<text><![CDATA[User Name
 ]]></text>
@@ -336,7 +384,7 @@ GROUP BY	`BOOK_TITLE`;]]>
 							<textField>
 								<reportElement x="0" y="0" width="235" height="30" uuid="797be38b-5b73-4036-a332-e40068517eac"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="FreeSans" size="14"/>
+									<font  size="10"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{USERNAME}]]></textFieldExpression>
 							</textField>
@@ -347,7 +395,7 @@ GROUP BY	`BOOK_TITLE`;]]>
 							<staticText>
 								<reportElement x="0" y="0" width="235" height="30" forecolor="#030161" uuid="59c172e8-7e74-4aa9-afec-075594c5a7f9"/>
 								<textElement textAlignment="Center" verticalAlignment="Bottom">
-									<font fontName="FreeSans&#xA;" size="22"/>
+									<font size="18"/>
 								</textElement>
 								<text><![CDATA[Total Purchase
 ]]></text>
@@ -357,7 +405,7 @@ GROUP BY	`BOOK_TITLE`;]]>
 							<textField>
 								<reportElement x="0" y="0" width="235" height="30" uuid="6f9f095d-885b-414b-8e1c-6a9872032af2"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="FreeSans" size="14"/>
+									<font  size="12"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{TOTAL_PURCHASE}]]></textFieldExpression>
 							</textField>
@@ -366,21 +414,77 @@ GROUP BY	`BOOK_TITLE`;]]>
 				</jr:table>
 			</componentElement>
 			<staticText>
-				<reportElement x="80" y="460" width="240" height="59" forecolor="#030161" uuid="eb897a28-5401-4018-8bb7-3cb1e7d08ff3"/>
+				<reportElement x="80" y="400" width="240" height="59" forecolor="#030161" uuid="eb897a28-5401-4018-8bb7-3cb1e7d08ff3"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="FreeSans" size="16" isBold="true"/>
+					<font  size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Best Selling Books]]></text>
 			</staticText>
 			<image>
-				<reportElement x="20" y="460" width="58" height="59" uuid="0a1a6a4c-21b2-4152-af90-11482b54e1b9"/>
+				<reportElement x="22" y="400" width="58" height="59" uuid="0a1a6a4c-21b2-4152-af90-11482b54e1b9"/>
 				<imageExpression><![CDATA["com/tbdbookstore/view/img/prize.png"]]></imageExpression>
 			</image>
+			<componentElement>
+				<reportElement x="2" y="470" width="468" height="160" uuid="41d639d5-656e-4b43-951a-552d4e774974">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 3_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 3_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table 3_TD"/>
+					<property name="net.sf.jasperreports.export.headertoolbar.table.name" value=""/>
+					<property name="com.jaspersoft.studio.components.autoresize.proportional" value="true"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Dataset3" uuid="5d44aabd-8758-44b0-be31-ff66ee915e4c">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="234" uuid="b81d2b8d-5c2d-40ed-8194-fba2aef70656">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader style="Table 3_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="234" height="30" uuid="8c81182c-9440-4a51-8e69-2d2f8796326b"/>
+								<textElement textAlignment="Center" verticalAlignment="Bottom">
+									<font  size="18"/>
+								</textElement>
+								<text><![CDATA[Book Title
+]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 3_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="234" height="30" uuid="a5eecd02-3d9d-4bd7-b937-52e8e3ca6b6a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{BOOK_TITLE}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="234" uuid="75e0daf0-1d4b-4d42-a74a-54007d1bed40">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader style="Table 3_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="234" height="30" uuid="88baabfc-dc11-4d84-a066-4a3ebe4c4cae"/>
+								<textElement textAlignment="Center" verticalAlignment="Bottom">
+									<font size="18"/>
+								</textElement>
+								<text><![CDATA[Total Sales
+]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 3_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="234" height="30" uuid="f0887a59-a8e8-4a2e-b4dc-564fce6f9cf4"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{TOTAL_SALES}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
 		</band>
 	</columnHeader>
-	<detail>
-		<band height="132" splitType="Stretch"/>
-	</detail>
 	<columnFooter>
 		<band height="7" splitType="Stretch">
 			<line>
@@ -405,14 +509,14 @@ GROUP BY	`BOOK_TITLE`;]]>
 				<textField>
 					<reportElement style="Column header" x="433" y="0" width="80" height="20" forecolor="#FFFFFF" uuid="2b0e9e00-e699-4b5d-b2c4-0945fdf10ce2"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="FreeSans" size="10" isBold="false"/>
+						<font  size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 				</textField>
 				<textField pattern="EEEEE dd MMMMM yyyy">
 					<reportElement style="Column header" x="2" y="1" width="197" height="20" forecolor="#FFFFFF" uuid="ed1e7713-8c05-481f-83c4-28d987ce9d5f"/>
 					<textElement verticalAlignment="Middle">
-						<font fontName="FreeSans" size="10" isBold="false"/>
+						<font  size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 				</textField>
@@ -420,6 +524,8 @@ GROUP BY	`BOOK_TITLE`;]]>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="20" splitType="Stretch"/>
+		<band height="20" splitType="Stretch">
+			<printWhenExpression><![CDATA[Boolean.FALSE]]></printWhenExpression>
+		</band>
 	</summary>
 </jasperReport>

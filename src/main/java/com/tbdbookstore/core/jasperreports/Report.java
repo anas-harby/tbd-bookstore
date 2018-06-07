@@ -1,5 +1,6 @@
 package com.tbdbookstore.core.jasperreports;
 
+import java.awt.*;
 import java.sql.Connection;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
@@ -18,6 +19,8 @@ public class Report implements JasperReport {
         compileReport(jrxmlPath);
         jasperSource = getFileName(jrxmlPath) + ".jasper";
         fillReport(jasperSource,connection);
+        exportReport(Format.HTML,"output");
+        viewReport();
     }
 
     @Override
@@ -41,6 +44,7 @@ public class Report implements JasperReport {
         try {
             Map parameters = new HashMap();
             print = JasperFillManager.fillReport(jasperPath,parameters,connection);
+            System.out.println("Report Filling Done !");
         } catch (JRException e) {
             e.printStackTrace();
         }
@@ -87,9 +91,15 @@ public class Report implements JasperReport {
 
     @Override
     public void viewReport() {
-        JFrame frame = new JFrame("Sales Report");
-        frame.getContentPane().add(new JRViewer(print));
-        frame.pack();
+
+        JFrame frame = new JFrame("Sales report");
+
+        JRViewer viewer = new JRViewer(print);
+
+        frame.add(viewer);
+        frame.setSize(new Dimension(1000, 1500));
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
 
     }

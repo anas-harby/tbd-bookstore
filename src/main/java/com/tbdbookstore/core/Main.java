@@ -29,22 +29,22 @@ public class Main extends Application {
         primaryStage.show();
 
         /*for jasper trial only*/ //TODO remove later
-//        Connection connection =  connectToDatabase("jdbc:mysql://localhost:3306/BOOKSTORE","root", "root");
+//        Connection connection = connectToDatabase("jdbc:mysql://localhost:3306/BOOKSTORE", "root", "sara1201");
 //
 //        File file = new File("./src/main/resources/com/tbdbookstore/view/jrxml/trial.jrxml");
-//        Report report = new Report(file.getAbsolutePath(),connection);
+//        Report report = new Report(file.getAbsolutePath(), connection);
     }
 
     public static Connection connectToDatabase(String databaseName, String userName, String password) {
         Connection connection = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(databaseName,userName,password);
-        } catch(Exception e) {
+            connection = DriverManager.getConnection(databaseName, userName, password);
+        } catch (Exception e) {
             String text = "Could not connect to the database: " + e.getMessage() + " "
                     + e.getLocalizedMessage();
             System.out.println(text);
-           e.printStackTrace();
+            e.printStackTrace();
         }
         return connection;
     }
