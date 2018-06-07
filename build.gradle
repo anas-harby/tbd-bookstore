@@ -35,7 +35,6 @@ dependencies {
     compile group: 'com.mchange', name: 'c3p0', version: '0.9.5.2'
     compile group: 'com.mchange', name: 'mchange-commons-java', version: '0.2.11'
     compile group: 'com.cathive.fonts', name: 'fonts-roboto', version: '2012023.1'
-    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.46'
     compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.5.1'
     compile group: 'net.sf.jasperreports', name: 'jasperreports-fonts', version: '6.0.0'
 }
