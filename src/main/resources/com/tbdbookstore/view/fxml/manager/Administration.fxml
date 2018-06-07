@@ -62,7 +62,7 @@
         </Label>
         <JFXButton style="-fx-background-color: #00000000; -fx-text-fill: #757575;" text=" " GridPane.columnIndex="1" GridPane.rowIndex="5">
             <graphic>
-                <Icon content="CHECK" />
+                <FontAwesomeIconView glyphName="CHECK" glyphSize="16" fill="#757575" />
             </graphic>
         </JFXButton>
         <Label style="-fx-text-fill: #757575; -fx-font-size: 20;" text="View Sailing Reports" GridPane.rowIndex="7">
