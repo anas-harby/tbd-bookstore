@@ -8,9 +8,8 @@ import com.tbdbookstore.core.pojo.Book;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,6 +18,8 @@ import java.util.List;
 
 public class ManagerBookDialogControl extends JFXDialog {
     @FXML private JFXDialog root;
+    @FXML private Label heading;
+
     /* Dialog Inner Fields */
     @FXML private JFXTextField isbnField;
     @FXML private JFXTextField titleField;
@@ -35,7 +36,6 @@ public class ManagerBookDialogControl extends JFXDialog {
 
     public ManagerBookDialogControl() {
         loadFxml("/com/tbdbookstore/view/fxml/manager/ManagerBookDialog.fxml");
-
         dialogFields = new ArrayList<>(Arrays.asList(isbnField, titleField, authorsField,
                 publisherField, yearField, priceField, quantityField));
         attachValidators();
@@ -65,10 +65,6 @@ public class ManagerBookDialogControl extends JFXDialog {
         }
     }
 
-    public void showDialog(StackPane parent) {
-        root.show(parent);
-    }
-
     public void setOnAcceptClick(EventHandler<? super MouseEvent> eventHandler) {
         this.acceptButton.setOnMouseClicked(eventHandler);
     }
@@ -88,11 +84,15 @@ public class ManagerBookDialogControl extends JFXDialog {
         return book;
     }
 
-    public boolean hasErros() {
+    public boolean hasErrors() {
         for (JFXTextField tf : dialogFields)
             for (ValidatorBase v : tf.getValidators())
                 if (v.getHasErrors())
                     return true;
         return false;
+    }
+
+    public void setHeading(String s) {
+        this.heading.setText(s);
     }
 }

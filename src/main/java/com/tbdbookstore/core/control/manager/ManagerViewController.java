@@ -1,14 +1,12 @@
 package com.tbdbookstore.core.control.manager;
 
 import com.jfoenix.controls.JFXSnackbar;
-import com.tbdbookstore.core.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 import java.net.URL;

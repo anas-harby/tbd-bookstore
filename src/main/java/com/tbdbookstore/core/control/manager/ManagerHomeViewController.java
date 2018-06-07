@@ -23,14 +23,15 @@ public class ManagerHomeViewController implements Initializable {
 
         dialogControl = new ManagerBookDialogControl();
         dialogControl.setOnAcceptClick(e -> {
-            if (dialogControl.hasErros())
+            if (dialogControl.hasErrors())
                 return;
             Book newBook = dialogControl.getValue();
             System.out.println(newBook);
+            dialogControl.close();
         });
     }
 
     public void addBook(MouseEvent mouseEvent) {
-        dialogControl.showDialog(Main.getRoot());
+        dialogControl.show(Main.getRoot());
     }
 }
