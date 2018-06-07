@@ -20,7 +20,7 @@ with open('genre.csv', 'w') as f:
         wr.writerow([genre[i]])
 
 #User
-user_name = [0 for i in range(SIZE)]
+user_name = [str(fake.sha1()) for _ in range(SIZE)]
 user_firstname = [str(fake.first_name()) for _ in range(SIZE)]
 user_lastname = [str(fake.last_name()) for _ in range(SIZE)]
 user_email = [fake.email() for _ in range(SIZE)]
@@ -30,7 +30,6 @@ user_address = [fake.street_address() for _ in range(SIZE)]
 with open('user.csv', 'w') as f:
     wr = csv.writer(f, lineterminator='\n')
     for i in range(SIZE):
-        user_name[i] = user_firstname[i] + " "+ user_lastname[i];
         wr.writerow([user_name[i]] + [user_firstname[i]] + [user_lastname[i]] + [user_email[i]] + [user_phone[i]] + [user_address[i]])
 
 #Publisher
@@ -58,7 +57,7 @@ with open('book.csv', 'w') as f:
         wr.writerow([book_isbn[i]] + [book_title[i]] + [genre[randint(0, 4)]] + [publisher_id[randint(0, SIZE -1)]] + [book_publicationyear[i]] +
         [book_price[i]] + [book_stock[i]] + [book_minQuantity[i]])
 #Author
-author_name = [str(fake.name()) for _ in range(SIZE)]
+author_name = [str(fake.sha1()) for _ in range(SIZE)]
 
 with open('author.csv', 'w') as f:
     wr = csv.writer(f, lineterminator='\n')
