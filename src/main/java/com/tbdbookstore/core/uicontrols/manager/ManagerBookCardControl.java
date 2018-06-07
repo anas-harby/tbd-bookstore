@@ -11,7 +11,7 @@ import javafx.scene.layout.VBox;
 import javax.swing.text.html.ImageView;
 import java.io.IOException;
 
-public class BookCardManagerControl extends VBox {
+public class ManagerBookCardControl extends VBox {
 
     /* Model properties. */
     @FXML private ImageView coverimg;
@@ -25,7 +25,7 @@ public class BookCardManagerControl extends VBox {
     @FXML private Button editButton;
     @FXML private Button deleteButton;
 
-    public BookCardManagerControl() {
+    public ManagerBookCardControl() {
         loadFxml("/com/tbdbookstore/view/fxml/manager/ManagerBookCard.fxml");
     }
 

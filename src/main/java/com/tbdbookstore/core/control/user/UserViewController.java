@@ -1,6 +1,6 @@
-package com.tbdbookstore.core.control;
+package com.tbdbookstore.core.control.user;
 
-import com.tbdbookstore.core.uicontrols.BookTableControl;
+import com.tbdbookstore.core.uicontrols.user.UserBookTableControl;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
@@ -8,8 +8,8 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ViewController implements Initializable {
-    @FXML private BookTableControl userTable;
+public class UserViewController implements Initializable {
+    @FXML private UserBookTableControl userTable;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

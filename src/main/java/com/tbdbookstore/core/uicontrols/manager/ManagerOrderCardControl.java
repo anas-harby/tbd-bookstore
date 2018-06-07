@@ -1,12 +1,12 @@
-package com.tbdbookstore.core.uicontrols;
+package com.tbdbookstore.core.uicontrols.manager;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
-public class OrderController extends VBox {
-    public OrderController() {
+public class ManagerOrderCardControl extends VBox {
+    public ManagerOrderCardControl() {
         loadFxml("/com/tbdbookstore/view/fxml/manager/ManagerOrderCard.fxml");
     }
 

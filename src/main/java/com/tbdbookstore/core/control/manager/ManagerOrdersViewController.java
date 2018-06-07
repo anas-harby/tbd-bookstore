@@ -1,7 +1,7 @@
 package com.tbdbookstore.core.control.manager;
 
 import com.gluonhq.charm.glisten.control.CardPane;
-import com.tbdbookstore.core.uicontrols.OrderController;
+import com.tbdbookstore.core.uicontrols.manager.ManagerOrderCardControl;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
@@ -15,7 +15,7 @@ public class ManagerOrdersViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        cardPane.getCards().add(new OrderController());
+        cardPane.getCards().add(new ManagerOrderCardControl());
     }
 
     public void acceptBookDialog(MouseEvent mouseEvent) {

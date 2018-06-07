@@ -1,4 +1,4 @@
-package com.tbdbookstore.core.uicontrols;
+package com.tbdbookstore.core.uicontrols.user;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
 import javax.swing.text.html.ImageView;
 import java.io.IOException;
 
-public class BookCardControl extends VBox {
+public class UserBookCardControl extends VBox {
     /* Model properties. */
     @FXML private ImageView coverimg;
     @FXML private Label title;
@@ -24,7 +24,7 @@ public class BookCardControl extends VBox {
     @FXML private JFXButton cartButton;
     @FXML private JFXDialog dialog;
 
-    public BookCardControl() {
+    public UserBookCardControl() {
         loadFxml("/com/tbdbookstore/view/fxml/user/UserBookCard.fxml");
     }
 

@@ -34,15 +34,34 @@
                                                AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"/>
                       </AnchorPane>
                       <AnchorPane onMouseClicked="#switchToOrdersView">
-                      <Label  minWidth="200" graphicTextGap="15" style="-fx-font-fill: 14;">Orders
+                      <Label minWidth="200" graphicTextGap="15" style="-fx-font-fill: 14;">Orders
                       <graphic>
-                          <FontAwesomeIconView glyphName="BOOK" glyphSize="16" glyphStyle="-fx-fill: #FFFFFF;" />
+                          <FontAwesomeIconView glyphName="BARCODE" glyphSize="16" glyphStyle="-fx-fill: #FFFFFF;" />
                       </graphic>
                       </Label>
                           <FontAwesomeIconView glyphName="ANGLE_RIGHT" glyphSize="14" glyphStyle="-fx-fill: #FFFFFF;"
                                                AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"/>
                       </AnchorPane>
 
+                      <AnchorPane onMouseClicked="#switchToOProfileView">
+                          <Label minWidth="200" graphicTextGap="15" style="-fx-font-fill: 14;">Profile
+                              <graphic>
+                                  <FontAwesomeIconView glyphName="USER" glyphSize="16" glyphStyle="-fx-fill: #FFFFFF;" />
+                              </graphic>
+                          </Label>
+                          <FontAwesomeIconView glyphName="ANGLE_RIGHT" glyphSize="14" glyphStyle="-fx-fill: #FFFFFF;"
+                                               AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"/>
+                      </AnchorPane>
+
+                      <AnchorPane onMouseClicked="#switchToAdministrationView">
+                          <Label minWidth="200" graphicTextGap="15" style="-fx-font-fill: 14;">Administration
+                              <graphic>
+                                  <FontAwesomeIconView glyphName="SLIDERS" glyphSize="16" glyphStyle="-fx-fill: #FFFFFF;" />
+                              </graphic>
+                          </Label>
+                          <FontAwesomeIconView glyphName="ANGLE_RIGHT" glyphSize="14" glyphStyle="-fx-fill: #FFFFFF;"
+                                               AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"/>
+                      </AnchorPane>
                      <VBox.margin>
                         <Insets top="40.0" />
                      </VBox.margin>

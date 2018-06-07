@@ -1,4 +1,4 @@
-package com.tbdbookstore.core.uicontrols;
+package com.tbdbookstore.core.uicontrols.user;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTreeTableColumn;
@@ -19,7 +19,7 @@ import javafx.scene.layout.StackPane;
 import java.io.IOException;
 import java.util.function.Function;
 
-public class BookTableControl extends JFXTreeTableView {
+public class UserBookTableControl extends JFXTreeTableView {
     @FXML private JFXTreeTableView<BookEntry> root;
     @FXML private JFXTreeTableColumn<BookEntry, String> isbnCol;
     @FXML private JFXTreeTableColumn<BookEntry, String> titleCol;
@@ -32,7 +32,7 @@ public class BookTableControl extends JFXTreeTableView {
 
     private ObservableList<BookEntry> data;
 
-    public BookTableControl() {
+    public UserBookTableControl() {
         loadFxml();
 
         setupCellValueFactory(isbnCol, BookEntry::isbnProperty);
