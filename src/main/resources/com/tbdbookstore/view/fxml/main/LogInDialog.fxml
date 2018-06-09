@@ -10,6 +10,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.text.Text?>
 <fx:root fx:id="root" maxHeight="-Infinity" style="-fx-background-color:#00000000;" maxWidth="-Infinity"
          minHeight="-Infinity" minWidth="-Infinity" prefWidth="800.0" type="com.jfoenix.controls.JFXDialog"
          xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
@@ -58,6 +61,10 @@
 
         </body>
         <actions>
+            <TextFlow>
+                <Text> Don`t Have An Account?</Text>
+                <Hyperlink>Sign Up</Hyperlink>
+            </TextFlow>
             <JFXButton fx:id="acceptButton" prefWidth="100"
                        style="-fx-background-color: #757575; -fx-text-fill: #ffffff;">Log In
             </JFXButton>

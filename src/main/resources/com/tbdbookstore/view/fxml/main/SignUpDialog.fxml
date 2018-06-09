@@ -10,12 +10,15 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
 <fx:root fx:id="root" maxHeight="-Infinity" style="-fx-background-color:#00000000;" maxWidth="-Infinity"
          minHeight="-Infinity" minWidth="-Infinity" prefWidth="800.0" type="com.jfoenix.controls.JFXDialog"
          xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
     <JFXDialogLayout>
         <heading>
-            <Label fx:id="heading">Please fill in the following info</Label>
+            <Label fx:id="heading">Please Fill In The Following Info</Label>
         </heading>
         <body>
             <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="30.0">
@@ -136,11 +139,16 @@
 
         </body>
         <actions>
+            <TextFlow>
+                <Text>Already Registered?</Text>
+                <Hyperlink>Log In</Hyperlink>
+            </TextFlow>
             <JFXButton fx:id="acceptButton" prefWidth="100"
                        style="-fx-background-color: #757575; -fx-text-fill: #ffffff;">Sign Up
             </JFXButton>
             <JFXButton fx:id="cancelButton" prefWidth="100">Cancel
             </JFXButton>
+
         </actions>
     </JFXDialogLayout>
 </fx:root>
