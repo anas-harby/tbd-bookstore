@@ -60,6 +60,20 @@
                                 </RequiredFieldValidator>
                             </validators>
                         </JFXPasswordField>
+                        <JFXBadge fx:id="wrongPassword" visible="false">
+                            <Label>
+                                <graphic>
+                                    <FontAwesomeIconView glyphName="TIMES" glyphSize="15" glyphStyle="-fx-fill: #b71c1c;"/>
+                                </graphic>
+                            </Label>
+                        </JFXBadge>
+                        <JFXBadge fx:id="correctPassword" visible="false">
+                            <Label>
+                                <graphic>
+                                    <FontAwesomeIconView glyphName="CHECK" glyphSize="15" glyphStyle="-fx-fill: #1B5E20;"/>
+                                </graphic>
+                            </Label>
+                        </JFXBadge>
                     </HBox>
                     <HBox spacing="20.0">
                         <children>

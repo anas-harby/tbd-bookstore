@@ -1,15 +1,15 @@
 package com.tbdbookstore.core.uicontrols.shared;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import com.jfoenix.validation.base.ValidatorBase;
+import com.sun.deploy.panel.TextFieldProperty;
 import com.tbdbookstore.core.pojo.User;
+import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
@@ -31,6 +31,10 @@ public class SignUpDialogControl extends JFXDialog {
     private JFXPasswordField passwordField;
     @FXML
     private JFXPasswordField confirmPasswordField;
+    @FXML
+    private JFXBadge wrongPassword;
+    @FXML
+    private JFXBadge correctPassword;
     @FXML
     private JFXTextField firstNameField;
     @FXML
@@ -56,7 +60,7 @@ public class SignUpDialogControl extends JFXDialog {
                 firstNameField, lastNameField, emailField, telNoField, shippingAddrField));
         passwordFields = new ArrayList<>(Arrays.asList(passwordField, confirmPasswordField));
         attachValidators();
-
+        confirmPasswordCheck();
         acceptButton.setOnMouseClicked(e -> root.close());
         cancelButton.setOnMouseClicked(e -> root.close());
     }
@@ -93,6 +97,18 @@ public class SignUpDialogControl extends JFXDialog {
 
     public void setOnCancelClick(EventHandler<? super MouseEvent> eventHandler) {
         this.cancelButton.setOnMouseClicked(eventHandler);
+    }
+
+    public void confirmPasswordCheck() {
+        this.confirmPasswordField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.equals(passwordField.getText())) {
+                correctPassword.setVisible(true);
+                wrongPassword.setVisible(false);
+            } else {
+                correctPassword.setVisible(false);
+                wrongPassword.setVisible(true);
+            }
+        });
     }
 
     public User getValue() {

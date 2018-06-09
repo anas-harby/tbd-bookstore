@@ -407,3 +407,14 @@
 .scroll-pane > .viewport {
    -fx-background-color: #E0E0E0;
 }
+
+
+
+#HomePane{
+    -fx-background-image: url("../img/BookStore.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
