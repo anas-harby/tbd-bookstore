@@ -38,7 +38,7 @@
                            </Label>
                            <FontAwesomeIconView glyphName="ANGLE_RIGHT" glyphSize="14" glyphStyle="-fx-fill: #FFFFFF;" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
                         </AnchorPane>
-                        <AnchorPane>
+                        <AnchorPane onMouseClicked="#switchToShoppingCartView">
                            <Label graphicTextGap="15" minWidth="200" style="-fx-font-size: 14;">Shopping Cart
                               <graphic>
                                  <FontAwesomeIconView glyphName="SHOPPING_CART" glyphSize="16" glyphStyle="-fx-fill: #FFFFFF;" />

@@ -58,7 +58,7 @@ public class UserHomeViewController implements Initializable {
         currSearchVal = BookSearchProcessor.process(searchArea.getText());
         HashMap<String, Book> books = getSearchResults();
         for (Book book : books.values())
-            cardPane.getCards().add(new UserBookCardControl(book));
+            cardPane.getCards().add(getNewCard(book));
 
         if (getCardinality(books.values()) < PAGE_COUNT)
             nextButton.setDisable(true);
@@ -73,7 +73,7 @@ public class UserHomeViewController implements Initializable {
         cardPane.getCards().clear();
         HashMap<String, Book> books = getSearchResults();
         for (Book book : books.values())
-            cardPane.getCards().add(new UserBookCardControl(book));
+            cardPane.getCards().add(getNewCard(book));
     }
 
     public void getNextPage(MouseEvent mouseEvent) {
@@ -83,7 +83,7 @@ public class UserHomeViewController implements Initializable {
         cardPane.getCards().clear();
         HashMap<String, Book> books = getSearchResults();
         for (Book book : books.values())
-            cardPane.getCards().add(new UserBookCardControl(book));
+            cardPane.getCards().add(getNewCard(book));
         if (getCardinality(books.values()) < PAGE_COUNT)
             nextButton.setDisable(true);
     }
@@ -95,9 +95,17 @@ public class UserHomeViewController implements Initializable {
         return ret;
     }
 
-
     public void searchAlt(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER))
             search(null);
+    }
+
+    private UserBookCardControl getNewCard(Book book) {
+        UserBookCardControl card = new UserBookCardControl(book);
+        card.setOnCartButtonClick(e -> {
+            UserViewController controller = Main.getMainController();
+            controller.getShoppingCartController().addOrder(book);
+        });
+        return card;
     }
 }

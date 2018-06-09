@@ -1,5 +1,6 @@
 package com.tbdbookstore.core.uicontrols.user;
 
+import com.tbdbookstore.core.pojo.Book;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,6 +29,17 @@ public class UserOrderCardControl extends VBox {
 
     public UserOrderCardControl() {
         loadFxml("/com/tbdbookstore/view/fxml/user/UserOrderCard.fxml");
+    }
+
+    public UserOrderCardControl(Book book) {
+        loadFxml("/com/tbdbookstore/view/fxml/user/UserOrderCard.fxml");
+        isbn.setText(book.getISBN());
+        title.setText(book.getTitle());
+        author.setText(book.getAuthors().get(0));
+        publisher.setText(book.getPublisher());
+        year.setText(book.getPublicationYear());
+        genre.setText(book.getGenre());
+        price.setText(Double.toString(book.getSellingPrice()));
     }
 
     private void loadFxml(String path) {

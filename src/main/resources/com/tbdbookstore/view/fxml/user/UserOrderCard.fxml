@@ -68,7 +68,7 @@
                         </HBox>
                     </children>
                 </VBox>
-                <HBox layoutX="325.0" layoutY="145.0" style="-fx-background-color: #2F39470f;">
+                <HBox layoutX="350.0" layoutY="145.0" style="-fx-background-color: #2F39470f;">
                     <children>
                         <JFXButton fx:id="deleteButton" mnemonicParsing="false" style="-fx-background-color: #00000000;">
                             <graphic>

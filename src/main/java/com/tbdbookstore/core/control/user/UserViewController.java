@@ -5,18 +5,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 public class UserViewController implements Initializable {
     @FXML private BorderPane mainPane;
-    private Map<String, Pane> loadedFxmls;
+    private Map<String, FXMLLoader> loadedFxmls;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -27,10 +25,12 @@ public class UserViewController implements Initializable {
         try {
             mainPane.getChildren().remove(mainPane.getCenter());
         } catch (Exception ignored) { }
-        Pane homePane = loadedFxmls.containsKey(path) ? loadedFxmls.get(path) : FXMLLoader.load(getClass().getResource(
-                path));
-        mainPane.setCenter(homePane);
-        loadedFxmls.put(path, homePane);
+        if (!loadedFxmls.containsKey(path)) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+            loader.load();
+            loadedFxmls.put(path, loader);
+        }
+        mainPane.setCenter(loadedFxmls.get(path).getRoot());
     }
 
     public void switchToHomeView(MouseEvent mouseEvent) {
@@ -55,5 +55,19 @@ public class UserViewController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public UserShoppingCartViewController getShoppingCartController() {
+        String path = "/com/tbdbookstore/view/fxml/user/UserShoppingCartView.fxml";
+        if (!loadedFxmls.containsKey(path)) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+                loader.load();
+                loadedFxmls.put(path, loader);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return loadedFxmls.get(path).getController();
     }
 }

@@ -1,6 +1,7 @@
 package com.tbdbookstore.core.control.user;
 
 import com.gluonhq.charm.glisten.control.CardPane;
+import com.tbdbookstore.core.pojo.Book;
 import com.tbdbookstore.core.uicontrols.user.UserOrderCardControl;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,7 +14,10 @@ public class UserShoppingCartViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        UserOrderCardControl bookCard = new UserOrderCardControl();
-        cardPane.getCards().add(bookCard);
+    }
+
+    public void addOrder(Book book) {
+        UserOrderCardControl card = new UserOrderCardControl(book);
+        cardPane.getCards().add(card);
     }
 }
