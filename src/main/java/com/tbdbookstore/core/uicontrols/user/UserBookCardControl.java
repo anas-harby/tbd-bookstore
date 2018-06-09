@@ -4,12 +4,16 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.NumberValidator;
+import com.jfoenix.validation.base.ValidatorBase;
 import com.tbdbookstore.core.pojo.Book;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -28,9 +32,14 @@ public class UserBookCardControl extends VBox {
     @FXML private Label year;
     @FXML private JFXButton cartButton;
     @FXML private JFXDialog dialog;
+    private JFXPopup popup;
+    private JFXButton checkPopup;
+
+    private int quantity;
 
     public UserBookCardControl() {
         loadFxml("/com/tbdbookstore/view/fxml/user/UserBookCard.fxml");
+        setupPopup();
     }
 
     public UserBookCardControl(Book book) {
@@ -41,8 +50,9 @@ public class UserBookCardControl extends VBox {
         publisher.setText(book.getPublisher());
         year.setText(book.getPublicationYear());
         genre.setText(book.getGenre());
-        cartButton.setText(Double.toString(book.getSellingPrice()) + " (" +
-                Integer.toString(book.getStockQuantity()) + ")");
+        quantity = book.getStockQuantity();
+        cartButton.setText(Double.toString(book.getSellingPrice()) + " (" + quantity + ")");
+        setupPopup();
     }
 
     private void loadFxml(String path) {
@@ -94,7 +104,60 @@ public class UserBookCardControl extends VBox {
 
     }
 
-    public void setOnCartButtonClick(EventHandler<? super MouseEvent> eventHandler) {
-        this.cartButton.setOnMouseClicked(eventHandler);
+    public void setOnCheckClick(EventHandler<? super MouseEvent> eventHandler) {
+        this.checkPopup.setOnMouseClicked(eventHandler);
+    }
+
+    private void setupPopup() {
+        HBox hbox = new HBox();
+        hbox.setSpacing(5);
+        hbox.setPadding(new Insets(5, 5, 5, 5));
+        hbox.setStyle("-fx-background-color: #E0E0E0;");
+        JFXTextField quantityField = new JFXTextField("1");
+        quantityField.setMinWidth(20);
+        quantityField.setMaxWidth(40);
+        quantityField.setStyle("-fx-background-color: #00000000;");
+        checkPopup = new JFXButton("");
+        quantityField.getValidators().add(new ValidatorBase() {
+            @Override
+            protected void eval() {
+                if (srcControl.get() instanceof TextInputControl)
+                    evalTextInputField();
+            }
+            private void evalTextInputField() {
+                TextInputControl textField = (TextInputControl) srcControl.get();
+                String text = textField.getText();
+                try {
+                    hasErrors.set(false);
+                    if (!text.isEmpty()) {
+                        int x = Integer.parseInt(text);
+                        if (x > quantity)
+                            hasErrors.set(true);
+                    }
+                } catch (Exception e) {
+                    hasErrors.set(true);
+                }
+            }
+        });
+        quantityField.textProperty().addListener((o, oldVal, newVal) -> {
+            quantityField.validate();
+            if (quantityField.getValidators().get(0).getHasErrors())
+                checkPopup.setDisable(true);
+            else
+                checkPopup.setDisable(false);
+        });
+        FontAwesomeIconView icon = new FontAwesomeIconView();
+        icon.setGlyphName("CHECK");
+        icon.setStyle("-fx-fill: #757575;");
+        checkPopup.setGraphic(icon);
+        hbox.getChildren().addAll(quantityField, checkPopup);
+        popup = new JFXPopup(hbox);
+
+        cartButton.setOnMouseClicked(e -> popup.show(cartButton, null, null, 20,
+                cartButton.getHeight()));
+    }
+
+    public void hidePopup() {
+        popup.hide();
     }
 }
