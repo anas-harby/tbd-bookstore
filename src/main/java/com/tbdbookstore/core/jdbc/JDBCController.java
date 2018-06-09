@@ -373,17 +373,14 @@ public class JDBCController implements Connector {
             conditions.add("GENRE_NAME = " + "'" + book.getGenre() + "'");
         if (book.getPublisher() != null)
             conditions.add("PUBLISHER_NAME = " + "'" + book.getPublisher() + "'");
-
         if (!conditions.isEmpty()) {
             int i = 0;
             query.append(" WHERE ").append(conditions.get(i++));
             while (i < conditions.size())
                 query.append(" OR ").append(conditions.get(i++));
         }
-
         if (ordering != null)
             query.append(" ORDER BY " + ordering.getAttribute() + " " + ordering.getMode());
-
         query.append(" LIMIT ").append(Integer.toString(offset)).append(", ").append(Integer.toString(count)).append(';');
         return query.toString();
     }
