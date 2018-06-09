@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `BOOKSTORE` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `BOOKSTORE`;
 -- MySQL dump 10.13  Distrib 5.7.22, for Linux (x86_64)
 --
 -- Host: localhost    Database: BOOKSTORE
@@ -34,16 +32,6 @@ CREATE TABLE `AUTHOR` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `AUTHOR`
---
-
-LOCK TABLES `AUTHOR` WRITE;
-/*!40000 ALTER TABLE `AUTHOR` DISABLE KEYS */;
-INSERT INTO `AUTHOR` VALUES ('Author1','12345678book1'),('Author2','12345678book1'),('Author1','12345678book2'),('Author3','12345678book2'),('Author2','12345678book3');
-/*!40000 ALTER TABLE `AUTHOR` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `BOOK`
 --
 
@@ -68,16 +56,6 @@ CREATE TABLE `BOOK` (
   CONSTRAINT `BOOK_ibfk_2` FOREIGN KEY (`GENRE_NAME`) REFERENCES `GENRE` (`GENRE_NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `BOOK`
---
-
-LOCK TABLES `BOOK` WRITE;
-/*!40000 ALTER TABLE `BOOK` DISABLE KEYS */;
-INSERT INTO `BOOK` VALUES ('12345678book1','Title1','Art',1,1990,100,150,50),('12345678book2','Title2','History',2,2003,200,250,50),('12345678book3','Title3Modified','History',2,2000,200,120,50);
-/*!40000 ALTER TABLE `BOOK` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -134,16 +112,6 @@ CREATE TABLE `GENRE` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `GENRE`
---
-
-LOCK TABLES `GENRE` WRITE;
-/*!40000 ALTER TABLE `GENRE` DISABLE KEYS */;
-INSERT INTO `GENRE` VALUES ('Art'),('Geography'),('History'),('Religion'),('Science');
-/*!40000 ALTER TABLE `GENRE` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `ORDER`
 --
 
@@ -157,17 +125,8 @@ CREATE TABLE `ORDER` (
   PRIMARY KEY (`ORDER_ID`),
   KEY `BOOK_ISBN` (`BOOK_ISBN`),
   CONSTRAINT `ORDER_ibfk_1` FOREIGN KEY (`BOOK_ISBN`) REFERENCES `BOOK` (`BOOK_ISBN`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=500 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `ORDER`
---
-
-LOCK TABLES `ORDER` WRITE;
-/*!40000 ALTER TABLE `ORDER` DISABLE KEYS */;
-/*!40000 ALTER TABLE `ORDER` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `PUBLISHER`
@@ -183,18 +142,21 @@ CREATE TABLE `PUBLISHER` (
   `PUBLISHER_TELNO` varchar(50) NOT NULL,
   PRIMARY KEY (`PUBLISHER_ID`),
   KEY `PUBLISHER_NAME` (`PUBLISHER_NAME`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=500 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `PUBLISHER`
+-- Table structure for table `ROLE`
 --
 
-LOCK TABLES `PUBLISHER` WRITE;
-/*!40000 ALTER TABLE `PUBLISHER` DISABLE KEYS */;
-INSERT INTO `PUBLISHER` VALUES (1,'Dar Al-Shrouq','Alexandria, Egypt','01068596321'),(2,'Al-Dar Al-Arabeya','Abu Dhabi, Dubai','01068596321');
-/*!40000 ALTER TABLE `PUBLISHER` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `ROLE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ROLE` (
+  `ROLE_TYPE` varchar(50) NOT NULL,
+  PRIMARY KEY (`ROLE_TYPE`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `SALES`
@@ -217,15 +179,6 @@ CREATE TABLE `SALES` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `SALES`
---
-
-LOCK TABLES `SALES` WRITE;
-/*!40000 ALTER TABLE `SALES` DISABLE KEYS */;
-/*!40000 ALTER TABLE `SALES` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `USER`
 --
 
@@ -239,19 +192,12 @@ CREATE TABLE `USER` (
   `EMAIL` varchar(100) NOT NULL,
   `TELNO` varchar(50) NOT NULL,
   `SHIPPING_ADDRESS` varchar(500) NOT NULL,
-  PRIMARY KEY (`USERNAME`)
+  `ROLE_TYPE` varchar(50) NOT NULL DEFAULT 'user',
+  PRIMARY KEY (`USERNAME`),
+  KEY `ROLE_TYPE` (`ROLE_TYPE`),
+  CONSTRAINT `USER_ibfk_1` FOREIGN KEY (`ROLE_TYPE`) REFERENCES `ROLE` (`ROLE_TYPE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `USER`
---
-
-LOCK TABLES `USER` WRITE;
-/*!40000 ALTER TABLE `USER` DISABLE KEYS */;
-INSERT INTO `USER` VALUES ('head','Head First','Head Last','head@gmail.com','01213141516','Head Address'),('new','Last','First','new@gmail.com','01001010101','Address, City, Country');
-/*!40000 ALTER TABLE `USER` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Dumping events for database 'BOOKSTORE'
@@ -336,7 +282,7 @@ SET @CREATE_QUERY = CONCAT('CREATE USER "', `USERNAME`, '"@"localhost" IDENTIFIE
 PREPARE STMT FROM @CREATE_QUERY;
 EXECUTE STMT;
 
-INSERT INTO `USER` VALUES (`USERNAME`, `LAST_NAME`, `FIRST_NAME`, `EMAIL`, `TELNO`, `SHIPPING_ADDRESS`);
+INSERT INTO `USER` VALUES (`USERNAME`, `LAST_NAME`, `FIRST_NAME`, `EMAIL`, `TELNO`, `SHIPPING_ADDRESS`, 'user');
 
 -- Setting privileges
 SET @GRANT_QUERY = CONCAT('GRANT SELECT ON BOOKSTORE.BOOK TO "', `USERNAME`, '"@"localhost"');
@@ -348,6 +294,10 @@ PREPARE STMT FROM @GRANT_QUERY;
 EXECUTE STMT;
 
 SET @GRANT_QUERY = CONCAT('GRANT SELECT ON BOOKSTORE.PUBLISHER TO "', `USERNAME`, '"@"localhost"');
+PREPARE STMT FROM @GRANT_QUERY;
+EXECUTE STMT;
+
+SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.get_user_info TO "', `USERNAME`, '"@"localhost"');
 PREPARE STMT FROM @GRANT_QUERY;
 EXECUTE STMT;
 
@@ -450,6 +400,48 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_orders` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_orders`()
+BEGIN
+
+SELECT * FROM `ORDER`;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_user_info` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_user_info`(IN `USER_NAME` VARCHAR(32))
+BEGIN
+
+SELECT * FROM `USER` WHERE `USERNAME` = `USER_NAME`;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `modify_book` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -522,37 +514,46 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `promote_user`(IN `USERNAME` VARCHAR(32))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `promote_user`(IN `USER_NAME` VARCHAR(32))
 BEGIN
 
 SET max_sp_recursion_depth = 255;
 
+-- Editing user role
+UPDATE	`USER`
+SET		`ROLE_TYPE` = 'manager'
+WHERE	`USERNAME` = `USER_NAME`;
+
 -- Adding privileges
-SET @GRANT_QUERY = CONCAT('GRANT SELECT ON BOOKSTORE.* TO "', `USERNAME`, '"@"localhost"');
+SET @GRANT_QUERY = CONCAT('GRANT SELECT ON BOOKSTORE.* TO "', `USER_NAME`, '"@"localhost"');
 PREPARE STMT FROM @GRANT_QUERY;
 EXECUTE STMT;
 
-SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.add_book TO "', `USERNAME`, '"@"localhost"');
+SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.add_book TO "', `USER_NAME`, '"@"localhost"');
 PREPARE STMT FROM @GRANT_QUERY;
 EXECUTE STMT;
 
-SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.add_book_author TO "', `USERNAME`, '"@"localhost"');
+SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.add_book_author TO "', `USER_NAME`, '"@"localhost"');
 PREPARE STMT FROM @GRANT_QUERY;
 EXECUTE STMT;
 
-SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.modify_book TO "', `USERNAME`, '"@"localhost"');
+SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.modify_book TO "', `USER_NAME`, '"@"localhost"');
 PREPARE STMT FROM @GRANT_QUERY;
 EXECUTE STMT;
 
-SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.place_order TO "', `USERNAME`, '"@"localhost"');
+SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.get_orders TO "', `USER_NAME`, '"@"localhost"');
 PREPARE STMT FROM @GRANT_QUERY;
 EXECUTE STMT;
 
-SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.confirm_order TO "', `USERNAME`, '"@"localhost"');
+SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.place_order TO "', `USER_NAME`, '"@"localhost"');
 PREPARE STMT FROM @GRANT_QUERY;
 EXECUTE STMT;
 
-SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.promote_user TO "', `USERNAME`, '"@"localhost"');
+SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.confirm_order TO "', `USER_NAME`, '"@"localhost"');
+PREPARE STMT FROM @GRANT_QUERY;
+EXECUTE STMT;
+
+SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.promote_user TO "', `USER_NAME`, '"@"localhost"');
 PREPARE STMT FROM @GRANT_QUERY;
 EXECUTE STMT;
 
@@ -574,4 +575,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-06 22:43:04
+-- Dump completed on 2018-06-09  4:23:11

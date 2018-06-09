@@ -12,20 +12,21 @@ import java.util.List;
 public class JDBCMain {
     public static void main(String[] args) {
         try {
-            User user = new User("new");
-            user.setPassword("new");
+            User user = new User("new2");
+            user.setPassword("new2");
             user.setLastName("Last");
             user.setFirstName("First");
             user.setEmail("new@gmail.com");
             user.setPhoneNumber("01001010101");
             user.setShippingAddress("Address, City, Country");
-            //JDBCController controller = JDBCController.signUp(user);
+            //JDBCController userController = JDBCController.signUp(user);
 
 //            JDBCController managerController = JDBCController.logIn("head", "head");
 //            managerController.promoteUser(user.getUsername());
 //            managerController = null; // Manager logs out, ViewController should null the managerController object here
 
             JDBCController userController = JDBCController.logIn(user.getUsername(), user.getPassword());
+            System.out.println(userController.getUserInfo("new2").getRole());
 
 //            user.setPassword("newpass");
 //            user.setLastName("Last Modified");
@@ -43,7 +44,7 @@ public class JDBCMain {
 //            book.setStockQuantity(120);
 //            book.setMinQuantity(50);
 //            userController.addNewBook(book);
-
+//
 //            book.setTitle("Title3Modified");
 //            userController.modifyBook(book);
 //
@@ -52,12 +53,12 @@ public class JDBCMain {
 //            userController.confirmOrder(orderID);
 
             //Book searchBook = new Book("12345678book2");
-            Book searchBook = new Book("12345678book2");
+            Book searchBook = new Book("0-00-019803-X");
             //searchBook.addAuthor("Author3");
             searchBook.setAuthors(null);
             HashMap<String, Book> books = userController.search(searchBook, 0, 50);
             System.out.println(books.size());
-            searchBook = books.get("12345678book2");
+            searchBook = books.get("0-00-019803-X");
             System.out.println(searchBook.getTitle());
             System.out.println(searchBook.getAuthors().size());
             System.out.println(searchBook.getGenre());
@@ -66,6 +67,10 @@ public class JDBCMain {
             System.out.println(searchBook.getSellingPrice());
             System.out.println(searchBook.getStockQuantity());
             System.out.println(searchBook.getMinQuantity());
+
+            System.out.println();
+            Order order = userController.getOrders().get(0);
+            System.out.println(order.getId() + " " + order.getISBN() + " " + order.getQuantity());
         } catch (DBException e) {
             System.out.println(e.getError());
         }

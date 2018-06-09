@@ -63,7 +63,9 @@ public class JDBCController implements Connector {
         ResultSet resultSet = null;
         try {
             connection = DataSource.getInstance().getConnection(username, password);
-            statement = connection.prepareStatement("SELECT * FROM USER WHERE USERNAME = '" + username + "'");
+            String query = "{CALL get_user_info(?)}";
+            statement = connection.prepareCall(query);
+            statement.setString(1, username);
             resultSet = statement.executeQuery();
             return getUser(resultSet);
         } catch (SQLException e) {
@@ -251,7 +253,8 @@ public class JDBCController implements Connector {
         ResultSet resultSet = null;
         try {
             connection = DataSource.getInstance().getConnection(username, password);
-            statement = connection.prepareStatement("SELECT * FROM ORDER");
+            String query = "{CALL get_orders()}";
+            statement = connection.prepareCall(query);
             resultSet = statement.executeQuery();
             return getOrders(resultSet);
         } catch (SQLException e) {
@@ -273,6 +276,7 @@ public class JDBCController implements Connector {
             user.setEmail(resultSet.getString("EMAIL"));
             user.setPhoneNumber(resultSet.getString("TELNO"));
             user.setShippingAddress(resultSet.getString("SHIPPING_ADDRESS"));
+            user.setRole(resultSet.getString("ROLE_TYPE"));
             return user;
         }
         throw new SQLException();
