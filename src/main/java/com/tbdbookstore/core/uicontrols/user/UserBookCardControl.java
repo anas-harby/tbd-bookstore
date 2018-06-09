@@ -84,6 +84,14 @@ public class UserBookCardControl extends VBox {
         this.publisher.setText(publisher);
     }
 
+    public void setPrice(double price) {
+
+    }
+
+    public void setQuantity(int quantity) {
+
+    }
+
     public void setOnCartButtonClick(EventHandler<? super MouseEvent> eventHandler) {
         this.cartButton.setOnMouseClicked(eventHandler);
     }

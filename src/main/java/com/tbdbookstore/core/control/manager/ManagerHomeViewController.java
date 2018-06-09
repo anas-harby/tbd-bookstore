@@ -4,7 +4,6 @@ import com.gluonhq.charm.glisten.control.CardPane;
 import com.tbdbookstore.core.Main;
 import com.tbdbookstore.core.jdbc.DBException;
 import com.tbdbookstore.core.pojo.Book;
-import com.tbdbookstore.core.uicontrols.manager.ManagerBookCardControl;
 import com.tbdbookstore.core.uicontrols.manager.ManagerBookDialogControl;
 import com.tbdbookstore.core.uicontrols.user.UserBookCardControl;
 import javafx.fxml.FXML;
@@ -37,7 +36,7 @@ public class ManagerHomeViewController implements Initializable {
     private void showBooks() {
         Book searchVal = new Book(null);
         try {
-            HashMap<String, Book> books = Main.getConnector().search(searchVal, offset, 25);
+            HashMap<String, Book> books = Main.getDBConnector().search(searchVal, offset, 25);
             for (Book book : books.values()) {
                 cardPane.getCards().add(new UserBookCardControl(book));
             }
