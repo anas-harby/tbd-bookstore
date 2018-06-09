@@ -60,27 +60,22 @@
                                 <Label fx:id="year" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" style="-fx-font-family: Serif; -fx-text-fill: #757575;" text="1990" />
                             </children>
                         </HBox>
-                  <HBox minWidth="160.0" spacing="3.0">
-                     <children>
-                        <Label maxWidth="75.0" minWidth="75.0" prefHeight="16.0" prefWidth="75.0" style="-fx-font-family: Serif;" text="Price:" />
-                        <Label fx:id="price" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" style="-fx-font-family: Serif; -fx-text-fill: #757575;" text="20 EGP" />
-                     </children>
-                  </HBox>
+                        <HBox minWidth="160.0" spacing="3.0">
+                            <children>
+                                <Label maxWidth="75.0" minWidth="75.0" prefHeight="16.0" prefWidth="75.0" style="-fx-font-family: Serif;" text="Price:" />
+                                <Label fx:id="price" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" style="-fx-font-family: Serif; -fx-text-fill: #757575;" text="20 EGP" />
+                            </children>
+                        </HBox>
                     </children>
                 </VBox>
-                <HBox layoutX="346.0" layoutY="145.0" style="-fx-background-color: #2F39470f;">
-               <children>
-                  <JFXButton fx:id="editButton" mnemonicParsing="false" style="-fx-background-color: rgba(0,0,0,0);">
-                     <graphic>
-                        <FontAwesomeIconView fill="#757575" glyphName="PENCIL" glyphStyle="16" />
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton fx:id="deleteButton" mnemonicParsing="false" style="-fx-background-color: #00000000;">
-                     <graphic>
-                        <FontAwesomeIconView fill="#757575" glyphName="TRASH_ALT" glyphStyle="16" />
-                     </graphic>
-                  </JFXButton>
-               </children>
+                <HBox layoutX="325.0" layoutY="145.0" style="-fx-background-color: #2F39470f;">
+                    <children>
+                        <JFXButton fx:id="deleteButton" mnemonicParsing="false" style="-fx-background-color: #00000000;">
+                            <graphic>
+                                <FontAwesomeIconView fill="#757575" glyphName="TRASH_ALT" glyphStyle="16" />
+                            </graphic>
+                        </JFXButton>
+                    </children>
                 </HBox>
             </children>
         </AnchorPane>

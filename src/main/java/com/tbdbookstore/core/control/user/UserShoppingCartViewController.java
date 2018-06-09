@@ -1,18 +1,19 @@
-package com.tbdbookstore.core.control.manager;
+package com.tbdbookstore.core.control.user;
 
 import com.gluonhq.charm.glisten.control.CardPane;
-import com.tbdbookstore.core.uicontrols.manager.ManagerOrderCardControl;
+import com.tbdbookstore.core.uicontrols.user.UserOrderCardControl;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ManagerOrdersViewController implements Initializable {
+public class UserShoppingCartViewController implements Initializable {
     @FXML private CardPane cardPane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        cardPane.getCards().add(new ManagerOrderCardControl());
+        UserOrderCardControl bookCard = new UserOrderCardControl();
+        cardPane.getCards().add(bookCard);
     }
 }

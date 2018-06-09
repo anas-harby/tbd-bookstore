@@ -12,7 +12,7 @@ import java.util.List;
 public class JDBCMain {
     public static void main(String[] args) {
         try {
-            User user = new User("new");
+            User user = new User("new1");
             user.setPassword("new");
             user.setLastName("Last");
             user.setFirstName("First");
@@ -20,12 +20,15 @@ public class JDBCMain {
             user.setPhoneNumber("01001010101");
             user.setShippingAddress("Address, City, Country");
             //JDBCController controller = JDBCController.signUp(user);
-
 //            JDBCController managerController = JDBCController.logIn("head", "head");
 //            managerController.promoteUser(user.getUsername());
 //            managerController = null; // Manager logs out, ViewController should null the managerController object here
 
-            JDBCController userController = JDBCController.logIn(user.getUsername(), user.getPassword());
+            JDBCController userController = JDBCController.logIn("new1", "new");
+            Book search = new Book("0-00-188745-9");
+            search.setAuthors(null);
+            HashMap<String, Book> hm = userController.search(search, 0, 10);
+            System.out.println(hm);
 
 //            user.setPassword("newpass");
 //            user.setLastName("Last Modified");
@@ -51,21 +54,7 @@ public class JDBCMain {
 //            int orderID = userController.placeOrder(order);
 //            userController.confirmOrder(orderID);
 
-            //Book searchBook = new Book("12345678book2");
-            Book searchBook = new Book("12345678book2");
-            //searchBook.addAuthor("Author3");
-            searchBook.setAuthors(null);
-            HashMap<String, Book> books = userController.search(searchBook, 0, 50);
-            System.out.println(books.size());
-            searchBook = books.get("12345678book2");
-            System.out.println(searchBook.getTitle());
-            System.out.println(searchBook.getAuthors().size());
-            System.out.println(searchBook.getGenre());
-            System.out.println(searchBook.getPublisher());
-            System.out.println(searchBook.getPublicationYear());
-            System.out.println(searchBook.getSellingPrice());
-            System.out.println(searchBook.getStockQuantity());
-            System.out.println(searchBook.getMinQuantity());
+
         } catch (DBException e) {
             System.out.println(e.getError());
         }

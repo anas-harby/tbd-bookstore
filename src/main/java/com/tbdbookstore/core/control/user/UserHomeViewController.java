@@ -1,22 +1,21 @@
-package com.tbdbookstore.core.control.manager;
+package com.tbdbookstore.core.control.user;
 
 import com.gluonhq.charm.glisten.control.CardPane;
 import com.tbdbookstore.core.Main;
 import com.tbdbookstore.core.jdbc.DBException;
 import com.tbdbookstore.core.pojo.Book;
-import com.tbdbookstore.core.uicontrols.manager.ManagerBookCardControl;
 import com.tbdbookstore.core.uicontrols.manager.ManagerBookDialogControl;
 import com.tbdbookstore.core.uicontrols.user.UserBookCardControl;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
-public class ManagerHomeViewController implements Initializable {
-    @FXML private CardPane cardPane;
+public class UserHomeViewController implements Initializable {
+    @FXML
+    private CardPane cardPane;
     private ManagerBookDialogControl dialogControl;
     private int offset = 0;
 
@@ -36,6 +35,7 @@ public class ManagerHomeViewController implements Initializable {
 
     private void showBooks() {
         Book searchVal = new Book(null);
+        searchVal.setAuthors(null);
         try {
             HashMap<String, Book> books = Main.getConnector().search(searchVal, offset, 25);
             for (Book book : books.values()) {
@@ -44,9 +44,5 @@ public class ManagerHomeViewController implements Initializable {
         } catch (DBException e) {
             e.printStackTrace();
         }
-    }
-
-    public void addBook(MouseEvent mouseEvent) {
-        dialogControl.show(Main.getRoot());
     }
 }

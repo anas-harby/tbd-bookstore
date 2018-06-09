@@ -81,4 +81,9 @@ public class Book {
     public void setMinQuantity(int minQuantity) {
         this.minQuantity = minQuantity;
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

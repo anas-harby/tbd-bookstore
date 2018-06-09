@@ -50,6 +50,7 @@ public class JDBCController implements Connector {
             connection = DataSource.getInstance().getConnection(username, password);
             return new JDBCController(username, password);
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(null, connection);
@@ -118,6 +119,7 @@ public class JDBCController implements Connector {
             resultSet = statement.executeQuery();
             return getBooks(resultSet);
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             if (resultSet != null) try {
