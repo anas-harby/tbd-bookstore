@@ -2,6 +2,7 @@ package com.tbdbookstore.core.jdbc;
 
 import com.tbdbookstore.core.pojo.Book;
 import com.tbdbookstore.core.pojo.Order;
+import com.tbdbookstore.core.pojo.Ordering;
 import com.tbdbookstore.core.pojo.User;
 
 import java.sql.*;
@@ -107,13 +108,13 @@ public class JDBCController implements Connector {
     }
 
     @Override
-    public HashMap<String, Book> search(Book book, int offset, int count) throws DBException {
+    public HashMap<String, Book> search(Book book, Ordering ordering, int offset, int count) throws DBException {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             connection = DataSource.getInstance().getConnection(username, password);
-            statement = connection.prepareStatement(buildSelectQuery(book, offset, count));
+            statement = connection.prepareStatement(buildSelectQuery(book, ordering, offset, count));
             resultSet = statement.executeQuery();
             return getBooks(resultSet);
         } catch (SQLException e) {
@@ -358,7 +359,7 @@ public class JDBCController implements Connector {
         return orders;
     }
 
-    private String buildSelectQuery(Book book, int offset, int count) {
+    private String buildSelectQuery(Book book, Ordering ordering, int offset, int count) {
         List<String> conditions = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT BOOK_ISBN, BOOK_TITLE, GENRE_NAME, AUTHOR_NAME, PUBLISHER_NAME"
                 + ", PUBLICATION_YEAR, SELLING_PRICE, STOCK_QUANTITY, MIN_QUANTITY FROM BOOK NATURAL JOIN AUTHOR NATURAL JOIN PUBLISHER");
@@ -379,8 +380,11 @@ public class JDBCController implements Connector {
             while (i < conditions.size())
                 query.append(" OR ").append(conditions.get(i++));
         }
+
+        if (ordering != null)
+            query.append(" ORDER BY " + ordering.getAttribute() + " " + ordering.getMode());
+
         query.append(" LIMIT ").append(Integer.toString(offset)).append(", ").append(Integer.toString(count)).append(';');
-        System.out.println(query.toString());
         return query.toString();
     }
 

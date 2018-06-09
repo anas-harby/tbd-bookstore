@@ -1,5 +1,7 @@
 package com.tbdbookstore.core.jdbc;
 
+import com.tbdbookstore.core.shared.Error;
+
 public class DBException extends Exception {
 
     private Error error;

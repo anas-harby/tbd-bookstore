@@ -13,7 +13,7 @@ public interface Connector {
 
     void editUserInfo(User user) throws DBException;
 
-    HashMap<String, Book> search(Book book, int offset, int count) throws DBException;
+    HashMap<String, Book> search(Book book, Ordering ordering, int offset, int count) throws DBException;
 
     void checkOut(HashMap<String, Book> books) throws DBException;
 

@@ -62,9 +62,7 @@ public class Book {
         this.publicationYear = publicationYear;
     }
 
-    public double getSellingPrice() {
-        return sellingPrice;
-    }
+    public double getSellingPrice() { return sellingPrice; }
 
     public void setSellingPrice(double sellingPrice) {
         this.sellingPrice = sellingPrice;

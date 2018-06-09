@@ -1,13 +1,9 @@
 package com.tbdbookstore.core.jdbc;
 
 import com.tbdbookstore.core.pojo.Book;
-import com.tbdbookstore.core.pojo.Order;
-import com.tbdbookstore.core.pojo.User;
+import com.tbdbookstore.core.shared.Error;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class JDBCMain {
     public static void main(String[] args) {
@@ -22,7 +18,10 @@ public class JDBCMain {
             HashMap<String, Book> bought = new HashMap<>();
             bought.put("12345678book3", bought1);
             bought.put("12345678book2", bought2);
-            headController.checkOut(bought);
+            //headController.checkOut(bought);
+
+            String s = "ERROR: " + Error.DUPLICATE_ITEM;
+            System.out.println(s);
 
 //            User user = new User("new2");
 //            user.setPassword("new2");
