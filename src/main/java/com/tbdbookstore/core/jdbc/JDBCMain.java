@@ -1,6 +1,7 @@
 package com.tbdbookstore.core.jdbc;
 
 import com.tbdbookstore.core.pojo.Book;
+import com.tbdbookstore.core.pojo.User;
 import com.tbdbookstore.core.shared.Error;
 
 import java.util.HashMap;
@@ -8,29 +9,26 @@ import java.util.HashMap;
 public class JDBCMain {
     public static void main(String[] args) {
         try {
-            JDBCController headController = JDBCController.logIn("head", "head");
+//            JDBCController headController = JDBCController.logIn("head", "head");
 //            headController.deleteBook("12345678book3");
 //            headController.deleteOrder(499);
-            Book bought1 = new Book("12345678book3");
-            bought1.setStockQuantity(95); // 5 in log
-            Book bought2 = new Book("12345678book2");
-            bought2.setStockQuantity(200); // 50 in log
-            HashMap<String, Book> bought = new HashMap<>();
-            bought.put("12345678book3", bought1);
-            bought.put("12345678book2", bought2);
+//            Book bought1 = new Book("12345678book3");
+//            bought1.setStockQuantity(95); // 5 in log
+//            Book bought2 = new Book("12345678book2");
+//            bought2.setStockQuantity(200); // 50 in log
+//            HashMap<String, Book> bought = new HashMap<>();
+//            bought.put("12345678book3", bought1);
+//            bought.put("12345678book2", bought2);
             //headController.checkOut(bought);
 
-            String s = "ERROR: " + Error.DUPLICATE_ITEM;
-            System.out.println(s);
-
-//            User user = new User("new2");
-//            user.setPassword("new2");
-//            user.setLastName("Last");
-//            user.setFirstName("First");
-//            user.setEmail("new@gmail.com");
-//            user.setPhoneNumber("01001010101");
-//            user.setShippingAddress("Address, City, Country");
-//            //JDBCController userController = JDBCController.signUp(user);
+            User user = new User("new1");
+            user.setPassword("new");
+            user.setLastName("Last");
+            user.setFirstName("First");
+            user.setEmail("new@gmail.com");
+            user.setPhoneNumber("01001010101");
+            user.setShippingAddress("Address, City, Country");
+            JDBCController userController = JDBCController.signUp(user);
 //
 ////            JDBCController managerController = JDBCController.logIn("head", "head");
 ////            managerController.promoteUser(user.getUsername());

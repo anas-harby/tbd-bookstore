@@ -39,7 +39,7 @@ public class UserHomeViewController implements Initializable {
 
     private HashMap<String, Book> getSearchResults() {
         try {
-            return Main.getDBConnector().search(currSearchVal, offset * PAGE_COUNT, PAGE_COUNT);
+            return Main.getDBConnector().search(currSearchVal, null, offset * PAGE_COUNT, PAGE_COUNT);
         } catch (DBException e) {
             e.printStackTrace();
         }

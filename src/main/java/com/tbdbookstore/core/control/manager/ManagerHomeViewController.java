@@ -36,7 +36,7 @@ public class ManagerHomeViewController implements Initializable {
     private void showBooks() {
         Book searchVal = new Book(null);
         try {
-            HashMap<String, Book> books = Main.getDBConnector().search(searchVal, offset, 25);
+            HashMap<String, Book> books = Main.getDBConnector().search(searchVal, null, offset, 25);
             for (Book book : books.values()) {
                 cardPane.getCards().add(new UserBookCardControl(book));
             }
