@@ -12,6 +12,18 @@ import java.util.List;
 public class JDBCMain {
     public static void main(String[] args) {
         try {
+            JDBCController headController = JDBCController.logIn("head", "head");
+//            headController.deleteBook("12345678book3");
+//            headController.deleteOrder(499);
+            Book bought1 = new Book("12345678book3");
+            bought1.setStockQuantity(95); // 5 in log
+            Book bought2 = new Book("12345678book2");
+            bought2.setStockQuantity(200); // 50 in log
+            HashMap<String, Book> bought = new HashMap<>();
+            bought.put("12345678book3", bought1);
+            bought.put("12345678book2", bought2);
+            headController.checkOut(bought);
+
 //            User user = new User("new2");
 //            user.setPassword("new2");
 //            user.setLastName("Last");
@@ -32,18 +44,19 @@ public class JDBCMain {
 ////            user.setLastName("Last Modified");
 ////            userController.editUserInfo(user);
 //
-////            Book book = new Book("12345678book3");
-////            List<String> authors = new ArrayList<>();
-////            authors.add("Author2");
-////            book.setTitle("Title3");
-////            book.setAuthors(authors);
-////            book.setGenre("History");
-////            book.setPublisher("Al-Dar Al-Arabeya");
-////            book.setPublicationYear("2000");
-////            book.setSellingPrice(200);
-////            book.setStockQuantity(120);
-////            book.setMinQuantity(50);
-////            userController.addNewBook(book);
+//            Book book = new Book("12345678book3");
+//            List<String> authors = new ArrayList<>();
+//            authors.add("Author2");
+//            book.setTitle("Title3");
+//            book.setAuthors(authors);
+//            book.setGenre("History");
+//            book.setPublisher("Al-Dar Al-Arabeya");
+//            book.setPublicationYear("2000");
+//            book.setSellingPrice(200);
+//            book.setStockQuantity(120);
+//            book.setMinQuantity(50);
+//            //userController.addNewBook(book);
+//            headController.addNewBook(book);
 ////
 ////            book.setTitle("Title3Modified");
 ////            userController.modifyBook(book);
@@ -72,10 +85,6 @@ public class JDBCMain {
 //            Order order = userController.getOrders().get(0);
 //            System.out.println(order.getId() + " " + order.getISBN() + " " + order.getQuantity());
 
-
-            JDBCController headController = JDBCController.logIn("head", "head");
-            headController.deleteBook("12345678book3");
-            headController.deleteOrder(499);
 
         } catch (DBException e) {
             System.out.println(e.getError());

@@ -15,7 +15,7 @@ public interface Connector {
 
     HashMap<String, Book> search(Book book, int offset, int count) throws DBException;
 
-    void checkOut(List<Book> books) throws DBException;
+    void checkOut(HashMap<String, Book> books) throws DBException;
 
     /* Manager Extra
       -------------- */
