@@ -6,9 +6,24 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.tbdbookstore.view.fxml.shared.HomePageView"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.tbdbookstore.core.control.HomePageViewController"
+           fx:id="HomePane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+           minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #E0E0E0;"
+           stylesheets="@../../css/style.css">
+    <HBox alignment="TOP_RIGHT" spacing="15">
+        <JFXButton style="-fx-background-color: #80DEEA; -fx-pref-width: 100; -fx-font-size: 12; -fx-font-weight: bold"
+                   onMouseClicked="#LogIn" text="LOG IN">
+        </JFXButton>
+        <JFXButton style="-fx-background-color: #9E9E9E; -fx-pref-width: 100; -fx-font-size: 12;-fx-font-weight: bold"
+                   onMouseClicked="#signUp" text="SIGN UP">
+        </JFXButton>
+        <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+        </padding>
+    </HBox>
+</StackPane>

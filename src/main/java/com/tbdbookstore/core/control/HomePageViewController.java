@@ -24,15 +24,17 @@ public class HomePageViewController implements Initializable {
                 return;
             User newUser = signUpDialogControl.getValue();
             System.out.println(newUser);
+            //TODO switch to MANAGER or USER VIEW
             signUpDialogControl.close();
         });
+      //TODO ADD SAME ACCEPT ACTION to login
     }
 
     public void signUp(MouseEvent mouseEvent) {
         signUpDialogControl.show(Main.getRoot());
     }
 
-    public void signIn(MouseEvent mouseEvent) {
+    public void LogIn(MouseEvent mouseEvent) {
         signInDialogControl.show(Main.getRoot());
     }
 }
