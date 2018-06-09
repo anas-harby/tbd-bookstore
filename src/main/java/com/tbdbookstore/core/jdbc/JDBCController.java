@@ -40,7 +40,7 @@ public class JDBCController implements Connector {
         } catch (SQLException e) {
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
-            cleanUpResources(statement, connection);
+            cleanUpResources(null, statement, connection);
         }
     }
 
@@ -52,7 +52,7 @@ public class JDBCController implements Connector {
         } catch (SQLException e) {
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
-            cleanUpResources(null, connection);
+            cleanUpResources(null, null, connection);
         }
     }
 
@@ -63,17 +63,15 @@ public class JDBCController implements Connector {
         ResultSet resultSet = null;
         try {
             connection = DataSource.getInstance().getConnection(username, password);
-            statement = connection.prepareStatement("SELECT * FROM USER WHERE USERNAME = '" + username + "'");
+            String query = "{CALL get_user_info(?)}";
+            statement = connection.prepareCall(query);
+            statement.setString(1, username);
             resultSet = statement.executeQuery();
             return getUser(resultSet);
         } catch (SQLException e) {
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
-            if (resultSet != null) try {
-                resultSet.close();
-            } catch (SQLException ignored) {
-            }
-            cleanUpResources(statement, connection);
+            cleanUpResources(resultSet, statement, connection);
         }
     }
 
@@ -103,7 +101,7 @@ public class JDBCController implements Connector {
         } catch (SQLException e) {
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
-            cleanUpResources(statement, connection);
+            cleanUpResources(null, statement, connection);
         }
     }
 
@@ -120,11 +118,7 @@ public class JDBCController implements Connector {
         } catch (SQLException e) {
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
-            if (resultSet != null) try {
-                resultSet.close();
-            } catch (SQLException ignored) {
-            }
-            cleanUpResources(statement, connection);
+            cleanUpResources(resultSet, statement, connection);
         }
     }
 
@@ -147,7 +141,7 @@ public class JDBCController implements Connector {
         } catch (SQLException e) {
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
-            cleanUpResources(statement, connection);
+            cleanUpResources(null, statement, connection);
         }
     }
 
@@ -179,7 +173,24 @@ public class JDBCController implements Connector {
         } catch (SQLException e) {
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
-            cleanUpResources(statement, connection);
+            cleanUpResources(null, statement, connection);
+        }
+    }
+
+    @Override
+    public void deleteBook(String ISBN) throws DBException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DataSource.getInstance().getConnection(username, password);
+            String query = "{CALL delete_book(?)}";
+            statement = connection.prepareCall(query);
+            statement.setString(1, ISBN);
+            statement.execute();
+        } catch (SQLException e) {
+            throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
+        } finally {
+            cleanUpResources(null, statement, connection);
         }
     }
 
@@ -203,7 +214,7 @@ public class JDBCController implements Connector {
         } catch (SQLException e) {
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
-            cleanUpResources(statement, connection);
+            cleanUpResources(null, statement, connection);
         }
     }
 
@@ -223,7 +234,7 @@ public class JDBCController implements Connector {
         } catch (SQLException e) {
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
-            cleanUpResources(statement, connection);
+            cleanUpResources(null, statement, connection);
         }
     }
 
@@ -240,7 +251,24 @@ public class JDBCController implements Connector {
         } catch (SQLException e) {
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
-            cleanUpResources(statement, connection);
+            cleanUpResources(null, statement, connection);
+        }
+    }
+
+    @Override
+    public void deleteOrder(int orderID) throws DBException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DataSource.getInstance().getConnection(username, password);
+            String query = "{CALL delete_order(?)}";
+            statement = connection.prepareCall(query);
+            statement.setInt(1, orderID);
+            statement.execute();
+        } catch (SQLException e) {
+            throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
+        } finally {
+            cleanUpResources(null, statement, connection);
         }
     }
 
@@ -251,17 +279,14 @@ public class JDBCController implements Connector {
         ResultSet resultSet = null;
         try {
             connection = DataSource.getInstance().getConnection(username, password);
-            statement = connection.prepareStatement("SELECT * FROM ORDER");
+            String query = "{CALL get_orders()}";
+            statement = connection.prepareCall(query);
             resultSet = statement.executeQuery();
             return getOrders(resultSet);
         } catch (SQLException e) {
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
-            if (resultSet != null) try {
-                resultSet.close();
-            } catch (SQLException ignored) {
-            }
-            cleanUpResources(statement, connection);
+            cleanUpResources(resultSet, statement, connection);
         }
     }
 
@@ -273,6 +298,7 @@ public class JDBCController implements Connector {
             user.setEmail(resultSet.getString("EMAIL"));
             user.setPhoneNumber(resultSet.getString("TELNO"));
             user.setShippingAddress(resultSet.getString("SHIPPING_ADDRESS"));
+            user.setRole(resultSet.getString("ROLE_TYPE"));
             return user;
         }
         throw new SQLException();
@@ -339,7 +365,11 @@ public class JDBCController implements Connector {
         return query.toString();
     }
 
-    private static void cleanUpResources(Statement statement, Connection connection) {
+    private static void cleanUpResources(ResultSet resultSet, Statement statement, Connection connection) {
+        if (resultSet != null) try {
+            resultSet.close();
+        } catch (SQLException ignored) {
+        }
         if (statement != null) try {
             statement.close();
         } catch (SQLException ignored) {

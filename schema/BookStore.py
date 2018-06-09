@@ -3,7 +3,7 @@ from faker import Faker
 from random import randint
 import csv
 
-SIZE = 500000
+SIZE = 500
 fake = Faker('it_IT')
 
 #Genre

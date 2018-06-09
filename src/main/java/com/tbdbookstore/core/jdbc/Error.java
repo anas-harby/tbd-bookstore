@@ -10,6 +10,6 @@ public enum Error {
     UNKNOWN_ITEM, // Ex: adding a new book having an invalid category
     KEY_FIELD_MISSING, // Obligatory field left empty, handled in the UI?
     DATA_TOO_LONG, // Input data are too long
-    STOCK_LACK, // Cannot fulfill user's purchase quantity; Updating the stock quantity will result in a negative value
+    STOCK_LACK, // Cannot fulfill user's purchase quantity or updating the stock quantity will result in a negative value
     UNSPECIFIED // General error
 }
