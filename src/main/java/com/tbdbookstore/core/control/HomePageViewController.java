@@ -1,6 +1,9 @@
 package com.tbdbookstore.core.control;
 
 import com.tbdbookstore.core.Main;
+import com.tbdbookstore.core.jdbc.Connector;
+import com.tbdbookstore.core.jdbc.DBException;
+import com.tbdbookstore.core.jdbc.JDBCController;
 import com.tbdbookstore.core.pojo.User;
 import com.tbdbookstore.core.uicontrols.shared.LogInDialogControl;
 import com.tbdbookstore.core.uicontrols.shared.SignUpDialogControl;
@@ -20,6 +23,7 @@ public class HomePageViewController implements Initializable {
 
     private SignUpDialogControl signUpDialogControl;
     private LogInDialogControl logInDialogControl;
+    private Connector connector;
 
     @FXML
     StackPane HomePane;
@@ -32,10 +36,16 @@ public class HomePageViewController implements Initializable {
             if (signUpDialogControl.hasErrors())
                 return;
             User newUser = signUpDialogControl.getValue();
-            //TODO send new user object to jdbc
+            try{
+            connector = JDBCController.signUp(newUser);
+            Main.setConnector(connector);
             signUpDialogControl.close();
             //switch to user view
-            switchView("/com/tbdbookstore/view/fxml/user/User.fxml");
+            switchView("/com/tbdbookstore/view/fxml/user/User.fxml");}
+            catch(DBException ex){
+                //TODO HANDLE DB EXCEPTION
+                ex.printStackTrace();
+            }
 
         });
         logInDialogControl.setOnAcceptClick(e -> {
@@ -43,7 +53,14 @@ public class HomePageViewController implements Initializable {
                 return;
             String userName = logInDialogControl.getUserName();
             String password = logInDialogControl.getPassword();
-            //TODO send log in data to jdbc and check role to load certain view
+            try{
+            connector = JDBCController.logIn(userName, password);
+            Main.setConnector(connector);
+            }
+            catch (DBException ex){
+                ex.printStackTrace();
+                //TODO HANDLE DB EXCEPTIONS
+            }
 
 
         });
@@ -59,8 +76,10 @@ public class HomePageViewController implements Initializable {
 
     public void switchView(String path) {
         try {
-            Pane pane = FXMLLoader.load(getClass().getResource(path));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+            Pane pane = loader.load();
             HomePane.getChildren().setAll(pane);
+            Main.setLoader(loader);
         } catch (IOException ex) {
 
         }

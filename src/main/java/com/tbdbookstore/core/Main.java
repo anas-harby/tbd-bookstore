@@ -26,22 +26,28 @@ public class Main extends Application {
 
     public static <T extends Initializable> T getMainController() {
         return loader.getController();
-    }
+    }git
 
     public static Connector getDBConnector() {
         return connector;
     }
-
+    public  static void setLoader(FXMLLoader fxmlLoader){
+        loader = fxmlLoader;
+    }
+    public static void setConnector(Connector DBconnector){
+        connector = DBconnector;
+    }
     @Override
     public void start(Stage primaryStage) throws Exception {
-        loader = new FXMLLoader(getClass().getResource("/com/tbdbookstore/view/fxml/user/User.fxml"));
+        loader = new FXMLLoader(getClass().getResource("/com/tbdbookstore/view/fxml/main/HomePageView.fxml"));
         loader.load();
         Scene scene = new Scene(loader.getRoot(), 1280, 800);
         primaryStage.setTitle("");
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        connector = JDBCController.logIn("new1", "new");
+        //connector = JDBCController.logIn("new1", "new");
+
         /*for jasper trial only*/ //TODO remove later
 //        Connection connection = connectToDatabase("jdbc:mysql://localhost:3306/BOOKSTORE", "root", "sara1201");
 //
