@@ -123,9 +123,25 @@ public class JDBCController implements Connector {
     }
 
     @Override
-    public void checkOut(List<Book> books) throws DBException {
-        for (Book book: books)
-            modifyBook(book);
+    public void checkOut(HashMap<String, Book> books) throws DBException {
+        Connection connection = null;
+        CallableStatement statement = null;
+        try {
+            connection = DataSource.getInstance().getConnection(username, password);
+            String query = "{CALL check_out(?, ?, ?)}";
+            statement = connection.prepareCall(query);
+            for (Book book : books.values()){
+                statement.setString(1, username);
+                statement.setString(2, book.getISBN());
+                statement.setInt(3, book.getStockQuantity());
+                statement.addBatch();
+            }
+            statement.executeBatch();
+        } catch (SQLException e) {
+            throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
+        } finally {
+            cleanUpResources(null, statement, connection);
+        }
     }
 
     @Override
