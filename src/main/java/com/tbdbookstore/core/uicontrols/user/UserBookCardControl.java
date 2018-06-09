@@ -41,6 +41,8 @@ public class UserBookCardControl extends VBox {
         publisher.setText(book.getPublisher());
         year.setText(book.getPublicationYear());
         genre.setText(book.getGenre());
+        cartButton.setText(Double.toString(book.getSellingPrice()) + " (" +
+                Integer.toString(book.getStockQuantity()) + ")");
     }
 
     private void loadFxml(String path) {
