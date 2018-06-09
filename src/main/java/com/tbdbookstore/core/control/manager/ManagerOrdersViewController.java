@@ -9,8 +9,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ManagerOrdersViewController implements Initializable {
-    @FXML
-    private CardPane cardPane;
+    @FXML private CardPane cardPane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

@@ -1,4 +1,4 @@
-package com.tbdbookstore.core.jdbc;
+package com.tbdbookstore.core.shared;
 
 public enum Error {
     HEAVY_LOAD,

@@ -2,6 +2,7 @@ package com.tbdbookstore.core.jdbc;
 
 import com.tbdbookstore.core.pojo.Book;
 import com.tbdbookstore.core.pojo.Order;
+import com.tbdbookstore.core.pojo.Ordering;
 import com.tbdbookstore.core.pojo.User;
 
 import java.sql.*;
@@ -50,6 +51,7 @@ public class JDBCController implements Connector {
             connection = DataSource.getInstance().getConnection(username, password);
             return new JDBCController(username, password);
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(null, null, connection);
@@ -106,16 +108,17 @@ public class JDBCController implements Connector {
     }
 
     @Override
-    public HashMap<String, Book> search(Book book, int offset, int count) throws DBException {
+    public HashMap<String, Book> search(Book book, Ordering ordering, int offset, int count) throws DBException {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             connection = DataSource.getInstance().getConnection(username, password);
-            statement = connection.prepareStatement(buildSelectQuery(book, offset, count));
+            statement = connection.prepareStatement(buildSelectQuery(book, ordering, offset, count));
             resultSet = statement.executeQuery();
             return getBooks(resultSet);
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(resultSet, statement, connection);
@@ -356,16 +359,16 @@ public class JDBCController implements Connector {
         return orders;
     }
 
-    private String buildSelectQuery(Book book, int offset, int count) {
+    private String buildSelectQuery(Book book, Ordering ordering, int offset, int count) {
         List<String> conditions = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT BOOK_ISBN, BOOK_TITLE, GENRE_NAME, AUTHOR_NAME, PUBLISHER_NAME"
                 + ", PUBLICATION_YEAR, SELLING_PRICE, STOCK_QUANTITY, MIN_QUANTITY FROM BOOK NATURAL JOIN AUTHOR NATURAL JOIN PUBLISHER");
         if (book.getISBN() != null)
             conditions.add("BOOK_ISBN = " + "'" + book.getISBN() + "'");
         if (book.getTitle() != null)
-            conditions.add("BOOK_TITLE = " + "'" + book.getTitle() + "'");
+            conditions.add("BOOK_TITLE LIKE " + "'%" + book.getTitle() + "%'");
         if (book.getAuthors() != null)
-            conditions.add("AUTHOR_NAME = " + "'" + book.getAuthors().get(0) + "'");
+            conditions.add("AUTHOR_NAME LIKE " + "'%" + book.getAuthors().get(0) + "%'");
         if (book.getGenre() != null)
             conditions.add("GENRE_NAME = " + "'" + book.getGenre() + "'");
         if (book.getPublisher() != null)
@@ -375,8 +378,12 @@ public class JDBCController implements Connector {
             int i = 0;
             query.append(" WHERE ").append(conditions.get(i++));
             while (i < conditions.size())
-                query.append(" AND ").append(conditions.get(i++));
+                query.append(" OR ").append(conditions.get(i++));
         }
+
+        if (ordering != null)
+            query.append(" ORDER BY " + ordering.getAttribute() + " " + ordering.getMode());
+
         query.append(" LIMIT ").append(Integer.toString(offset)).append(", ").append(Integer.toString(count)).append(';');
         return query.toString();
     }

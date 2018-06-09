@@ -1,5 +1,7 @@
 package com.tbdbookstore.core.jdbc;
 
+import com.tbdbookstore.core.shared.Error;
+
 import java.util.HashMap;
 
 public class ErrorHandler {

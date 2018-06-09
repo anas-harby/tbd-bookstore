@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Book {
-
     private String ISBN;
     private String title;
     private List<String> authors;
@@ -26,6 +25,10 @@ public class Book {
 
     public String getTitle() {
         return title;
+    }
+
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
     }
 
     public void setTitle(String title) {
@@ -58,9 +61,7 @@ public class Book {
         this.publicationYear = publicationYear;
     }
 
-    public double getSellingPrice() {
-        return sellingPrice;
-    }
+    public double getSellingPrice() { return sellingPrice; }
 
     public void setSellingPrice(double sellingPrice) {
         this.sellingPrice = sellingPrice;
@@ -80,5 +81,10 @@ public class Book {
 
     public void setMinQuantity(int minQuantity) {
         this.minQuantity = minQuantity;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

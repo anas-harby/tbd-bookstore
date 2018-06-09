@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,16 +19,21 @@ public class ManagerViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+
+    private void switchView(String path) throws IOException {
+        try {
+            mainPane.getChildren().remove(mainPane.getCenter());
+        } catch (Exception ignored) { }
+        Pane homePane = FXMLLoader.load(getClass().getResource(
+                path));
+        mainPane.setCenter(homePane);
     }
 
     public void switchToHomeView(MouseEvent mouseEvent) {
         try {
-          mainPane.getChildren().remove(mainPane.getCenter());
-        } catch (Exception ignored) { }
-        try {
-            BorderPane homePane = FXMLLoader.load(getClass().getResource(
-                    "/com/tbdbookstore/view/fxml/manager/ManagerHomeView.fxml"));
-            mainPane.setCenter(homePane);
+            switchView("/com/tbdbookstore/view/fxml/manager/ManagerHomeView.fxml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,12 +41,7 @@ public class ManagerViewController implements Initializable {
 
     public void switchToOrdersView(MouseEvent mouseEvent) {
         try {
-            mainPane.getChildren().remove(mainPane.getCenter());
-        } catch (Exception ignored) { }
-        try {
-            BorderPane ordersPane = FXMLLoader.load(getClass().getResource(
-                    "/com/tbdbookstore/view/fxml/manager/ManagerOrdersView.fxml"));
-            mainPane.setCenter(ordersPane);
+            switchView("/com/tbdbookstore/view/fxml/manager/ManagerOrdersView.fxml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -48,12 +49,7 @@ public class ManagerViewController implements Initializable {
 
     public void switchToOProfileView(MouseEvent mouseEvent) {
         try {
-            mainPane.getChildren().remove(mainPane.getCenter());
-        } catch (Exception ignored) { }
-        try {
-            BorderPane profilePane = FXMLLoader.load(getClass().getResource(
-                    "/com/tbdbookstore/view/fxml/shared/Profile.fxml"));
-            mainPane.setCenter(profilePane);
+            switchView("/com/tbdbookstore/view/fxml/shared/Profile.fxml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,12 +57,7 @@ public class ManagerViewController implements Initializable {
 
     public void switchToAdministrationView(MouseEvent mouseEvent) {
         try {
-            mainPane.getChildren().remove(mainPane.getCenter());
-        } catch (Exception ignored) { }
-        try {
-            GridPane administrationPane = FXMLLoader.load(getClass().getResource(
-                    "/com/tbdbookstore/view/fxml/manager/Administration.fxml"));
-            mainPane.setCenter(administrationPane);
+            switchView("/com/tbdbookstore/view/fxml/manager/Administration.fxml");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -17,7 +17,6 @@ public class HomePageViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         signUpDialogControl = new SignUpDialogControl();
         signInDialogControl = new LogInDialogControl();
         signUpDialogControl.setOnAcceptClick(e -> {
