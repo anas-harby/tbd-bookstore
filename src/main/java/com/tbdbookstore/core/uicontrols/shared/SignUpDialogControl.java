@@ -2,14 +2,11 @@ package com.tbdbookstore.core.uicontrols.shared;
 
 import com.jfoenix.controls.*;
 import com.jfoenix.validation.base.ValidatorBase;
-import com.sun.deploy.panel.TextFieldProperty;
 import com.tbdbookstore.core.pojo.User;
-import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;

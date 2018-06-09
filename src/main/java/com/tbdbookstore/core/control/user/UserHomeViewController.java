@@ -102,9 +102,10 @@ public class UserHomeViewController implements Initializable {
 
     private UserBookCardControl getNewCard(Book book) {
         UserBookCardControl card = new UserBookCardControl(book);
-        card.setOnCartButtonClick(e -> {
+        card.setOnCheckClick(e -> {
             UserViewController controller = Main.getMainController();
             controller.getShoppingCartController().addOrder(book);
+            card.hidePopup();
         });
         return card;
     }
