@@ -26,7 +26,7 @@ public class Main extends Application {
 
     public static <T extends Initializable> T getMainController() {
         return loader.getController();
-    }git
+    }
 
     public static Connector getDBConnector() {
         return connector;
