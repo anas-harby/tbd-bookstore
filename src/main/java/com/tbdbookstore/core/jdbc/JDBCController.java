@@ -178,6 +178,23 @@ public class JDBCController implements Connector {
     }
 
     @Override
+    public void deleteBook(String ISBN) throws DBException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DataSource.getInstance().getConnection(username, password);
+            String query = "{CALL delete_book(?)}";
+            statement = connection.prepareCall(query);
+            statement.setString(1, ISBN);
+            statement.execute();
+        } catch (SQLException e) {
+            throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
+        } finally {
+            cleanUpResources(null, statement, connection);
+        }
+    }
+
+    @Override
     public void modifyBook(Book book) throws DBException {
         Connection connection = null;
         CallableStatement statement = null;
@@ -228,6 +245,23 @@ public class JDBCController implements Connector {
         try {
             connection = DataSource.getInstance().getConnection(username, password);
             String query = "{CALL confirm_order(?)}";
+            statement = connection.prepareCall(query);
+            statement.setInt(1, orderID);
+            statement.execute();
+        } catch (SQLException e) {
+            throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
+        } finally {
+            cleanUpResources(null, statement, connection);
+        }
+    }
+
+    @Override
+    public void deleteOrder(int orderID) throws DBException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DataSource.getInstance().getConnection(username, password);
+            String query = "{CALL delete_order(?)}";
             statement = connection.prepareCall(query);
             statement.setInt(1, orderID);
             statement.execute();

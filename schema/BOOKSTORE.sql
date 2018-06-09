@@ -344,6 +344,49 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `delete_book` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_book`(IN `ISBN`  CHAR(13))
+BEGIN
+
+DELETE FROM `AUTHOR` WHERE `BOOK_ISBN` = `ISBN`;
+DELETE FROM `BOOK`   WHERE `BOOK_ISBN` = `ISBN`;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `delete_order` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_order`(IN `ORD_ID` INT)
+BEGIN
+
+DELETE FROM `ORDER` WHERE `ORDER_ID` = `ORD_ID`;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `edit_user_info` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -541,6 +584,10 @@ SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.modify_book TO "
 PREPARE STMT FROM @GRANT_QUERY;
 EXECUTE STMT;
 
+SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.delete_book TO "', `USER_NAME`, '"@"localhost"');
+PREPARE STMT FROM @GRANT_QUERY;
+EXECUTE STMT;
+
 SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.get_orders TO "', `USER_NAME`, '"@"localhost"');
 PREPARE STMT FROM @GRANT_QUERY;
 EXECUTE STMT;
@@ -550,6 +597,10 @@ PREPARE STMT FROM @GRANT_QUERY;
 EXECUTE STMT;
 
 SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.confirm_order TO "', `USER_NAME`, '"@"localhost"');
+PREPARE STMT FROM @GRANT_QUERY;
+EXECUTE STMT;
+
+SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.delete_order TO "', `USER_NAME`, '"@"localhost"');
 PREPARE STMT FROM @GRANT_QUERY;
 EXECUTE STMT;
 
@@ -575,4 +626,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-09  4:23:11
+-- Dump completed on 2018-06-09  6:14:53
