@@ -10,16 +10,16 @@ public class JDBCMain {
     public static void main(String[] args) {
         try {
 //            JDBCController headController = JDBCController.logIn("head", "head");
-//            headController.deleteBook("12345678book3");
-//            headController.deleteOrder(499);
+////            headController.deleteBook("12345678book3");
+////            headController.deleteOrder(499);
 //            Book bought1 = new Book("12345678book3");
-//            bought1.setStockQuantity(95); // 5 in log
+//            bought1.setStockQuantity(80); // 5 in log
 //            Book bought2 = new Book("12345678book2");
-//            bought2.setStockQuantity(200); // 50 in log
+//            bought2.setStockQuantity(185); // 5 in log
 //            HashMap<String, Book> bought = new HashMap<>();
 //            bought.put("12345678book3", bought1);
 //            bought.put("12345678book2", bought2);
-            //headController.checkOut(bought);
+//            headController.checkOut(bought);
 
             User user = new User("new1");
             user.setPassword("new");
