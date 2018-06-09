@@ -40,17 +40,17 @@ public class Main extends Application {
 //        Report report = new Report(file.getAbsolutePath(), connection);
     }
 
-    public static Connection connectToDatabase(String databaseName, String userName, String password) {
-        Connection connection = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(databaseName, userName, password);
-        } catch (Exception e) {
-            String text = "Could not connect to the database: " + e.getMessage() + " "
-                    + e.getLocalizedMessage();
-            System.out.println(text);
-            e.printStackTrace();
-        }
-        return connection;
-    }
+//    public static Connection connectToDatabase(String databaseName, String userName, String password) {
+//        Connection connection = null;
+//        try {
+//            Class.forName("com.mysql.jdbc.Driver");
+//            connection = DriverManager.getConnection(databaseName, userName, password);
+//        } catch (Exception e) {
+//            String text = "Could not connect to the database: " + e.getMessage() + " "
+//                    + e.getLocalizedMessage();
+//            System.out.println(text);
+//            e.printStackTrace();
+//        }
+//        return connection;
+//    }
 }
