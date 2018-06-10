@@ -20,6 +20,10 @@
 <?import javafx.scene.layout.Pane?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.layout.HBox?>
+<?import com.tbdbookstore.core.util.validators.CreditCardValidator?>
+<?import com.jfoenix.validation.RequiredFieldValidator?>
+<?import com.tbdbookstore.core.util.validators.CVCValidator?>
+<?import com.tbdbookstore.core.util.validators.ExpiryDateValidator?>
 <BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tbdbookstore.core.control.user.UserShoppingCartViewController">
     <padding>
         <Insets left="20.0" right="10.0" top="10" />
@@ -115,7 +119,7 @@
             </heading>
             <body>
                 <VBox prefWidth="600">
-                    <GridPane hgap="5.0" vgap="5.0">
+                    <GridPane hgap="5.0" vgap="15.0">
                         <columnConstraints>
                             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="0.0" prefWidth="35.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -128,14 +132,46 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         </rowConstraints>
                         <children>
-                            <JFXTextField promptText="Credit Card Number" style="-fx-prompt-text-fill: #757575;" GridPane.columnIndex="1" GridPane.columnSpan="2" />
-                            <JFXTextField promptText="Card Holder Name" style="-fx-prompt-text-fill: #757575;" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                            <JFXTextField fx:id="ccField" promptText="Credit Card Number" style="-fx-prompt-text-fill: #757575;" GridPane.columnIndex="1" GridPane.columnSpan="2">
+                                <validators>
+                                    <CreditCardValidator message="Number does not match any credit card!">
+                                        <FontAwesomeIconView glyphName="WARNING" />
+                                    </CreditCardValidator>
+                                    <RequiredFieldValidator message="Input required!">
+                                        <FontAwesomeIconView glyphName="WARNING" />
+                                    </RequiredFieldValidator>
+                                </validators>
+                            </JFXTextField>
+                            <JFXTextField fx:id="cardNameField" promptText="Card Holder Name" style="-fx-prompt-text-fill: #757575;" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
                                 <GridPane.margin>
                                     <Insets top="5.0" />
                                 </GridPane.margin>
+                                <validators>
+                                    <RequiredFieldValidator message="Input required!">
+                                        <FontAwesomeIconView glyphName="WARNING" />
+                                    </RequiredFieldValidator>
+                                </validators>
                             </JFXTextField>
-                            <JFXTextField maxWidth="35.0" prefHeight="26.0" prefWidth="35.0" promptText="CVC" style="-fx-prompt-text-fill: #757575;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                            <JFXTextField maxWidth="150.0" promptText="Expiration (MM/YYYY)" style="-fx-prompt-text-fill: #757575;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                            <JFXTextField fx:id="cvcField" maxWidth="35.0" prefHeight="26.0" prefWidth="35.0" promptText="CVC" style="-fx-prompt-text-fill: #757575;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                <validators>
+                                    <RequiredFieldValidator message="Input required!">
+                                        <FontAwesomeIconView glyphName="WARNING" />
+                                    </RequiredFieldValidator>
+                                    <CVCValidator message="Invalid CVC!">
+                                        <FontAwesomeIconView glyphName="WARNING" />
+                                    </CVCValidator>
+                                </validators>
+                            </JFXTextField>
+                            <JFXTextField fx:id="exprDateField" maxWidth="150.0" promptText="Expiration (MM/YYYY)" style="-fx-prompt-text-fill: #757575;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                <validators>
+                                    <RequiredFieldValidator message="Input required!">
+                                        <FontAwesomeIconView glyphName="WARNING" />
+                                    </RequiredFieldValidator>
+                                    <ExpiryDateValidator message="Expiry date invalid!">
+                                        <FontAwesomeIconView glyphName="WARNING" />
+                                    </ExpiryDateValidator>
+                                </validators>
+                            </JFXTextField>
                             <FontAwesomeIconView fill="#757575" glyphName="CREDIT_CARD" size="16" />
                             <FontAwesomeIconView fill="#757575" glyphName="USER" size="16" GridPane.rowIndex="1" />
                             <FontAwesomeIconView fill="#757575" glyphName="INFO" size="16" GridPane.rowIndex="2" />
