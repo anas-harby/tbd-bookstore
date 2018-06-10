@@ -84,7 +84,16 @@ public class Book {
     }
 
     @Override
-    public String toString() {
-        return super.toString();
+    public Book clone() {
+        Book book = new Book(this.ISBN);
+        book.setAuthors(this.authors);
+        book.setTitle(this.title);
+        book.setStockQuantity(this.stockQuantity);
+        book.setSellingPrice(this.sellingPrice);
+        book.setPublisher(this.publisher);
+        book.setPublicationYear(this.publicationYear);
+        book.setGenre(this.genre);
+        book.setMinQuantity(this.minQuantity);
+        return book;
     }
 }

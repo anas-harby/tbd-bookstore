@@ -4,20 +4,78 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tbdbookstore.core.control.user.UserShoppingCartViewController">
     <padding>
         <Insets left="20.0" right="10.0" top="10" />
     </padding>
     <top>
-        <JFXButton graphicTextGap="5.0" style="-fx-background-color: #00000000; -fx-text-fill: #757575;" text="Proceed To Checkout">
-            <graphic>
-                <FontAwesomeIconView glyphName="CREDIT_CARD" glyphStyle="-fx-fill: #757575" />
-            </graphic>
-        </JFXButton>
+      <VBox>
+         <children>
+            <Label text="Order Summary" textFill="#757575">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="22.0" right="5.0" top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <GridPane hgap="15.0" vgap="5.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="35.0" right="5.0" top="5.0" />
+               </VBox.margin>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" percentWidth="0.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="NEVER" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="Subtotal:" textFill="#757575" />
+                  <Label fx:id="subtotalPrice" nodeOrientation="RIGHT_TO_LEFT" text="127$" textFill="#757575" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label text="Shipping and Handling:" textFill="#757575" GridPane.rowIndex="1" />
+                  <Label fx:id="shippingPrice" alignment="TOP_LEFT" nodeOrientation="RIGHT_TO_LEFT" text="0$" textFill="#757575" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Separator prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+                  <Label text="Total:" textFill="#757575" GridPane.rowIndex="3" />
+                  <Label fx:id="totalPrice" nodeOrientation="RIGHT_TO_LEFT" text="132$" textFill="#757575" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+              <JFXButton graphicTextGap="5.0" style="-fx-background-color: #2F39470f; -fx-text-fill: #757575;" text="Proceed To Checkout">
+                  <graphic>
+                      <FontAwesomeIconView glyphName="CREDIT_CARD" glyphStyle="-fx-fill: #757575" text="" />
+                  </graphic>
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+              </JFXButton>
+         </children>
+      </VBox>
     </top>
     <center>
         <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-fit-to-height: true; -fx-fit-to-width: true;" BorderPane.alignment="CENTER">

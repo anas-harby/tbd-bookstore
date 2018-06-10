@@ -12,7 +12,6 @@ import javax.swing.text.html.ImageView;
 import java.io.IOException;
 
 public class ManagerBookCardControl extends VBox {
-
     /* Model properties. */
     @FXML private ImageView coverimg;
     @FXML private Label title;

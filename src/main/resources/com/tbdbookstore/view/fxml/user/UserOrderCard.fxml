@@ -4,6 +4,7 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,7 +13,7 @@
 
 <fx:root fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="800.0" style="fx-background-color: #FF0000;" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <AnchorPane prefHeight="200.0" prefWidth="817.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);">
+        <AnchorPane prefHeight="210.0" prefWidth="800.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);">
             <padding>
                 <Insets top="10.0" />
             </padding>
@@ -34,7 +35,7 @@
                         </HBox>
                     </children>
                 </VBox>
-                <VBox layoutX="480.0" layoutY="56.0" maxWidth="200.0" minWidth="200.0" prefHeight="89.0" prefWidth="200.0" spacing="5.0" AnchorPane.leftAnchor="500.0" AnchorPane.topAnchor="45.0">
+                <VBox layoutX="480.0" layoutY="50.0" maxWidth="200.0" minWidth="200.0" prefHeight="89.0" prefWidth="200.0" spacing="5.0" AnchorPane.leftAnchor="500.0" AnchorPane.topAnchor="45.0">
                     <children>
                         <HBox minWidth="180.0" spacing="3.0">
                             <children>
@@ -62,15 +63,21 @@
                         </HBox>
                         <HBox minWidth="160.0" spacing="3.0">
                             <children>
-                                <Label maxWidth="75.0" minWidth="75.0" prefHeight="16.0" prefWidth="75.0" style="-fx-font-family: Serif;" text="Price:" />
+                                <Label maxWidth="75.0" minWidth="75.0" prefHeight="16.0" prefWidth="75.0" style="-fx-font-family: Serif;" text="Item Price:" />
                                 <Label fx:id="price" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" style="-fx-font-family: Serif; -fx-text-fill: #757575;" text="20 EGP" />
+                            </children>
+                        </HBox>
+                        <HBox minWidth="160.0" spacing="3.0">
+                            <children>
+                                <Label maxWidth="75.0" minWidth="75.0" prefHeight="16.0" prefWidth="75.0" style="-fx-font-family: Serif;" text="Quantity:" />
+                                <Label fx:id="quantity" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" style="-fx-font-family: Serif; -fx-text-fill: #757575;" text="20" />
                             </children>
                         </HBox>
                     </children>
                 </VBox>
-                <HBox layoutX="350.0" layoutY="145.0" style="-fx-background-color: #2F39470f;">
+                <HBox layoutX="350.0" layoutY="155.0" style="-fx-background-color: #2F39470f;" AnchorPane.bottomAnchor="5.0">
                     <children>
-                        <JFXButton fx:id="deleteButton" mnemonicParsing="false" style="-fx-background-color: #00000000;">
+                        <JFXButton fx:id="deleteButton" mnemonicParsing="false" style="-fx-background-color: #2F39470f;">
                             <graphic>
                                 <FontAwesomeIconView fill="#757575" glyphName="TRASH_ALT" glyphStyle="16" />
                             </graphic>
@@ -79,5 +86,6 @@
                 </HBox>
             </children>
         </AnchorPane>
+      <Separator prefWidth="200.0" />
     </children>
 </fx:root>
