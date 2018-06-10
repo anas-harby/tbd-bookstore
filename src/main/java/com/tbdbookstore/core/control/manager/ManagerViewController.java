@@ -11,24 +11,30 @@ import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ManagerViewController implements Initializable {
     @FXML private BorderPane mainPane;
+    private Map<String, FXMLLoader> loadedFxmls;
     private JFXSnackbar snackbar;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        loadedFxmls = new HashMap<>();
     }
 
     private void switchView(String path) throws IOException {
         try {
             mainPane.getChildren().remove(mainPane.getCenter());
         } catch (Exception ignored) { }
-        Pane homePane = FXMLLoader.load(getClass().getResource(
-                path));
-        mainPane.setCenter(homePane);
+        if (!loadedFxmls.containsKey(path)) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+            loader.load();
+            loadedFxmls.put(path, loader);
+        }
+        mainPane.setCenter(loadedFxmls.get(path).getRoot());
     }
 
     public void switchToHomeView(MouseEvent mouseEvent) {

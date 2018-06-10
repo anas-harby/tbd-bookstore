@@ -19,8 +19,8 @@
             <children>
                 <HBox spacing="5.0">
                     <children>
-                        <JFXTextField fx:id="searchArea" focusColor="#242e3d" maxWidth="1147.0" prefHeight="35.0" promptText="Search..." style="-fx-background-color: #00000000;" HBox.hgrow="ALWAYS" />
-                        <JFXButton style="-fx-background-color: #00000000;" text="">
+                        <JFXTextField fx:id="searchArea" onKeyPressed="#searchAlt" focusColor="#242e3d" maxWidth="1147.0" prefHeight="35.0" promptText="Search..." style="-fx-background-color: #00000000;" HBox.hgrow="ALWAYS" />
+                        <JFXButton onMouseClicked="#search" style="-fx-background-color: #00000000;" text="">
                             <graphic>
                                 <FontAwesomeIconView glyphName="SEARCH" style="-fx-font-family: FontAwesome;" fill="#757575"/>
                             </graphic>
@@ -34,19 +34,19 @@
                 </HBox>
                 <HBox prefWidth="200.0" spacing="10.0">
                     <children>
-                        <Label fx:id="sortISBN" graphicTextGap="5.0" style="-fx-cursor: hand; -fx-text-fill: #757575;" text="ISBN">
+                        <Label onMouseClicked="#sortISBN" graphicTextGap="5.0" style="-fx-cursor: hand; -fx-text-fill: #757575;" text="ISBN">
                             <graphic>
-                                <FontAwesomeIconView glyphName="SORT" fill="#757575" />
+                                <FontAwesomeIconView fx:id="isbnIcon" glyphName="SORT" fill="#757575" />
                             </graphic>
                         </Label>
-                        <Label fx:id="sortTitle" graphicTextGap="5.0" style="-fx-cursor: hand; -fx-text-fill: #757575;" text="Title">
+                        <Label onMouseClicked="#sortTitle" graphicTextGap="5.0" style="-fx-cursor: hand; -fx-text-fill: #757575;" text="Title">
                             <graphic>
-                                <FontAwesomeIconView glyphName="SORT" fill="#757575" />
+                                <FontAwesomeIconView fx:id="titleIcon" glyphName="SORT" fill="#757575" />
                             </graphic>
                         </Label>
-                        <Label fx:id="sortPrice" graphicTextGap="5.0" style="-fx-cursor: hand; -fx-text-fill: #757575;" text="Price">
+                        <Label onMouseClicked="#sortPrice" graphicTextGap="5.0" style="-fx-cursor: hand; -fx-text-fill: #757575;" text="Price">
                             <graphic>
-                                <FontAwesomeIconView glyphName="SORT" fill="#757575" />
+                                <FontAwesomeIconView fx:id="priceIcon" glyphName="SORT" fill="#757575" />
                             </graphic>
                         </Label>
                     </children>
@@ -77,8 +77,8 @@
     <bottom>
         <AnchorPane prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
-                <JFXButton layoutX="38.0" maxWidth="60.0" prefWidth="60.0" style="-fx-background-color: rgba(0,0,0,0); -fx-text-fill: #757575;" text="Prev" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="898.0" />
-                <JFXButton layoutX="889.0" maxWidth="60.0" prefWidth="60.0" style="-fx-background-color: rgba(0,0,0,0); -fx-text-fill: #757575;" text="Next" AnchorPane.leftAnchor="889.0" AnchorPane.rightAnchor="47.0" />
+                <JFXButton fx:id="prevButton" onMouseClicked="#getPrevPage" layoutX="38.0" maxWidth="60.0" prefWidth="60.0" style="-fx-background-color: rgba(0,0,0,0); -fx-text-fill: #757575;" text="Prev" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="898.0" />
+                <JFXButton fx:id="nextButton" onMouseClicked="#getNextPage" layoutX="889.0" maxWidth="60.0" prefWidth="60.0" style="-fx-background-color: rgba(0,0,0,0); -fx-text-fill: #757575;" text="Next" AnchorPane.leftAnchor="889.0" AnchorPane.rightAnchor="47.0" />
             </children>
             <BorderPane.margin>
                 <Insets bottom="10.0" top="-10.0" />

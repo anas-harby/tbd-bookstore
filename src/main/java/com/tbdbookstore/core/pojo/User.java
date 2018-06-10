@@ -1,7 +1,6 @@
 package com.tbdbookstore.core.pojo;
 
 public class User {
-
     private String username;
     private String password;
     private String lastName;
