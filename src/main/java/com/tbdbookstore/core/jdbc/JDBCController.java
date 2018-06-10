@@ -59,7 +59,16 @@ public class JDBCController implements Connector {
     }
 
     @Override
-    public User getUserInfo() throws DBException{
+    public Connection getConnection() throws DBException{
+        try {
+            return DataSource.getInstance().getConnection(username, password);
+        } catch (SQLException e) {
+            throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
+        }
+    }
+
+    @Override
+    public User getUserInfo() throws DBException {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -84,13 +93,15 @@ public class JDBCController implements Connector {
         CallableStatement statement = null;
         try {
             connection = DataSource.getInstance().getConnection(username, password);
-            if (!user.getPassword().equals(password)) { // User needs to change his password (saved in mysql.user table)
-                String query = "{CALL edit_user_password(?, ?)}";
-                statement = connection.prepareCall(query);
-                statement.setString(1, user.getUsername());
-                statement.setString(2, user.getPassword());
-                statement.execute();
-                password = user.getPassword();
+            if (user.getPassword() != null) {
+                if (!user.getPassword().equals(password)) { // User needs to change his password (saved in mysql.user table)
+                    String query = "{CALL edit_user_password(?, ?)}";
+                    statement = connection.prepareCall(query);
+                    statement.setString(1, user.getUsername());
+                    statement.setString(2, user.getPassword());
+                    statement.execute();
+                    password = user.getPassword();
+                }
             }
             String query = "{CALL edit_user_info(?, ?, ?, ?, ?, ?)}";
             statement = connection.prepareCall(query);

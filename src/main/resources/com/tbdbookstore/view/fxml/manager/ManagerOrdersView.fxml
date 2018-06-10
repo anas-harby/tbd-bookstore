@@ -15,7 +15,7 @@
         <Insets left="20.0" top="10" right="10.0"/>
     </padding>
     <top>
-        <JFXButton text="Place New Order  " style="-fx-background-color: #00000000; -fx-text-fill: #757575;">
+        <JFXButton text="Place New Order  " style="-fx-background-color: #00000000; -fx-text-fill: #757575;" onMouseClicked="#orderBooks" >
             <graphic>
                 <FontAwesomeIconView glyphName="PLUS" glyphStyle="-fx-fill: #757575"/>
             </graphic>
