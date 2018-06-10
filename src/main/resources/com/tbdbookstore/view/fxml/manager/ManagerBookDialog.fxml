@@ -19,9 +19,9 @@
                         <RequiredFieldValidator message="Input Required!">
                             <FontAwesomeIconView glyphName="WARNING" style="-fx-font-family: FontAwesome;"/>
                         </RequiredFieldValidator>
-                        <NumberValidator message="Input Must Be A Number!">
-                            <FontAwesomeIconView glyphName="WARNING" style="-fx-font-family: FontAwesome;"/>
-                        </NumberValidator>
+                        <!--<NumberValidator message="Input Must Be A Number!">-->
+                            <!--<FontAwesomeIconView glyphName="WARNING" style="-fx-font-family: FontAwesome;"/>-->
+                        <!--</NumberValidator>-->
                     </validators>
                 </JFXTextField>
                 <JFXTextField fx:id="titleField" prefWidth="500.0" promptText="Title" style="-fx-prompt-text-fill: #757575;">

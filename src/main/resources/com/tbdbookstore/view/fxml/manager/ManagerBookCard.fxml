@@ -4,6 +4,7 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -34,7 +35,7 @@
                         </HBox>
                     </children>
                 </VBox>
-                <VBox layoutX="480.0" layoutY="56.0" maxWidth="200.0" minWidth="200.0" prefHeight="89.0" prefWidth="200.0" spacing="5.0" AnchorPane.leftAnchor="500.0" AnchorPane.topAnchor="45.0">
+                <VBox layoutX="480.0" layoutY="56.0" maxWidth="200.0" minWidth="200.0" prefHeight="89.0" prefWidth="200.0" spacing="5.0" AnchorPane.leftAnchor="500.0" AnchorPane.topAnchor="35.0">
                     <children>
                         <HBox minWidth="180.0" spacing="3.0">
                             <children>
@@ -66,9 +67,15 @@
                         <Label fx:id="price" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" style="-fx-font-family: Serif; -fx-text-fill: #757575;" text="20 EGP" />
                      </children>
                   </HBox>
+                  <HBox maxWidth="180.0" minWidth="180.0" prefWidth="180.0" spacing="3.0">
+                     <children>
+                        <Label maxWidth="75.0" minWidth="75.0" prefHeight="16.0" prefWidth="75.0" style="-fx-font-family: Serif;" text="Quantity:" />
+                        <Label fx:id="quantity" prefWidth="130.0" style="-fx-font-family: Serif; -fx-text-fill: #757575;" text="120" />
+                     </children>
+                  </HBox>
                     </children>
                 </VBox>
-                <HBox layoutX="346.0" layoutY="145.0" style="-fx-background-color: #2F39470f;">
+                <HBox layoutX="346.0" layoutY="145.0" style="-fx-background-color: #2F39470f;" AnchorPane.bottomAnchor="10.0">
                <children>
                   <JFXButton fx:id="editButton" mnemonicParsing="false" style="-fx-background-color: rgba(0,0,0,0);">
                      <graphic>
@@ -84,5 +91,6 @@
                 </HBox>
             </children>
         </AnchorPane>
+      <Separator prefWidth="200.0" />
     </children>
 </fx:root>
