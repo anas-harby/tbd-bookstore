@@ -3,6 +3,7 @@ package com.tbdbookstore.core.control;
 import com.jfoenix.controls.JFXBadge;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.base.ValidatorBase;
 import com.tbdbookstore.core.Main;
 import com.tbdbookstore.core.jdbc.DBException;
 import com.tbdbookstore.core.pojo.User;
@@ -37,15 +38,12 @@ public class ProfileViewController implements Initializable {
 
     private List<JFXTextField> allFields;
 
-    private List<JFXPasswordField> passwordFields;
-
     private User user;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             allFields = new ArrayList<>(Arrays.asList(firstName, lastName, email, telephoneNumber, address));
-            passwordFields = new ArrayList<>(Arrays.asList(password, confirmPassword));
             user = Main.getDBConnector().getUserInfo();
             showInfo();
             attachValidators();
@@ -57,6 +55,8 @@ public class ProfileViewController implements Initializable {
     }
 
     public void editUserInfo() {
+        if (hasErrors())
+            return; // TODO: feedback
         try {
             User user = this.user;
             user.setFirstName(firstName.getText());
@@ -69,7 +69,6 @@ public class ProfileViewController implements Initializable {
             Main.getDBConnector().editUserInfo(user);
             this.user = user;
             // TODO: feedback message
-            // TODO: disable 'Reset'
         } catch (DBException e) {
             // TODO: handle expected errors
             e.printStackTrace();
@@ -96,11 +95,6 @@ public class ProfileViewController implements Initializable {
                 if (!newVal)
                     textField.validate();
             });
-//        for (JFXPasswordField passwordField : passwordFields)
-//            passwordField.focusedProperty().addListener((o, oldVal, newVal) -> {
-//                if (!newVal)
-//                    passwordField.validate();
-//            });
     }
 
     private void attachPasswordMatching() {
@@ -113,5 +107,15 @@ public class ProfileViewController implements Initializable {
                 passwordMatch.setVisible(false);
             }
         });
+    }
+
+    private boolean hasErrors() {
+        if (!password.getText().equals(confirmPassword.getText()))
+            return true;
+        for (JFXTextField textField : allFields)
+            for (ValidatorBase validatorBase : textField.getValidators())
+                if (validatorBase.getHasErrors())
+                    return true;
+        return false;
     }
 }
