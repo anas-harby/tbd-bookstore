@@ -1,5 +1,6 @@
 package com.tbdbookstore.core;
 
+import com.jfoenix.controls.JFXSnackbar;
 import com.tbdbookstore.core.jdbc.Connector;
 import com.tbdbookstore.core.jdbc.DBException;
 import com.tbdbookstore.core.jdbc.JDBCController;
@@ -33,10 +34,12 @@ public class Main extends Application {
     public static Connector getDBConnector() {
         return connector;
     }
-    public  static void setLoader(FXMLLoader fxmlLoader){
+
+    public static void setLoader(FXMLLoader fxmlLoader) {
         loader = fxmlLoader;
     }
-    public static void setConnector(Connector DBconnector){
+
+    public static void setConnector(Connector DBconnector) {
         connector = DBconnector;
     }
 
@@ -48,5 +51,35 @@ public class Main extends Application {
         primaryStage.setTitle("");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    public static String getErrorMsg(DBException e) {
+        switch (e.getError()) {
+            case HEAVY_LOAD:
+                return "Heavy Load, Too Many Connections! Try Again Later";
+            case ACCESS_DENIED:
+                return "User Unregistered or Incorrect Password !";
+            case ALREADY_REGISTERED:
+                return "User Already Registered! Try A Different UserName";
+            case CONNECTION_FAILED:
+                return "Connection Failed! Try Again Later";
+            case INTERNAL_ISSUE:
+                return "Internal Database Issues! Try Again Later ";
+            case DATA_TOO_LONG:
+                return "Data field Is Too Long! Try A Different One";
+            case UNKNOWN_ITEM:
+                return "Cannot Add or Update a row, a Foreign Key Constraint Fails!";
+            case STOCK_LACK:
+                return "Invalid Stock Quantity!";
+            case UNSPECIFIED:
+                return "UnspecifiedError!";
+            case DUPLICATE_ITEM:
+                return "Duplicate Key Value!";
+            case KEY_FIELD_MISSING:
+                return "A Key Field Is Missing!";
+            default:
+                return "";
+
+        }
     }
 }
