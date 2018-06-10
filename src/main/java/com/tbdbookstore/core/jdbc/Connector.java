@@ -5,6 +5,7 @@ import com.tbdbookstore.core.pojo.*;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface Connector {
 
@@ -18,7 +19,7 @@ public interface Connector {
 
     HashMap<String, Book> search(Book book, Ordering ordering, int offset, int count) throws DBException;
 
-    void checkOut(HashMap<String, Book> books) throws DBException;
+    void checkOut(Map<String, Integer> orders) throws DBException;
 
     /* Manager Extra
       -------------- */
@@ -30,11 +31,13 @@ public interface Connector {
 
     void deleteBook(String ISBN) throws DBException;
 
+    Book getOrderedBook(String ISBN) throws DBException;
+
+    List<Order> getOrders() throws DBException;
+
     int placeOrder(Order order) throws DBException;
 
     void confirmOrder(int orderID) throws DBException;
 
     void deleteOrder(int orderID) throws DBException;
-
-    List<Order> getOrders() throws DBException;
 }
