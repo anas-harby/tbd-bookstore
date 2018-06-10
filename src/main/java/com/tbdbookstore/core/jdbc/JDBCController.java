@@ -8,10 +8,7 @@ import com.tbdbookstore.core.pojo.User;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class JDBCController implements Connector {
     private String username;
@@ -122,7 +119,7 @@ public class JDBCController implements Connector {
     }
 
     @Override
-    public HashMap<String, Book> search(Book book, Ordering ordering, int offset, int count) throws DBException {
+    public LinkedHashMap<String, Book> search(Book book, Ordering ordering, int offset, int count) throws DBException {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -351,9 +348,9 @@ public class JDBCController implements Connector {
         throw new SQLException();
     }
 
-    private HashMap<String, Book> getBooks(ResultSet resultSet) throws SQLException {
+    private LinkedHashMap<String, Book> getBooks(ResultSet resultSet) throws SQLException {
         DateFormat dateFormat = new SimpleDateFormat("yyyy");
-        HashMap<String, Book> books = new HashMap<>();
+        LinkedHashMap<String, Book> books = new LinkedHashMap<>();
         String bookISBN;
         Book book;
         while (resultSet.next()) {

@@ -21,7 +21,7 @@ import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.ResourceBundle;
 
 public class UserHomeViewController implements Initializable {
@@ -45,13 +45,13 @@ public class UserHomeViewController implements Initializable {
         search(null);
     }
 
-    private HashMap<String, Book> getSearchResults() {
+    private LinkedHashMap<String, Book> getSearchResults() {
         try {
             return Main.getDBConnector().search(currSearchVal, currentOrdering, offset * PAGE_COUNT, PAGE_COUNT);
         } catch (DBException e) {
             e.printStackTrace();
         }
-        return new HashMap<>();
+        return new LinkedHashMap<>();
     }
 
     private void resetView() {
@@ -67,7 +67,7 @@ public class UserHomeViewController implements Initializable {
     public void search(MouseEvent mouseEvent) {
         resetView();
         currSearchVal = BookSearchProcessor.process(searchArea.getText());
-        HashMap<String, Book> books = getSearchResults();
+        LinkedHashMap<String, Book> books = getSearchResults();
         for (Book book : books.values())
             cardPane.getCards().add(getNewCard(book));
 
@@ -82,7 +82,7 @@ public class UserHomeViewController implements Initializable {
         else
             nextButton.setDisable(false);
         cardPane.getCards().clear();
-        HashMap<String, Book> books = getSearchResults();
+        LinkedHashMap<String, Book> books = getSearchResults();
         for (Book book : books.values())
             cardPane.getCards().add(getNewCard(book));
     }
@@ -92,7 +92,7 @@ public class UserHomeViewController implements Initializable {
         if (offset == 1)
             prevButton.setDisable(false);
         cardPane.getCards().clear();
-        HashMap<String, Book> books = getSearchResults();
+        LinkedHashMap<String, Book> books = getSearchResults();
         for (Book book : books.values())
             cardPane.getCards().add(getNewCard(book));
         if (getCardinality(books.values()) < PAGE_COUNT)

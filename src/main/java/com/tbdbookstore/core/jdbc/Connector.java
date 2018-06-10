@@ -4,6 +4,7 @@ import com.tbdbookstore.core.pojo.*;
 
 import java.sql.Connection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ public interface Connector {
 
     void editUserInfo(User user) throws DBException;
 
-    HashMap<String, Book> search(Book book, Ordering ordering, int offset, int count) throws DBException;
+    LinkedHashMap<String, Book> search(Book book, Ordering ordering, int offset, int count) throws DBException;
 
     void checkOut(Map<String, Integer> orders) throws DBException;
 
