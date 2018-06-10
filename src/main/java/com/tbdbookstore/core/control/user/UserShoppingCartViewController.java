@@ -4,6 +4,7 @@ import com.gluonhq.charm.glisten.control.CardPane;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.tbdbookstore.core.Main;
+import com.tbdbookstore.core.jdbc.DBException;
 import com.tbdbookstore.core.pojo.Book;
 import com.tbdbookstore.core.uicontrols.user.UserOrderCardControl;
 import javafx.fxml.FXML;
@@ -63,7 +64,7 @@ public class UserShoppingCartViewController implements Initializable {
     }
 
     public void getPrevPage(MouseEvent mouseEvent) {
-        offset -= PAGE_COUNT + cardPane.getCards().size();
+        offset -= PAGE_COUNT;
         if (offset == 0) {
             prevButton.setDisable(true);
             nextButton.setDisable(false);
@@ -75,25 +76,23 @@ public class UserShoppingCartViewController implements Initializable {
     }
 
     public void getNextPage(MouseEvent mouseEvent) {
+        offset += PAGE_COUNT;
         if (offset == PAGE_COUNT)
             prevButton.setDisable(false);
         cardPane.getCards().clear();
         List<Book> books = getBookPage();
         for (Book book : books)
             cardPane.getCards().add(getNewCard(book));
-        if (books.size() < PAGE_COUNT)
+        if (offset + cardPane.getCards().size() == orderedBooks.size())
             nextButton.setDisable(true);
     }
 
     private List<Book> getBookPage() {
         List<Book> books = new ArrayList<>();
         List<String> keySet = new ArrayList<>(orderedBooks.keySet());
-        int oldOffset = offset;
 
-        for (int i = oldOffset; i < oldOffset + PAGE_COUNT && i < orderedBooks.size(); i++) {
-            offset++;
+        for (int i = offset; i < offset + PAGE_COUNT && i < orderedBooks.size(); i++)
             books.add(orderedBooks.get(keySet.get(i)));
-        }
 
         return books;
     }
@@ -102,19 +101,21 @@ public class UserShoppingCartViewController implements Initializable {
         UserOrderCardControl card = new UserOrderCardControl(book);
 
         card.setOnDeleteButtonClick(mouseEvent -> {
-            List<String> keySet = new ArrayList<>(orderedBooks.keySet());
-            int indDeleted = keySet.indexOf(book.getISBN());
             orderedBooks.remove(book.getISBN());
-            subtotal -= book.getSellingPrice() * book.getStockQuantity();
             cardPane.getCards().remove(card);
-            int indToAdd = indDeleted <= offset ? offset : indDeleted;
+
+            subtotal -= book.getSellingPrice() * book.getStockQuantity();
+
+            int indToAdd = offset + PAGE_COUNT - 1;
             if (indToAdd < orderedBooks.size())
-                cardPane.getCards().add(getNewCard(orderedBooks.get(keySet.get(indToAdd))));
+                cardPane.getCards().add(getNewCard(orderedBooks.get(
+                        new ArrayList<>(orderedBooks.keySet()).get(indToAdd))));
             else
                 nextButton.setDisable(true);
 
             if (cardPane.getCards().isEmpty())
                 shipping = 0;
+
             updateTotal();
         });
 
@@ -123,5 +124,22 @@ public class UserShoppingCartViewController implements Initializable {
 
     public void checkout(MouseEvent mouseEvent) {
         checkoutDialog.show(Main.getRoot());
+    }
+
+    public void confirm(MouseEvent mouseEvent) {
+        try {
+            Main.getDBConnector().checkOut(orderedBooks);
+            checkoutDialog.close();
+            orderedBooks.clear();
+            cardPane.getCards().clear();
+            prevButton.setDisable(true);
+            nextButton.setDisable(true);
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void cancel(MouseEvent mouseEvent) {
+        checkoutDialog.close();
     }
 }

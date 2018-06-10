@@ -111,7 +111,8 @@ public class UserBookCardControl extends VBox {
         hbox.setStyle("-fx-background-color: #E0E0E0;");
         quantityField = new JFXTextField("1");
         quantityField.setMinWidth(20);
-        quantityField.setMaxWidth(40);
+        quantityField.setPrefWidth(20);
+        quantityField.setMaxWidth(20);
         quantityField.setStyle("-fx-background-color: #00000000;");
         checkPopup = new JFXButton("");
         quantityField.getValidators().add(new ValidatorBase() {

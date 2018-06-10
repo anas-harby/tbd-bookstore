@@ -20,7 +20,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class HomePageViewController implements Initializable {
-
     private SignUpDialogControl signUpDialogControl;
     private LogInDialogControl logInDialogControl;
     private Connector connector;
@@ -66,8 +65,6 @@ public class HomePageViewController implements Initializable {
                 ex.printStackTrace();
                 //TODO HANDLE DB EXCEPTIONS
             }
-
-
         });
     }
 

@@ -38,6 +38,7 @@ public class JDBCController implements Connector {
             statement.execute();
             return new JDBCController(user.getUsername(), user.getPassword());
         } catch (SQLException e) {
+            System.err.println(e.getMessage());
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(null, statement, connection);
@@ -50,7 +51,7 @@ public class JDBCController implements Connector {
             connection = DataSource.getInstance().getConnection(username, password);
             return new JDBCController(username, password);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(null, null, connection);
@@ -70,6 +71,7 @@ public class JDBCController implements Connector {
             resultSet = statement.executeQuery();
             return getUser(resultSet);
         } catch (SQLException e) {
+            System.err.println(e.getMessage());
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(resultSet, statement, connection);
@@ -100,6 +102,7 @@ public class JDBCController implements Connector {
             statement.setString(6, user.getShippingAddress());
             statement.execute();
         } catch (SQLException e) {
+            System.err.println(e.getMessage());
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(null, statement, connection);
@@ -117,7 +120,7 @@ public class JDBCController implements Connector {
             resultSet = statement.executeQuery();
             return getBooks(resultSet);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(resultSet, statement, connection);
@@ -140,6 +143,7 @@ public class JDBCController implements Connector {
             }
             statement.executeBatch();
         } catch (SQLException e) {
+            System.err.println(e.getMessage());
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(null, statement, connection);
@@ -157,6 +161,7 @@ public class JDBCController implements Connector {
             statement.setString(1, promotedUsername);
             statement.execute();
         } catch (SQLException e) {
+            System.err.println(e.getMessage());
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(null, statement, connection);
@@ -189,6 +194,7 @@ public class JDBCController implements Connector {
             }
             statement.executeBatch();
         } catch (SQLException e) {
+            System.err.println(e.getMessage());
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(null, statement, connection);
@@ -206,6 +212,7 @@ public class JDBCController implements Connector {
             statement.setString(1, ISBN);
             statement.execute();
         } catch (SQLException e) {
+            System.err.println(e.getMessage());
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(null, statement, connection);
@@ -230,6 +237,7 @@ public class JDBCController implements Connector {
             statement.setInt(8, book.getMinQuantity());
             statement.execute();
         } catch (SQLException e) {
+            System.err.println(e.getMessage());
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(null, statement, connection);
@@ -250,6 +258,7 @@ public class JDBCController implements Connector {
             statement.execute();
             return statement.getInt(3);
         } catch (SQLException e) {
+            System.err.println(e.getMessage());
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(null, statement, connection);
@@ -267,6 +276,7 @@ public class JDBCController implements Connector {
             statement.setInt(1, orderID);
             statement.execute();
         } catch (SQLException e) {
+            System.err.println(e.getMessage());
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(null, statement, connection);
@@ -284,6 +294,7 @@ public class JDBCController implements Connector {
             statement.setInt(1, orderID);
             statement.execute();
         } catch (SQLException e) {
+            System.err.println(e.getMessage());
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(null, statement, connection);
@@ -302,6 +313,7 @@ public class JDBCController implements Connector {
             resultSet = statement.executeQuery();
             return getOrders(resultSet);
         } catch (SQLException e) {
+            System.err.println(e.getMessage());
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(resultSet, statement, connection);
