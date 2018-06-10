@@ -1,7 +1,7 @@
 package com.tbdbookstore.core.shared;
 
 public enum Attribute {
-    ISBN,
-    TITLE,
-    PRICE
+    BOOK_ISBN,
+    BOOK_TITLE,
+    SELLING_PRICE
 }
