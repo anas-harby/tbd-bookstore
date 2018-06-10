@@ -1,5 +1,6 @@
 package com.tbdbookstore.core.control;
 
+import com.jfoenix.controls.JFXSnackbar;
 import com.tbdbookstore.core.Main;
 import com.tbdbookstore.core.jdbc.Connector;
 import com.tbdbookstore.core.jdbc.DBException;
@@ -26,11 +27,13 @@ public class HomePageViewController implements Initializable {
 
     @FXML
     StackPane HomePane;
+    private JFXSnackbar bar;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         signUpDialogControl = new SignUpDialogControl();
         logInDialogControl = new LogInDialogControl();
+         bar = new JFXSnackbar(HomePane);
         signUpDialogControl.setOnAcceptClick(e -> {
             if (signUpDialogControl.hasErrors())
                 return;
@@ -42,8 +45,7 @@ public class HomePageViewController implements Initializable {
                 //switch to user view
                 switchView("/com/tbdbookstore/view/fxml/user/User.fxml");
             } catch (DBException ex) {
-                //TODO HANDLE DB EXCEPTION
-                ex.printStackTrace();
+                showError(ex);
             }
 
         });
@@ -62,8 +64,7 @@ public class HomePageViewController implements Initializable {
                     switchView("/com/tbdbookstore/view/fxml/user/User.fxml");
                 }
             } catch (DBException ex) {
-                ex.printStackTrace();
-                //TODO HANDLE DB EXCEPTIONS
+               showError(ex);
             }
         });
     }
@@ -85,6 +86,29 @@ public class HomePageViewController implements Initializable {
         } catch (IOException ex) {
 
         }
+    }
+    private void showError(DBException e){
+       switch (e.getError()){
+           case HEAVY_LOAD:
+               bar.enqueue(new JFXSnackbar.SnackbarEvent("Heavy Load, Too Many Connections! Try Again Later"));
+               break;
+           case ACCESS_DENIED:
+               bar.enqueue(new JFXSnackbar.SnackbarEvent("User Unregistered or Incorrect Password !"));
+               break;
+           case ALREADY_REGISTERED:
+               bar.enqueue(new JFXSnackbar.SnackbarEvent("User Already Registered! Try A Different UserName"));
+               break;
+           case CONNECTION_FAILED:
+               bar.enqueue(new JFXSnackbar.SnackbarEvent("Connection Failed! Try Again Later"));
+               break;
+           case INTERNAL_ISSUE:
+               bar.enqueue(new JFXSnackbar.SnackbarEvent("Internal Database Issues! Try Again Later "));
+               break;
+           case DATA_TOO_LONG:
+               bar.enqueue(new JFXSnackbar.SnackbarEvent("UserName Is Too Long! Try A Different One"));
+               break;
+
+       }
     }
 
 }
