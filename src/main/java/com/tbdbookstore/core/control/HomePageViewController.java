@@ -36,13 +36,13 @@ public class HomePageViewController implements Initializable {
             if (signUpDialogControl.hasErrors())
                 return;
             User newUser = signUpDialogControl.getValue();
-            try{
-            connector = JDBCController.signUp(newUser);
-            Main.setConnector(connector);
-            signUpDialogControl.close();
-            //switch to user view
-            switchView("/com/tbdbookstore/view/fxml/user/User.fxml");}
-            catch(DBException ex){
+            try {
+                connector = JDBCController.signUp(newUser);
+                Main.setConnector(connector);
+                signUpDialogControl.close();
+                //switch to user view
+                switchView("/com/tbdbookstore/view/fxml/user/User.fxml");
+            } catch (DBException ex) {
                 //TODO HANDLE DB EXCEPTION
                 ex.printStackTrace();
             }
@@ -53,11 +53,16 @@ public class HomePageViewController implements Initializable {
                 return;
             String userName = logInDialogControl.getUserName();
             String password = logInDialogControl.getPassword();
-            try{
-            connector = JDBCController.logIn(userName, password);
-            Main.setConnector(connector);
-            }
-            catch (DBException ex){
+            try {
+                connector = JDBCController.logIn(userName, password);
+                Main.setConnector(connector);
+                User user = connector.getUserInfo(userName);
+                if (user.getRole().equals("manager")) {
+                    switchView("/com/tbdbookstore/view/fxml/manager/Manager.fxml");
+                } else if (user.getRole().equals("user")) {
+                    switchView("/com/tbdbookstore/view/fxml/user/User.fxml");
+                }
+            } catch (DBException ex) {
                 ex.printStackTrace();
                 //TODO HANDLE DB EXCEPTIONS
             }
