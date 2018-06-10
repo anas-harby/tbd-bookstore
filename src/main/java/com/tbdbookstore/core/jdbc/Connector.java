@@ -2,6 +2,7 @@ package com.tbdbookstore.core.jdbc;
 
 import com.tbdbookstore.core.pojo.*;
 
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,6 +10,8 @@ public interface Connector {
 
     /* Normal user
       ------------ */
+    Connection getConnection() throws DBException;
+
     User getUserInfo() throws DBException;
 
     void editUserInfo(User user) throws DBException;
