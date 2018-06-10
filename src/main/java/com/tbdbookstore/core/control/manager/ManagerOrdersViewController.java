@@ -2,6 +2,7 @@ package com.tbdbookstore.core.control.manager;
 
 import com.gluonhq.charm.glisten.control.CardPane;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSnackbar;
 import com.tbdbookstore.core.Main;
 import com.tbdbookstore.core.jdbc.DBException;
 import com.tbdbookstore.core.pojo.Book;
@@ -32,12 +33,16 @@ public class ManagerOrdersViewController implements Initializable {
     @FXML
     private JFXButton nextButton;
 
+    private JFXSnackbar snackbar;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         orderedBooks = new HashMap<>();
         prevButton.setDisable(true);
         nextButton.setDisable(true);
+        snackbar = new JFXSnackbar(Main.getRoot());
+        snackbar.setLayoutX(370);
         managerOrderDialogControl = new ManagerOrderDialogControl();
         showOrders();
         managerOrderDialogControl.setOnAcceptClick(e -> {
@@ -124,7 +129,7 @@ public class ManagerOrdersViewController implements Initializable {
                 Main.getDBConnector().confirmOrder(order.getId());
                 orderedBooks.remove(order.getISBN());
                 cardPane.getCards().remove(card);
-
+                snackbar.enqueue(new JFXSnackbar.SnackbarEvent("Order Confirmed !"));
                 int indToAdd = offset + PAGE_COUNT - 1;
                 if (indToAdd < orderedBooks.size())
                     cardPane.getCards().add(getNewCard(orderedBooks.get(

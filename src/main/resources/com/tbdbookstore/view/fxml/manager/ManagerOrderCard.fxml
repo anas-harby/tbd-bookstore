@@ -26,7 +26,7 @@
                         <Image url="@../../img/cover.png"/>
                     </image>
                 </ImageView>
-                <VBox layoutX="133.0" layoutY="77.0" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" spacing="5.0"
+                <VBox layoutX="133.0" layoutY="65.0" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" spacing="5.0"
                       AnchorPane.bottomAnchor="77.0" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="50.0">
                     <children>
                         <Label fx:id="title" style="-fx-font-family: Serif; -fx-text-fill: #607D8B; -fx-font-size: 20;"
@@ -37,6 +37,14 @@
                                 <Label prefHeight="16.0" prefWidth="20.0" style="-fx-font-family: Serif;" text="by"/>
                                 <Label fx:id="author" maxWidth="280.0"
                                        style="-fx-font-family: Serif; -fx-text-fill: #757575;" text="Author Name"
+                                       HBox.hgrow="SOMETIMES"/>
+                            </children>
+                        </HBox>
+                        <HBox spacing="3.0">
+                            <children>
+                                <Label maxWidth="100.0" minWidth="60.0" prefHeight="16.0" prefWidth="60.0" style="-fx-font-family: Serif;" text="Order Id"/>
+                                <Label fx:id="orderID" maxWidth="280.0"
+                                       style="-fx-font-family: Serif; -fx-text-fill: #757575;" text="Order ID"
                                        HBox.hgrow="SOMETIMES"/>
                             </children>
                         </HBox>
@@ -95,14 +103,6 @@
                         </HBox>
                     </children>
                 </VBox>
-                <HBox layoutX="325.0" layoutY="150.0">
-                    <Label> ID  </Label>
-                    <Label fx:id="orderID" style="-fx-text-fill: #757575"></Label>
-                </HBox>
-                <HBox layoutX="325.0" layoutY="165.0">
-                    <Label> Quantity </Label>
-                    <Label fx:id="orderQuantity" style="-fx-text-fill: #757575"></Label>
-                </HBox>
                 <HBox layoutX="325.0" layoutY="180.0" style="-fx-background-color: #2F39470f;">
                     <children>
                         <JFXButton fx:id="editButton" mnemonicParsing="false"
