@@ -134,6 +134,9 @@ public class UserShoppingCartViewController implements Initializable {
             cardPane.getCards().clear();
             prevButton.setDisable(true);
             nextButton.setDisable(true);
+            subtotal = 0;
+
+            updateTotal();
         } catch (DBException e) {
             e.printStackTrace();
         }
