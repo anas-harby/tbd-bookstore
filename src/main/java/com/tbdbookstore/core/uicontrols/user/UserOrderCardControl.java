@@ -89,11 +89,4 @@ public class UserOrderCardControl extends VBox {
         this.deleteButton.setOnMouseClicked(eventHandler);
     }
 
-    public double getPrice() {
-        return priceVal;
-    }
-
-    public double getQuantity() {
-        return Double.parseDouble(quantity.getText());
-    }
 }
