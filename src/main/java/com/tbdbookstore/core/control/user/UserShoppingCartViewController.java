@@ -2,6 +2,8 @@ package com.tbdbookstore.core.control.user;
 
 import com.gluonhq.charm.glisten.control.CardPane;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.tbdbookstore.core.Main;
 import com.tbdbookstore.core.pojo.Book;
 import com.tbdbookstore.core.uicontrols.user.UserOrderCardControl;
 import javafx.fxml.FXML;
@@ -22,6 +24,7 @@ public class UserShoppingCartViewController implements Initializable {
     @FXML private CardPane cardPane;
     @FXML private JFXButton prevButton;
     @FXML private JFXButton nextButton;
+    @FXML private JFXDialog checkoutDialog;
     private double subtotal = 0;
     private double shipping = 0;
     private int offset = 0;
@@ -118,4 +121,7 @@ public class UserShoppingCartViewController implements Initializable {
         return card;
     }
 
+    public void checkout(MouseEvent mouseEvent) {
+        checkoutDialog.show(Main.getRoot());
+    }
 }
