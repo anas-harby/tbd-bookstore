@@ -411,7 +411,6 @@
 .jfx-combo-box .label {
     -fx-text-fill: #757575;
 }
-
 #HomePane{
     -fx-background-image: url("../img/BookStore.jpg");
     -fx-background-repeat: stretch;

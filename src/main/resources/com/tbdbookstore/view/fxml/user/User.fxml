@@ -62,7 +62,7 @@
                      </JFXListView>
                   </children>
                </VBox>
-               <JFXButton alignment="CENTER" focusTraversable="false" graphicTextGap="10.0" layoutX="1.0" layoutY="757.0" minWidth="250.0" text="Logout" textFill="WHITE" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0">
+               <JFXButton fx:id="logOut" alignment="CENTER" focusTraversable="false" graphicTextGap="10.0" layoutX="1.0" layoutY="757.0" minWidth="250.0" text="Logout" textFill="WHITE" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0">
                   <graphic>
                      <FontAwesomeIconView fill="WHITE" glyphName="ANGLE_DOUBLE_LEFT" size="20.0" />
                   </graphic>

@@ -1,5 +1,6 @@
 package com.tbdbookstore.core.uicontrols.manager;
 
+import com.jfoenix.controls.JFXSnackbar;
 import com.tbdbookstore.core.Main;
 import com.tbdbookstore.core.jdbc.DBException;
 import com.tbdbookstore.core.pojo.Book;
@@ -44,7 +45,7 @@ public class ManagerOrderCardControl extends VBox {
     private Button confirmButton;
 
     @FXML
-    private Label orderQuantity;
+    private Label Quantity;
     @FXML
     private Label orderID;
 
@@ -64,11 +65,10 @@ public class ManagerOrderCardControl extends VBox {
             publisher.setText(book.getPublisher());
             year.setText(book.getPublicationYear());
             genre.setText(book.getGenre());
-            quantity.setText(Integer.toString(book.getStockQuantity()));
             price.setText(Double.toString(book.getSellingPrice()) + "$");
             priceVal = book.getSellingPrice();
-            orderQuantity.setText(" " + Integer.toString(order.getQuantity()));
-            orderID.setText("           " + Integer.toString(order.getId()));
+            quantity.setText(Integer.toString(order.getQuantity()));
+            orderID.setText(Integer.toString(order.getId()));
         } catch (DBException e) {
 
         }
