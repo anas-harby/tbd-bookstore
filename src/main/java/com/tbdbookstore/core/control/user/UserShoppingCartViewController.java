@@ -3,6 +3,8 @@ package com.tbdbookstore.core.control.user;
 import com.gluonhq.charm.glisten.control.CardPane;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.base.ValidatorBase;
 import com.tbdbookstore.core.Main;
 import com.tbdbookstore.core.jdbc.DBException;
 import com.tbdbookstore.core.pojo.Book;
@@ -23,6 +25,15 @@ public class UserShoppingCartViewController implements Initializable {
     @FXML private JFXButton prevButton;
     @FXML private JFXButton nextButton;
     @FXML private JFXDialog checkoutDialog;
+
+    /** Checkout dialog components */
+    @FXML private JFXTextField ccField;
+    @FXML private JFXTextField cvcField;
+    @FXML private JFXTextField cardNameField;
+    @FXML private JFXTextField exprDateField;
+
+    private List<JFXTextField> dialogFields;
+
     private double subtotal = 0;
     private double shipping = 0;
     private int offset = 0;
@@ -35,6 +46,17 @@ public class UserShoppingCartViewController implements Initializable {
         prevButton.setDisable(true);
         nextButton.setDisable(true);
         updateTotal();
+
+        dialogFields = new ArrayList<>(Arrays.asList(ccField, cvcField, cardNameField, exprDateField));
+        attachValidators();
+    }
+
+    private void attachValidators() {
+        for (JFXTextField tf : dialogFields)
+            tf.focusedProperty().addListener((o, oldVal, newVal) -> {
+                if (!newVal)
+                    tf.validate();
+            });
     }
 
     public void addOrder(Book book) {
@@ -124,6 +146,10 @@ public class UserShoppingCartViewController implements Initializable {
     }
 
     public void confirm(MouseEvent mouseEvent) {
+        for (JFXTextField tf : dialogFields)
+            for (ValidatorBase val : tf.getValidators())
+                if (val.getHasErrors())
+                    return;
         try {
             Map<String, Integer> orders = new HashMap<>();
             for (Book book : orderedBooks.values())
