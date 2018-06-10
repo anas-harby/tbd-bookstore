@@ -2,6 +2,7 @@ package com.tbdbookstore.core.control.manager;
 
 import com.gluonhq.charm.glisten.control.CardPane;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
 import com.tbdbookstore.core.Main;
 import com.tbdbookstore.core.control.user.UserViewController;
@@ -10,6 +11,7 @@ import com.tbdbookstore.core.pojo.Book;
 import com.tbdbookstore.core.pojo.Ordering;
 import com.tbdbookstore.core.shared.Attribute;
 import com.tbdbookstore.core.shared.OrderMode;
+import com.tbdbookstore.core.uicontrols.manager.ManagerBookCardControl;
 import com.tbdbookstore.core.uicontrols.manager.ManagerBookDialogControl;
 import com.tbdbookstore.core.uicontrols.user.UserBookCardControl;
 import com.tbdbookstore.core.util.BookSearchProcessor;
@@ -48,8 +50,12 @@ public class ManagerHomeViewController implements Initializable {
             if (dialogControl.hasErrors())
                 return;
             Book newBook = dialogControl.getValue();
-            System.out.println(newBook);
-            dialogControl.close();
+            try {
+                Main.getDBConnector().addNewBook(newBook);
+                dialogControl.close();
+            } catch (DBException e1) {
+                e1.printStackTrace();
+            }
         });
 
         search(null);
@@ -121,15 +127,38 @@ public class ManagerHomeViewController implements Initializable {
             search(null);
     }
 
-    private UserBookCardControl getNewCard(Book book) {
-        UserBookCardControl card = new UserBookCardControl(book);
-        card.setOnCheckClick(e -> {
-            Book shopped = book.clone();
-            shopped.setStockQuantity(card.getQuantity());
-            UserViewController controller = Main.getMainController();
-            controller.getShoppingCartController().addOrder(shopped);
-            card.hidePopup();
+    private ManagerBookCardControl getNewCard(Book book) {
+        ManagerBookCardControl card = new ManagerBookCardControl(book);
+
+        card.setOnEditButtonClick(e -> {
+            ;
         });
+
+        card.setOnDeleteButtonClick(e-> {
+            try {
+                Main.getDBConnector().deleteBook(book.getISBN());
+                cardPane.getCards().clear();
+                LinkedHashMap<String, Book> books = getSearchResults();
+                if (books.isEmpty()) {
+                    if (offset > 0) {
+                        offset--;
+                        books = getSearchResults();
+                    }
+                    if (offset == 0)
+                        prevButton.setDisable(true);
+                }
+                for (Book found : books.values())
+                    cardPane.getCards().add(getNewCard(found));
+
+                if (getCardinality(books.values()) < PAGE_COUNT)
+                    nextButton.setDisable(true);
+
+            } catch (DBException e1) {
+                e1.printStackTrace();
+            }
+        });
+
+
         return card;
     }
 
