@@ -1,5 +1,6 @@
 package com.tbdbookstore.core.control;
 
+import com.jfoenix.controls.JFXSnackbar;
 import com.tbdbookstore.core.Main;
 import com.tbdbookstore.core.jdbc.Connector;
 import com.tbdbookstore.core.jdbc.DBException;
@@ -26,11 +27,13 @@ public class HomePageViewController implements Initializable {
 
     @FXML
     StackPane HomePane;
+    private JFXSnackbar bar;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         signUpDialogControl = new SignUpDialogControl();
         logInDialogControl = new LogInDialogControl();
+         bar = new JFXSnackbar(HomePane);
         signUpDialogControl.setOnAcceptClick(e -> {
             if (signUpDialogControl.hasErrors())
                 return;
@@ -42,8 +45,7 @@ public class HomePageViewController implements Initializable {
                 //switch to user view
                 switchView("/com/tbdbookstore/view/fxml/user/User.fxml");
             } catch (DBException ex) {
-                //TODO HANDLE DB EXCEPTION
-                ex.printStackTrace();
+                bar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(ex)));
             }
 
         });
@@ -62,8 +64,7 @@ public class HomePageViewController implements Initializable {
                     switchView("/com/tbdbookstore/view/fxml/user/User.fxml");
                 }
             } catch (DBException ex) {
-                ex.printStackTrace();
-                //TODO HANDLE DB EXCEPTIONS
+               bar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(ex)));
             }
         });
     }

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.*?>
-<?import com.jfoenix.validation.*?>
 <?import de.jensd.fx.glyphs.fontawesome.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
-<?import javafx.collections.FXCollections?>
+<?import com.jfoenix.validation.RequiredFieldValidator?>
+<?import com.tbdbookstore.core.util.validators.NumericValidator?>
+<?import com.jfoenix.validation.NumberValidator?>
 <fx:root fx:id="root" maxHeight="-Infinity" style="-fx-background-color:#00000000;" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="800.0" type="com.jfoenix.controls.JFXDialog" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
     <JFXDialogLayout>
     <heading>
@@ -20,6 +21,9 @@
                         <RequiredFieldValidator message="Input Required!">
                             <FontAwesomeIconView glyphName="WARNING" style="-fx-font-family: FontAwesome;"/>
                         </RequiredFieldValidator>
+                        <NumericValidator message="Input Must Be A Number!">
+                            <FontAwesomeIconView glyphName="WARNING" style="-fx-font-family: FontAwesome;"/>
+                        </NumericValidator>
                     </validators>
                 </JFXTextField>
                 <JFXTextField fx:id="titleField" prefWidth="500.0" promptText="Title" style="-fx-prompt-text-fill: #757575;">

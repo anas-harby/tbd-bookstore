@@ -1,8 +1,7 @@
 package com.tbdbookstore.core.control.manager;
 
 import com.gluonhq.charm.glisten.control.CardPane;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import com.tbdbookstore.core.Main;
 import com.tbdbookstore.core.control.user.UserViewController;
 import com.tbdbookstore.core.jdbc.DBException;
@@ -10,15 +9,19 @@ import com.tbdbookstore.core.pojo.Book;
 import com.tbdbookstore.core.pojo.Ordering;
 import com.tbdbookstore.core.shared.Attribute;
 import com.tbdbookstore.core.shared.OrderMode;
+import com.tbdbookstore.core.uicontrols.manager.ManagerBookCardControl;
 import com.tbdbookstore.core.uicontrols.manager.ManagerBookDialogControl;
 import com.tbdbookstore.core.uicontrols.user.UserBookCardControl;
 import com.tbdbookstore.core.util.BookSearchProcessor;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.Collection;
@@ -125,15 +128,49 @@ public class ManagerHomeViewController implements Initializable {
             search(null);
     }
 
-    private UserBookCardControl getNewCard(Book book) {
-        UserBookCardControl card = new UserBookCardControl(book);
-        card.setOnCheckClick(e -> {
-            Book shopped = book.clone();
-            shopped.setStockQuantity(card.getQuantity());
-            UserViewController controller = Main.getMainController();
-            controller.getShoppingCartController().addOrder(shopped);
-            card.hidePopup();
+    private ManagerBookCardControl getNewCard(Book book) {
+        ManagerBookCardControl card = new ManagerBookCardControl(book);
+
+        card.setOnEditButtonClick(e -> {
+            ;
         });
+
+        card.setOnDeleteButtonClick(e-> {
+            JFXDialog alert = new JFXDialog();
+            JFXDialogLayout layout = new JFXDialogLayout();
+            layout.setHeading(new Label("Delete Book"));
+            layout.setBody(new Label("Are you sure you want to delete this book?"));
+            JFXButton acceptButton = new JFXButton("Yes");
+            acceptButton.getStyleClass().add("dialog-accept");
+            acceptButton.setOnAction(event -> {
+                try {
+                    Main.getDBConnector().deleteBook(book.getISBN());
+                    cardPane.getCards().clear();
+                    LinkedHashMap<String, Book> books = getSearchResults();
+                    if (books.isEmpty()) {
+                        if (offset > 0) {
+                            offset--;
+                            books = getSearchResults();
+                        }
+                        if (offset == 0)
+                            prevButton.setDisable(true);
+                    }
+                    for (Book found : books.values())
+                        cardPane.getCards().add(getNewCard(found));
+
+                    if (getCardinality(books.values()) < PAGE_COUNT)
+                        nextButton.setDisable(true);
+                    alert.close();
+                } catch (DBException e1) {
+                    e1.printStackTrace();
+                }
+            });
+            layout.setActions(acceptButton);
+            alert.setContent(layout);
+            alert.show(Main.getRoot());
+        });
+
+
         return card;
     }
 

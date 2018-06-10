@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.*?>
-<?import com.jfoenix.validation.*?>
-<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import com.jfoenix.validation.RequiredFieldValidator?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.*?>
-
-<?import javafx.scene.control.Hyperlink?>
-<?import javafx.scene.text.TextFlow?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <fx:root fx:id="root" maxHeight="-Infinity" style="-fx-background-color:#00000000;" maxWidth="-Infinity"
          minHeight="-Infinity" minWidth="-Infinity" prefWidth="800.0" type="com.jfoenix.controls.JFXDialog"
          xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">

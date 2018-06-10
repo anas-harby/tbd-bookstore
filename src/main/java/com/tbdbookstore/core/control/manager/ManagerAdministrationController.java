@@ -2,6 +2,7 @@ package com.tbdbookstore.core.control.manager;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTextField;
 import com.tbdbookstore.core.Main;
 import com.tbdbookstore.core.jasperreports.JasperReport;
@@ -30,15 +31,16 @@ public class ManagerAdministrationController implements Initializable {
     JFXButton promoteUser;
     private Report report;
     private File reportFile;
+    private JFXSnackbar bar;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         reportFile = new File("./src/main/resources/com/tbdbookstore/view/jrxml/trial.jrxml");
-
+        bar = new JFXSnackbar(Main.getRoot());
         promoteUser.setOnMouseClicked(event -> {
             try {
                 Main.getDBConnector().promoteUser(userNameField.getText());
-                //TODO show toast that user propmoted successfully for feedback
+                bar.enqueue(new JFXSnackbar.SnackbarEvent("User Promoted Successfully !"));
             } catch (DBException ex) {
 
             }
