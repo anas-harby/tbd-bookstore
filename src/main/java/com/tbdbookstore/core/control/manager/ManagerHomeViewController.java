@@ -48,8 +48,12 @@ public class ManagerHomeViewController implements Initializable {
             if (dialogControl.hasErrors())
                 return;
             Book newBook = dialogControl.getValue();
-            System.out.println(newBook);
-            dialogControl.close();
+            try {
+                Main.getDBConnector().addNewBook(newBook);
+                dialogControl.close();
+            } catch (DBException e1) {
+                e1.printStackTrace();
+            }
         });
 
         search(null);

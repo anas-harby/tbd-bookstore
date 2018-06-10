@@ -65,6 +65,26 @@ CREATE TABLE `BOOK` (
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `BOOKSTORE`.`BOOK_AFTER_INSERT` AFTER INSERT ON `BOOK` FOR EACH ROW
+BEGIN
+	IF(NEW.STOCK_QUANTITY < NEW.MIN_QUANTITY) THEN
+       CALL PLACE_ORDER(NEW.BOOK_ISBN, 2 * NEW.MIN_QUANTITY - NEW.STOCK_QUANTITY, @ORDER_ID);
+    END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `BOOKSTORE`.`BOOK_BEFORE_UPDATE` BEFORE UPDATE ON `BOOK` FOR EACH ROW
 BEGIN
   DECLARE out_of_stock CONDITION FOR SQLSTATE '45000';
@@ -125,7 +145,7 @@ CREATE TABLE `ORDER` (
   PRIMARY KEY (`ORDER_ID`),
   KEY `BOOK_ISBN` (`BOOK_ISBN`),
   CONSTRAINT `ORDER_ibfk_1` FOREIGN KEY (`BOOK_ISBN`) REFERENCES `BOOK` (`BOOK_ISBN`)
-) ENGINE=InnoDB AUTO_INCREMENT=502 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=504 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -657,4 +677,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-10 17:32:20
+-- Dump completed on 2018-06-11  0:15:29

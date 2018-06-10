@@ -5,11 +5,19 @@ import com.tbdbookstore.core.pojo.User;
 import com.tbdbookstore.core.shared.Error;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class JDBCMain {
     public static void main(String[] args) {
         try {
-//            JDBCController headController = JDBCController.logIn("head", "head");
+            JDBCController headController = JDBCController.logIn("head", "head");
+            List<String> genres = headController.getGenres();
+
+            System.out.println(genres.get(0));
+            System.out.println(genres.get(1));
+            System.out.println(genres.get(2));
+            System.out.println(genres.get(3));
+            System.out.println(genres.get(4));
 ////            headController.deleteBook("12345678book3");
 ////            headController.deleteOrder(499);
 //            Book bought1 = new Book("12345678book3");
@@ -21,8 +29,8 @@ public class JDBCMain {
 //            bought.put("12345678book2", bought2);
 //            headController.checkOut(bought);
 
-            User user = new User("new");
-            user.setPassword("new");
+//            User user = new User("new");
+//            user.setPassword("new");
 //            user.setLastName("Last");
 //            user.setFirstName("First");
 //            user.setEmail("new@gmail.com");
@@ -34,19 +42,19 @@ public class JDBCMain {
 ////            managerController.promoteUser(user.getUsername());
 ////            managerController = null; // Manager logs out, ViewController should null the managerController object here
 //
-            JDBCController userController = JDBCController.logIn(user.getUsername(), user.getPassword());
-            Book searchBook = userController.getOrderedBook("12345678book1");
-            System.out.println(searchBook.getISBN());
-            System.out.println(searchBook.getTitle());
-            System.out.println(searchBook.getAuthors().size());
-            System.out.println(searchBook.getAuthors().get(0));
-            System.out.println(searchBook.getAuthors().get(1));
-            System.out.println(searchBook.getGenre());
-            System.out.println(searchBook.getPublisher());
-            System.out.println(searchBook.getPublicationYear());
-            System.out.println(searchBook.getSellingPrice());
-            System.out.println(searchBook.getStockQuantity());
-            System.out.println(searchBook.getMinQuantity());
+//            JDBCController userController = JDBCController.logIn(user.getUsername(), user.getPassword());
+//            Book searchBook = userController.getOrderedBook("12345678book1");
+//            System.out.println(searchBook.getISBN());
+//            System.out.println(searchBook.getTitle());
+//            System.out.println(searchBook.getAuthors().size());
+//            System.out.println(searchBook.getAuthors().get(0));
+//            System.out.println(searchBook.getAuthors().get(1));
+//            System.out.println(searchBook.getGenre());
+//            System.out.println(searchBook.getPublisher());
+//            System.out.println(searchBook.getPublicationYear());
+//            System.out.println(searchBook.getSellingPrice());
+//            System.out.println(searchBook.getStockQuantity());
+//            System.out.println(searchBook.getMinQuantity());
 //
 ////            user.setPassword("newpass");
 ////            user.setLastName("Last Modified");
