@@ -408,7 +408,9 @@
    -fx-background-color: #E0E0E0;
 }
 
-
+.jfx-combo-box .label {
+    -fx-text-fill: #757575;
+}
 
 #HomePane{
     -fx-background-image: url("../img/BookStore.jpg");

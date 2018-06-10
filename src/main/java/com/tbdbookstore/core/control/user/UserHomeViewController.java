@@ -25,9 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.ResourceBundle;
 
 public class UserHomeViewController implements Initializable {
-    @FXML private JFXButton searchButton;
     @FXML private JFXTextField searchArea;
-    @FXML private ScrollPane scrollPane;
     @FXML private CardPane cardPane;
     @FXML private JFXButton prevButton;
     @FXML private JFXButton nextButton;
