@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
+<?import com.jfoenix.controls.JFXBadge?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.tbdbookstore.core.control.ProfileViewController"
-            prefHeight="400.0" prefWidth="600.0" >
+<BorderPane prefHeight="400.0" prefWidth="600.0" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tbdbookstore.core.control.ProfileViewController">
     <BorderPane.margin>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
     </BorderPane.margin>
     <center>
-        <GridPane hgap="50.0" vgap="5.0">
+        <GridPane hgap="50.0" prefWidth="580.0" vgap="5.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints percentHeight="0.0" vgrow="SOMETIMES" />
@@ -44,13 +49,27 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </GridPane.margin>
                 </Label>
-                <JFXTextField promptText="First Name" style="-fx-background-color: #00000000;" GridPane.rowIndex="2" />
-                <JFXTextField promptText="Last Name" style="-fx-background-color: #00000000;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <JFXTextField promptText="Email" style="-fx-background-color: #00000000;" GridPane.rowIndex="3" />
-                <JFXTextField promptText="Password" style="-fx-background-color: #00000000;" GridPane.rowIndex="4" />
-                <JFXTextField promptText="Confirm Password" style="-fx-background-color: #00000000;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                <JFXTextField promptText="Telephone Number" style="-fx-background-color: #00000000;" GridPane.rowIndex="5" />
-                <JFXTextField promptText="Address" style="-fx-background-color: #00000000;" GridPane.rowIndex="6" />
+                <JFXTextField fx:id="firstName" promptText="First Name" style="-fx-background-color: #00000000;" GridPane.rowIndex="2" />
+                <JFXTextField fx:id="lastName" promptText="Last Name" style="-fx-background-color: #00000000;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <JFXTextField fx:id="email" promptText="Email" style="-fx-background-color: #00000000;" GridPane.rowIndex="3" />
+                <JFXPasswordField fx:id="password" promptText="Change Password" style="-fx-background-color: #00000000;" GridPane.rowIndex="4" />
+                <JFXPasswordField fx:id="confirmPassword" promptText="Confirm Password" style="-fx-background-color: #00000000;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <JFXBadge fx:id="passwordMatch" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                    <Label>
+                        <graphic>
+                            <FontAwesomeIconView glyphName="CHECK" glyphSize="15" glyphStyle="-fx-fill: #1B5E20;" />
+                        </graphic>
+                    </Label>
+                </JFXBadge>
+                <JFXBadge fx:id="passwordMismatch" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                    <Label>
+                        <graphic>
+                            <FontAwesomeIconView glyphName="TIMES" glyphSize="15" glyphStyle="-fx-fill: #b71c1c;" />
+                        </graphic>
+                    </Label>
+                </JFXBadge>
+                <JFXTextField fx:id="telephoneNumber" promptText="Telephone Number" style="-fx-background-color: #00000000;" GridPane.rowIndex="5" />
+                <JFXTextField fx:id="address" promptText="Address" style="-fx-background-color: #00000000;" GridPane.rowIndex="6" />
             </children>
         </GridPane>
     </center>
