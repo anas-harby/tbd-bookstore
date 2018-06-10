@@ -59,7 +59,7 @@ public class JDBCController implements Connector {
     }
 
     @Override
-    public User getUserInfo(String username) throws DBException{
+    public User getUserInfo() throws DBException{
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;

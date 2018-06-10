@@ -55,7 +55,7 @@ public class HomePageViewController implements Initializable {
             try {
                 connector = JDBCController.logIn(userName, password);
                 Main.setConnector(connector);
-                User user = connector.getUserInfo(userName);
+                User user = connector.getUserInfo();
                 if (user.getRole().equals("manager")) {
                     switchView("/com/tbdbookstore/view/fxml/manager/Manager.fxml");
                 } else if (user.getRole().equals("user")) {

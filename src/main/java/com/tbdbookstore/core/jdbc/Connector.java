@@ -9,7 +9,7 @@ public interface Connector {
 
     /* Normal user
       ------------ */
-    User getUserInfo(String username) throws DBException;
+    User getUserInfo() throws DBException;
 
     void editUserInfo(User user) throws DBException;
 
