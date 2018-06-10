@@ -49,7 +49,7 @@ public class ManagerBookCardControl extends VBox {
 
     public void setISBN(String isbn) {
         if (isbn.matches("[a-zA-Z]+"))
-            throw new RuntimeException("ISBN can not have an alphabetic character.");
+            throw new RuntimeException("BOOK_ISBN can not have an alphabetic character.");
         this.isbn.setText(isbn);
     }
 

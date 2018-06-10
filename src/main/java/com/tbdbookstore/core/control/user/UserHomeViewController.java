@@ -6,8 +6,12 @@ import com.jfoenix.controls.JFXTextField;
 import com.tbdbookstore.core.Main;
 import com.tbdbookstore.core.jdbc.DBException;
 import com.tbdbookstore.core.pojo.Book;
+import com.tbdbookstore.core.pojo.Ordering;
+import com.tbdbookstore.core.shared.Attribute;
+import com.tbdbookstore.core.shared.OrderMode;
 import com.tbdbookstore.core.uicontrols.user.UserBookCardControl;
 import com.tbdbookstore.core.util.BookSearchProcessor;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
@@ -25,11 +29,15 @@ public class UserHomeViewController implements Initializable {
     @FXML private JFXTextField searchArea;
     @FXML private ScrollPane scrollPane;
     @FXML private CardPane cardPane;
-    @FXML public JFXButton prevButton;
-    @FXML public JFXButton nextButton;
+    @FXML private JFXButton prevButton;
+    @FXML private JFXButton nextButton;
+    @FXML private FontAwesomeIconView isbnIcon;
+    @FXML private FontAwesomeIconView titleIcon;
+    @FXML private FontAwesomeIconView priceIcon;
+
     private int offset = 0;
     private Book currSearchVal = null;
-
+    private Ordering currentOrdering = null;
     private static final int PAGE_COUNT = 25;
 
     @Override
@@ -39,7 +47,7 @@ public class UserHomeViewController implements Initializable {
 
     private HashMap<String, Book> getSearchResults() {
         try {
-            return Main.getDBConnector().search(currSearchVal, null, offset * PAGE_COUNT, PAGE_COUNT);
+            return Main.getDBConnector().search(currSearchVal, currentOrdering, offset * PAGE_COUNT, PAGE_COUNT);
         } catch (DBException e) {
             e.printStackTrace();
         }
@@ -51,6 +59,9 @@ public class UserHomeViewController implements Initializable {
         offset = 0;
         prevButton.setDisable(true);
         nextButton.setDisable(false);
+        isbnIcon.setGlyphName("SORT");
+        titleIcon.setGlyphName("SORT");
+        priceIcon.setGlyphName("SORT");
     }
 
     public void search(MouseEvent mouseEvent) {
@@ -110,5 +121,32 @@ public class UserHomeViewController implements Initializable {
             card.hidePopup();
         });
         return card;
+    }
+
+    public void sortISBN(MouseEvent mouseEvent) {
+        if (currentOrdering == null || currentOrdering.getAttribute() != Attribute.BOOK_ISBN)
+            currentOrdering = new Ordering(Attribute.BOOK_ISBN, OrderMode.ASC);
+        else
+            currentOrdering.setMode(currentOrdering.getMode() == OrderMode.ASC ? OrderMode.DESC : OrderMode.ASC);
+        search(null);
+        isbnIcon.setGlyphName(currentOrdering.getMode() == OrderMode.ASC ? "SORT_ASC" : "SORT_DESC");
+    }
+
+    public void sortTitle(MouseEvent mouseEvent) {
+        if (currentOrdering == null || currentOrdering.getAttribute() != Attribute.BOOK_TITLE)
+            currentOrdering = new Ordering(Attribute.BOOK_TITLE, OrderMode.ASC);
+        else
+            currentOrdering.setMode(currentOrdering.getMode() == OrderMode.ASC ? OrderMode.DESC : OrderMode.ASC);
+        search(null);
+        titleIcon.setGlyphName(currentOrdering.getMode() == OrderMode.ASC ? "SORT_ASC" : "SORT_DESC");
+    }
+
+    public void sortPrice(MouseEvent mouseEvent) {
+        if (currentOrdering == null || currentOrdering.getAttribute() != Attribute.SELLING_PRICE)
+            currentOrdering = new Ordering(Attribute.SELLING_PRICE, OrderMode.ASC);
+        else
+            currentOrdering.setMode(currentOrdering.getMode() == OrderMode.ASC ? OrderMode.DESC : OrderMode.ASC);
+        search(null);
+        priceIcon.setGlyphName(currentOrdering.getMode() == OrderMode.ASC ? "SORT_ASC" : "SORT_DESC");
     }
 }

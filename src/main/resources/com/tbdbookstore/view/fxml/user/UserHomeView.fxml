@@ -29,19 +29,19 @@
                 </HBox>
                 <HBox prefWidth="200.0" spacing="10.0">
                     <children>
-                        <Label fx:id="sortISBN" graphicTextGap="5.0" style="-fx-cursor: hand; -fx-text-fill: #757575;" text="ISBN">
+                        <Label onMouseClicked="#sortISBN" graphicTextGap="5.0" style="-fx-cursor: hand; -fx-text-fill: #757575;" text="ISBN">
                             <graphic>
-                                <FontAwesomeIconView glyphName="SORT" fill="#757575" />
+                                <FontAwesomeIconView fx:id="isbnIcon" glyphName="SORT" fill="#757575" />
                             </graphic>
                         </Label>
-                        <Label fx:id="sortTitle" graphicTextGap="5.0" style="-fx-cursor: hand; -fx-text-fill: #757575;" text="Title">
+                        <Label onMouseClicked="#sortTitle" graphicTextGap="5.0" style="-fx-cursor: hand; -fx-text-fill: #757575;" text="Title">
                             <graphic>
-                                <FontAwesomeIconView glyphName="SORT" fill="#757575" />
+                                <FontAwesomeIconView fx:id="titleIcon" glyphName="SORT" fill="#757575" />
                             </graphic>
                         </Label>
-                        <Label fx:id="sortPrice" graphicTextGap="5.0" style="-fx-cursor: hand; -fx-text-fill: #757575;" text="Price">
+                        <Label onMouseClicked="#sortPrice" graphicTextGap="5.0" style="-fx-cursor: hand; -fx-text-fill: #757575;" text="Price">
                             <graphic>
-                                <FontAwesomeIconView glyphName="SORT" fill="#757575" />
+                                <FontAwesomeIconView fx:id="priceIcon" glyphName="SORT" fill="#757575" />
                             </graphic>
                         </Label>
                     </children>

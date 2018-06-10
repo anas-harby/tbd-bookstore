@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JDBCController implements Connector {
     private String username;
@@ -139,17 +140,17 @@ public class JDBCController implements Connector {
     }
 
     @Override
-    public void checkOut(HashMap<String, Book> books) throws DBException {
+    public void checkOut(Map<String, Integer> orders) throws DBException {
         Connection connection = null;
         CallableStatement statement = null;
         try {
             connection = DataSource.getInstance().getConnection(username, password);
             String query = "{CALL check_out(?, ?, ?)}";
             statement = connection.prepareCall(query);
-            for (Book book : books.values()){
+            for (Map.Entry<String, Integer> order : orders.entrySet()){
                 statement.setString(1, username);
-                statement.setString(2, book.getISBN());
-                statement.setInt(3, book.getStockQuantity());
+                statement.setString(2, order.getKey());
+                statement.setInt(3, order.getValue());
                 statement.addBatch();
             }
             statement.executeBatch();
@@ -256,6 +257,30 @@ public class JDBCController implements Connector {
     }
 
     @Override
+    public Book getOrderedBook(String ISBN)  throws DBException{
+        return null;
+    }
+
+    @Override
+    public List<Order> getOrders() throws DBException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DataSource.getInstance().getConnection(username, password);
+            String query = "{CALL get_orders()}";
+            statement = connection.prepareCall(query);
+            resultSet = statement.executeQuery();
+            return getOrders(resultSet);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
+        } finally {
+            cleanUpResources(resultSet, statement, connection);
+        }
+    }
+
+    @Override
     public int placeOrder(Order order) throws DBException {
         Connection connection = null;
         CallableStatement statement = null;
@@ -309,25 +334,6 @@ public class JDBCController implements Connector {
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(null, statement, connection);
-        }
-    }
-
-    @Override
-    public List<Order> getOrders() throws DBException {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = DataSource.getInstance().getConnection(username, password);
-            String query = "{CALL get_orders()}";
-            statement = connection.prepareCall(query);
-            resultSet = statement.executeQuery();
-            return getOrders(resultSet);
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-            throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
-        } finally {
-            cleanUpResources(resultSet, statement, connection);
         }
     }
 
@@ -404,6 +410,14 @@ public class JDBCController implements Connector {
         if (ordering != null)
             query.append(" ORDER BY " + ordering.getAttribute() + " " + ordering.getMode());
         query.append(" LIMIT ").append(Integer.toString(offset)).append(", ").append(Integer.toString(count)).append(';');
+        return query.toString();
+    }
+
+    private String buildSelectQuery (String ISBN) {
+        StringBuilder query = new StringBuilder("SELECT BOOK_ISBN, BOOK_TITLE, GENRE_NAME, AUTHOR_NAME, PUBLISHER_NAME"
+                + ", PUBLICATION_YEAR, SELLING_PRICE, STOCK_QUANTITY, MIN_QUANTITY FROM BOOK NATURAL JOIN AUTHOR NATURAL JOIN PUBLISHER");
+        query.append(" WHERE BOOK_ISBN = ");
+        query.append("'" + ISBN + "'");
         return query.toString();
     }
 
