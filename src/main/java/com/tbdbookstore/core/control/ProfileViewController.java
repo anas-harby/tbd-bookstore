@@ -2,6 +2,7 @@ package com.tbdbookstore.core.control;
 
 import com.jfoenix.controls.JFXBadge;
 import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.base.ValidatorBase;
 import com.tbdbookstore.core.Main;
@@ -36,12 +37,15 @@ public class ProfileViewController implements Initializable {
     @FXML
     private JFXBadge passwordMismatch;
 
+    private JFXSnackbar bar;
+
     private List<JFXTextField> allFields;
 
     private User user;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        bar = new JFXSnackbar(Main.getRoot());
         try {
             allFields = new ArrayList<>(Arrays.asList(firstName, lastName, email, telephoneNumber, address));
             user = Main.getDBConnector().getUserInfo();
@@ -49,8 +53,7 @@ public class ProfileViewController implements Initializable {
             attachValidators();
             attachPasswordMatching();
         } catch (DBException e) {
-            // TODO: handle expected errors
-            e.printStackTrace();
+            bar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(e)));
         }
     }
 
@@ -70,8 +73,7 @@ public class ProfileViewController implements Initializable {
             this.user = user;
             // TODO: feedback message
         } catch (DBException e) {
-            // TODO: handle expected errors
-            e.printStackTrace();
+            bar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(e)));
         }
     }
 

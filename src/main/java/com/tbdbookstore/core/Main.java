@@ -72,7 +72,7 @@ public class Main extends Application {
             case STOCK_LACK:
                 return "Invalid Stock Quantity!";
             case UNSPECIFIED:
-                return "UnspecifiedError!";
+                return "Unspecified Error!";
             case DUPLICATE_ITEM:
                 return "Duplicate Key Value!";
             case KEY_FIELD_MISSING:

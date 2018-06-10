@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSnackbar;
 import com.tbdbookstore.core.Main;
 import com.tbdbookstore.core.jdbc.DBException;
-import com.tbdbookstore.core.pojo.Book;
 import com.tbdbookstore.core.pojo.Order;
 import com.tbdbookstore.core.uicontrols.manager.ManagerOrderCardControl;
 import com.tbdbookstore.core.uicontrols.manager.ManagerOrderDialogControl;
@@ -25,7 +24,6 @@ public class ManagerOrdersViewController implements Initializable {
     private HashMap<String, Order> orderedBooks;
 
     private ManagerOrderDialogControl managerOrderDialogControl;
-
     @FXML
     private CardPane cardPane;
     @FXML
@@ -54,7 +52,7 @@ public class ManagerOrdersViewController implements Initializable {
                 managerOrderDialogControl.close();
                 addOrder(order);
             } catch (DBException ex) {
-                //TODO HANDLE DB EXCEPTION
+                snackbar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(ex)));
             }
 
         });
@@ -71,7 +69,7 @@ public class ManagerOrdersViewController implements Initializable {
                 addOrder(order);
             }
         } catch (DBException e) {
-            System.out.println(e.getMessage());
+            snackbar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(e)));
         }
     }
 
@@ -138,7 +136,7 @@ public class ManagerOrdersViewController implements Initializable {
                     nextButton.setDisable(true);
 
             } catch (DBException e) {
-
+                snackbar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(e)));
             }
         });
         card.setOnEditButtonClick(event -> {

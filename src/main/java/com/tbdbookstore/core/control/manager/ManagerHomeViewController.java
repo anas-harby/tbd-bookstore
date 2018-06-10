@@ -43,10 +43,12 @@ public class ManagerHomeViewController implements Initializable {
     private Book currSearchVal = null;
     private Ordering currentOrdering = null;
     private static final int PAGE_COUNT = 25;
+    private JFXSnackbar bar;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         dialogControl = new ManagerBookDialogControl();
+        bar = new JFXSnackbar(Main.getRoot());
         dialogControl.setOnAcceptClick(e -> {
             if (dialogControl.hasErrors())
                 return;
@@ -55,7 +57,7 @@ public class ManagerHomeViewController implements Initializable {
                 Main.getDBConnector().addNewBook(newBook);
                 dialogControl.close();
             } catch (DBException e1) {
-                e1.printStackTrace();
+                bar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(e1)));
             }
         });
 
@@ -77,7 +79,7 @@ public class ManagerHomeViewController implements Initializable {
         try {
             return Main.getDBConnector().search(currSearchVal, currentOrdering, offset * PAGE_COUNT, PAGE_COUNT);
         } catch (DBException e) {
-            e.printStackTrace();
+            bar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(e)));
         }
         return new LinkedHashMap<>();
     }
@@ -162,7 +164,7 @@ public class ManagerHomeViewController implements Initializable {
                         nextButton.setDisable(true);
                     alert.close();
                 } catch (DBException e1) {
-                    e1.printStackTrace();
+                    bar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(e1)));
                 }
             });
             layout.setActions(acceptButton);

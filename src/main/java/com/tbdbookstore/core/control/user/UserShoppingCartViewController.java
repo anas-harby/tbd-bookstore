@@ -3,6 +3,7 @@ package com.tbdbookstore.core.control.user;
 import com.gluonhq.charm.glisten.control.CardPane;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.base.ValidatorBase;
 import com.tbdbookstore.core.Main;
@@ -33,6 +34,7 @@ public class UserShoppingCartViewController implements Initializable {
     @FXML private JFXTextField exprDateField;
 
     private List<JFXTextField> dialogFields;
+    private JFXSnackbar bar;
 
     private double subtotal = 0;
     private double shipping = 0;
@@ -45,6 +47,7 @@ public class UserShoppingCartViewController implements Initializable {
         orderedBooks = new HashMap<>();
         prevButton.setDisable(true);
         nextButton.setDisable(true);
+        bar = new JFXSnackbar(Main.getRoot());
         updateTotal();
 
         dialogFields = new ArrayList<>(Arrays.asList(ccField, cvcField, cardNameField, exprDateField));
@@ -164,7 +167,7 @@ public class UserShoppingCartViewController implements Initializable {
             shipping = 0;
             updateTotal();
         } catch (DBException e) {
-            e.printStackTrace();
+            bar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(e)));
         }
     }
 
