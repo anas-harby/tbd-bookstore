@@ -13,10 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class UserShoppingCartViewController implements Initializable {
     @FXML private Label subtotalPrice;
@@ -128,14 +125,17 @@ public class UserShoppingCartViewController implements Initializable {
 
     public void confirm(MouseEvent mouseEvent) {
         try {
-            Main.getDBConnector().checkOut(orderedBooks);
+            Map<String, Integer> orders = new HashMap<>();
+            for (Book book : orderedBooks.values())
+                orders.put(book.getISBN(), book.getStockQuantity());
+            Main.getDBConnector().checkOut(orders);
             checkoutDialog.close();
             orderedBooks.clear();
             cardPane.getCards().clear();
             prevButton.setDisable(true);
             nextButton.setDisable(true);
             subtotal = 0;
-
+            shipping = 0;
             updateTotal();
         } catch (DBException e) {
             e.printStackTrace();
