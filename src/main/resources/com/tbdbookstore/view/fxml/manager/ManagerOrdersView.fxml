@@ -38,8 +38,8 @@
     <bottom>
         <AnchorPane prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
-                <JFXButton layoutX="38.0" maxWidth="60.0" prefWidth="60.0" style="-fx-background-color: rgba(0,0,0,0); -fx-text-fill: #757575;" text="Prev" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="898.0" />
-                <JFXButton layoutX="889.0" maxWidth="60.0" prefWidth="60.0" style="-fx-background-color: rgba(0,0,0,0); -fx-text-fill: #757575;" text="Next" AnchorPane.leftAnchor="889.0" AnchorPane.rightAnchor="47.0" />
+                <JFXButton fx:id="prevButton" onMouseClicked="#getPrevPage" layoutX="38.0" maxWidth="60.0" prefWidth="60.0" style="-fx-background-color: rgba(0,0,0,0); -fx-text-fill: #757575;" text="Prev" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="898.0" />
+                <JFXButton fx:id="nextButton" onMouseClicked="#getNextPage" layoutX="889.0" maxWidth="60.0" prefWidth="60.0" style="-fx-background-color: rgba(0,0,0,0); -fx-text-fill: #757575;" text="Next" AnchorPane.leftAnchor="889.0" AnchorPane.rightAnchor="47.0" />
             </children>
             <BorderPane.margin>
                 <Insets bottom="10.0" top="-10.0" />
