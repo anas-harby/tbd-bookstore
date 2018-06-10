@@ -265,7 +265,7 @@ public class JDBCController implements Connector {
             resultSet = statement.executeQuery();
             return getBook(ISBN, resultSet);
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
             throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
         } finally {
             cleanUpResources(resultSet, statement, connection);

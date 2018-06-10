@@ -21,18 +21,23 @@ import java.util.ResourceBundle;
 public class ManagerOrdersViewController implements Initializable {
     private static final int PAGE_COUNT = 5;
     private int offset = 0;
-    private HashMap<String, Book> orderedBooks;
+    private HashMap<String, Order> orderedBooks;
 
     private ManagerOrderDialogControl managerOrderDialogControl;
 
-    @FXML private CardPane cardPane;
-    @FXML private JFXButton prevButton;
-    @FXML JFXButton nextButton;
+    @FXML
+    private CardPane cardPane;
+    @FXML
+    private JFXButton prevButton;
+    @FXML
+    private JFXButton nextButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         orderedBooks = new HashMap<>();
+        prevButton.setDisable(true);
+        nextButton.setDisable(true);
         managerOrderDialogControl = new ManagerOrderDialogControl();
         showOrders();
         managerOrderDialogControl.setOnAcceptClick(e -> {
@@ -42,7 +47,7 @@ public class ManagerOrdersViewController implements Initializable {
             try {
                 Main.getDBConnector().placeOrder(order);
                 managerOrderDialogControl.close();
-                addOrder(Main.getDBConnector().getOrderedBook(order.getISBN()));
+                addOrder(order);
             } catch (DBException ex) {
                 //TODO HANDLE DB EXCEPTION
             }
@@ -58,13 +63,13 @@ public class ManagerOrdersViewController implements Initializable {
         try {
             List<Order> orders = Main.getDBConnector().getOrders();
             for (Order order : orders) {
-                Book book = Main.getDBConnector().getOrderedBook(order.getISBN());
-                addOrder(book);
+                addOrder(order);
             }
         } catch (DBException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
+
     public void getPrevPage(MouseEvent mouseEvent) {
         offset -= PAGE_COUNT;
         if (offset == 0) {
@@ -72,9 +77,9 @@ public class ManagerOrdersViewController implements Initializable {
             nextButton.setDisable(false);
         }
         cardPane.getCards().clear();
-        List<Book> books = getBookPage();
-        for (Book book : books)
-            cardPane.getCards().add(getNewCard(book));
+        List<Order> orders = getBookPage();
+        for (Order order : orders)
+            cardPane.getCards().add(getNewCard(order));
     }
 
     public void getNextPage(MouseEvent mouseEvent) {
@@ -82,28 +87,28 @@ public class ManagerOrdersViewController implements Initializable {
         if (offset == PAGE_COUNT)
             prevButton.setDisable(false);
         cardPane.getCards().clear();
-        List<Book> books = getBookPage();
-        for (Book book : books)
-            cardPane.getCards().add(getNewCard(book));
+        List<Order> orders = getBookPage();
+        for (Order order : orders)
+            cardPane.getCards().add(getNewCard(order));
         if (offset + cardPane.getCards().size() == orderedBooks.size())
             nextButton.setDisable(true);
     }
 
-    private List<Book> getBookPage() {
-        List<Book> books = new ArrayList<>();
+    private List<Order> getBookPage() {
+        List<Order> orders = new ArrayList<>();
         List<String> keySet = new ArrayList<>(orderedBooks.keySet());
 
         for (int i = offset; i < offset + PAGE_COUNT && i < orderedBooks.size(); i++)
-            books.add(orderedBooks.get(keySet.get(i)));
+            orders.add(orderedBooks.get(keySet.get(i)));
 
-        return books;
+        return orders;
     }
 
-    private ManagerOrderCardControl getNewCard(Book book) {
-        ManagerOrderCardControl card = new ManagerOrderCardControl(book);
+    private ManagerOrderCardControl getNewCard(Order order) {
+        ManagerOrderCardControl card = new ManagerOrderCardControl(order);
 
         card.setOnDeleteButtonClick(mouseEvent -> {
-            orderedBooks.remove(book.getISBN());
+            orderedBooks.remove(order.getISBN());
             cardPane.getCards().remove(card);
 
             int indToAdd = offset + PAGE_COUNT - 1;
@@ -114,17 +119,38 @@ public class ManagerOrdersViewController implements Initializable {
                 nextButton.setDisable(true);
         });
 
+        card.setOnConfirmButtonClick(event -> {
+            try {
+                Main.getDBConnector().confirmOrder(order.getId());
+                orderedBooks.remove(order.getISBN());
+                cardPane.getCards().remove(card);
+
+                int indToAdd = offset + PAGE_COUNT - 1;
+                if (indToAdd < orderedBooks.size())
+                    cardPane.getCards().add(getNewCard(orderedBooks.get(
+                            new ArrayList<>(orderedBooks.keySet()).get(indToAdd))));
+                else
+                    nextButton.setDisable(true);
+
+            } catch (DBException e) {
+
+            }
+        });
+        card.setOnEditButtonClick(event -> {
+
+        });
+
         return card;
     }
 
-    public void addOrder(Book book) {
-        if (orderedBooks.containsKey(book.getISBN())) {
+    public void addOrder(Order order) {
+        if (orderedBooks.containsKey(order.getISBN())) {
             //TODO: check if a book card is existing in the current view and edit it.
             return;
         }
-        orderedBooks.put(book.getISBN(), book);
+        orderedBooks.put(order.getISBN(), order);
         if (cardPane.getCards().size() < PAGE_COUNT) {
-            ManagerOrderCardControl card = getNewCard(book);
+            ManagerOrderCardControl card = getNewCard(order);
             cardPane.getCards().add(card);
         } else if (cardPane.getCards().size() == PAGE_COUNT)
             nextButton.setDisable(false);

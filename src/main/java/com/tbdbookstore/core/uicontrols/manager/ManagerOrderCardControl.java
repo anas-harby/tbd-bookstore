@@ -1,6 +1,9 @@
 package com.tbdbookstore.core.uicontrols.manager;
 
+import com.tbdbookstore.core.Main;
+import com.tbdbookstore.core.jdbc.DBException;
 import com.tbdbookstore.core.pojo.Book;
+import com.tbdbookstore.core.pojo.Order;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,23 +38,40 @@ public class ManagerOrderCardControl extends VBox {
     @FXML
     private Button deleteButton;
 
+    @FXML
+    private Button editButton;
+    @FXML
+    private Button confirmButton;
+
+    @FXML
+    private Label orderQuantity;
+    @FXML
+    private Label orderID;
+
     private double priceVal;
 
     public ManagerOrderCardControl() {
         loadFxml("/com/tbdbookstore/view/fxml/manager/ManagerOrderCard.fxml");
     }
 
-    public ManagerOrderCardControl(Book book) {
+    public ManagerOrderCardControl(Order order) {
         loadFxml("/com/tbdbookstore/view/fxml/manager/ManagerOrderCard.fxml");
-        isbn.setText(book.getISBN());
-        title.setText(book.getTitle());
-        author.setText(book.getAuthors().get(0));
-        publisher.setText(book.getPublisher());
-        year.setText(book.getPublicationYear());
-        genre.setText(book.getGenre());
-        quantity.setText(Integer.toString(book.getStockQuantity()));
-        price.setText(Double.toString(book.getSellingPrice()) + "$");
-        priceVal = book.getSellingPrice();
+        try {
+            Book book = Main.getDBConnector().getOrderedBook(order.getISBN());
+            isbn.setText(book.getISBN());
+            title.setText(book.getTitle());
+            author.setText(book.getAuthors().get(0));
+            publisher.setText(book.getPublisher());
+            year.setText(book.getPublicationYear());
+            genre.setText(book.getGenre());
+            quantity.setText(Integer.toString(book.getStockQuantity()));
+            price.setText(Double.toString(book.getSellingPrice()) + "$");
+            priceVal = book.getSellingPrice();
+            orderQuantity.setText(" " + Integer.toString(order.getQuantity()));
+            orderID.setText("           " + Integer.toString(order.getId()));
+        } catch (DBException e) {
+
+        }
     }
 
     private void loadFxml(String path) {
@@ -67,8 +87,17 @@ public class ManagerOrderCardControl extends VBox {
             throw new RuntimeException(e.getMessage());
         }
     }
+
     public void setOnDeleteButtonClick(EventHandler<? super MouseEvent> eventHandler) {
         this.deleteButton.setOnMouseClicked(eventHandler);
+    }
+
+    public void setOnEditButtonClick(EventHandler<? super MouseEvent> eventHandler) {
+        this.editButton.setOnMouseClicked(eventHandler);
+    }
+
+    public void setOnConfirmButtonClick(EventHandler<? super MouseEvent> eventHandler) {
+        this.confirmButton.setOnMouseClicked(eventHandler);
     }
 
 }
