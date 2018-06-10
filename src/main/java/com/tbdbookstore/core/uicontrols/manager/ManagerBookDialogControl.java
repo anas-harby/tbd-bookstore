@@ -1,9 +1,12 @@
 package com.tbdbookstore.core.uicontrols.manager;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.base.ValidatorBase;
+import com.tbdbookstore.core.Main;
+import com.tbdbookstore.core.jdbc.DBException;
 import com.tbdbookstore.core.pojo.Book;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -27,7 +30,9 @@ public class ManagerBookDialogControl extends JFXDialog {
     @FXML private JFXTextField publisherField;
     @FXML private JFXTextField yearField;
     @FXML private JFXTextField priceField;
-    @FXML private JFXTextField quantityField;
+    @FXML private JFXTextField stockQuantityField;
+    @FXML private JFXTextField minQuantityField;
+    @FXML private JFXComboBox genreField;
 
     @FXML private JFXButton acceptButton;
     @FXML private JFXButton cancelButton;
@@ -37,11 +42,21 @@ public class ManagerBookDialogControl extends JFXDialog {
     public ManagerBookDialogControl() {
         loadFxml("/com/tbdbookstore/view/fxml/manager/ManagerBookDialog.fxml");
         dialogFields = new ArrayList<>(Arrays.asList(isbnField, titleField, authorsField,
-                publisherField, yearField, priceField, quantityField));
+                publisherField, yearField, priceField, stockQuantityField, minQuantityField));
+        loadGenres();
         attachValidators();
-
         acceptButton.setOnMouseClicked(e -> root.close());
         cancelButton.setOnMouseClicked(e -> root.close());
+    }
+
+    private void loadGenres() {
+        try {
+            List<String> genres = Main.getDBConnector().getGenres();
+            for (String genre : genres)
+                genreField.getItems().add(new Label(genre));
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
     }
 
     private void attachValidators() {
@@ -77,9 +92,9 @@ public class ManagerBookDialogControl extends JFXDialog {
         Book book = new Book(isbnField.getText());
         book.setTitle(titleField.getText());
         book.setPublicationYear(yearField.getText());
-        book.setMinQuantity(Integer.parseInt(quantityField.getText()));
+        book.setMinQuantity(Integer.parseInt(minQuantityField.getText()));
         book.setSellingPrice(Integer.parseInt(priceField.getText()));
-        book.setStockQuantity(Integer.parseInt(quantityField.getText()));
+        book.setStockQuantity(Integer.parseInt(stockQuantityField.getText()));
         book.setGenre(""); //TODO
         return book;
     }

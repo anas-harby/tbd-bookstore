@@ -26,6 +26,8 @@ public interface Connector {
       -------------- */
     void promoteUser(String promotedUsername) throws DBException;
 
+    List<String> getGenres() throws DBException;
+
     void addNewBook(Book book) throws DBException;
 
     void modifyBook(Book book) throws DBException;
