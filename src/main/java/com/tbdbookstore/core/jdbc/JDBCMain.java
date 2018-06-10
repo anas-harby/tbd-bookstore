@@ -21,21 +21,32 @@ public class JDBCMain {
 //            bought.put("12345678book2", bought2);
 //            headController.checkOut(bought);
 
-            User user = new User("new1");
+            User user = new User("new");
             user.setPassword("new");
-            user.setLastName("Last");
-            user.setFirstName("First");
-            user.setEmail("new@gmail.com");
-            user.setPhoneNumber("01001010101");
-            user.setShippingAddress("Address, City, Country");
-            JDBCController userController = JDBCController.signUp(user);
+//            user.setLastName("Last");
+//            user.setFirstName("First");
+//            user.setEmail("new@gmail.com");
+//            user.setPhoneNumber("01001010101");
+//            user.setShippingAddress("Address, City, Country");
+//            JDBCController userController = JDBCController.signUp(user);
 //
 ////            JDBCController managerController = JDBCController.logIn("head", "head");
 ////            managerController.promoteUser(user.getUsername());
 ////            managerController = null; // Manager logs out, ViewController should null the managerController object here
 //
-//            JDBCController userController = JDBCController.logIn(user.getUsername(), user.getPassword());
-//            System.out.println(userController.getUserInfo("new2").getRole());
+            JDBCController userController = JDBCController.logIn(user.getUsername(), user.getPassword());
+            Book searchBook = userController.getOrderedBook("12345678book1");
+            System.out.println(searchBook.getISBN());
+            System.out.println(searchBook.getTitle());
+            System.out.println(searchBook.getAuthors().size());
+            System.out.println(searchBook.getAuthors().get(0));
+            System.out.println(searchBook.getAuthors().get(1));
+            System.out.println(searchBook.getGenre());
+            System.out.println(searchBook.getPublisher());
+            System.out.println(searchBook.getPublicationYear());
+            System.out.println(searchBook.getSellingPrice());
+            System.out.println(searchBook.getStockQuantity());
+            System.out.println(searchBook.getMinQuantity());
 //
 ////            user.setPassword("newpass");
 ////            user.setLastName("Last Modified");

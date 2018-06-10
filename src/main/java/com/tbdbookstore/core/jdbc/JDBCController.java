@@ -8,10 +8,7 @@ import com.tbdbookstore.core.pojo.User;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class JDBCController implements Connector {
     private String username;
@@ -60,7 +57,7 @@ public class JDBCController implements Connector {
     }
 
     @Override
-    public Connection getConnection() throws DBException{
+    public Connection getConnection() throws DBException {
         try {
             return DataSource.getInstance().getConnection(username, password);
         } catch (SQLException e) {
@@ -122,7 +119,7 @@ public class JDBCController implements Connector {
     }
 
     @Override
-    public HashMap<String, Book> search(Book book, Ordering ordering, int offset, int count) throws DBException {
+    public LinkedHashMap<String, Book> search(Book book, Ordering ordering, int offset, int count) throws DBException {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -147,7 +144,7 @@ public class JDBCController implements Connector {
             connection = DataSource.getInstance().getConnection(username, password);
             String query = "{CALL check_out(?, ?, ?)}";
             statement = connection.prepareCall(query);
-            for (Map.Entry<String, Integer> order : orders.entrySet()){
+            for (Map.Entry<String, Integer> order : orders.entrySet()) {
                 statement.setString(1, username);
                 statement.setString(2, order.getKey());
                 statement.setInt(3, order.getValue());
@@ -257,8 +254,22 @@ public class JDBCController implements Connector {
     }
 
     @Override
-    public Book getOrderedBook(String ISBN)  throws DBException{
-        return null;
+    public Book getOrderedBook(String ISBN) throws DBException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DataSource.getInstance().getConnection(username, password);
+            String query = buildSelectQuery(ISBN);
+            statement = connection.prepareCall(query);
+            resultSet = statement.executeQuery();
+            return getBook(ISBN, resultSet);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
+        } finally {
+            cleanUpResources(resultSet, statement, connection);
+        }
     }
 
     @Override
@@ -339,7 +350,7 @@ public class JDBCController implements Connector {
 
     private User getUser(ResultSet resultSet) throws SQLException {
         if (resultSet.next()) {
-            User user  = new User(resultSet.getString("USERNAME"));
+            User user = new User(resultSet.getString("USERNAME"));
             user.setLastName(resultSet.getString("LAST_NAME"));
             user.setFirstName(resultSet.getString("FIRST_NAME"));
             user.setEmail(resultSet.getString("EMAIL"));
@@ -351,9 +362,9 @@ public class JDBCController implements Connector {
         throw new SQLException();
     }
 
-    private HashMap<String, Book> getBooks(ResultSet resultSet) throws SQLException {
+    private LinkedHashMap<String, Book> getBooks(ResultSet resultSet) throws SQLException {
         DateFormat dateFormat = new SimpleDateFormat("yyyy");
-        HashMap<String, Book> books = new HashMap<>();
+        LinkedHashMap<String, Book> books = new LinkedHashMap<>();
         String bookISBN;
         Book book;
         while (resultSet.next()) {
@@ -375,6 +386,25 @@ public class JDBCController implements Connector {
             }
         }
         return books;
+    }
+
+    private Book getBook(String ISBN, ResultSet resultSet) throws SQLException {
+        if (resultSet.isBeforeFirst()) {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy");
+            Book book = new Book(ISBN);
+            while (resultSet.next()) { // TODO: Redundant VS. conditional assignment
+                book.setTitle(resultSet.getString("BOOK_TITLE"));
+                book.addAuthor(resultSet.getString("AUTHOR_NAME"));
+                book.setGenre(resultSet.getString("GENRE_NAME"));
+                book.setPublisher(resultSet.getString("PUBLISHER_NAME"));
+                book.setPublicationYear(dateFormat.format(resultSet.getDate("PUBLICATION_YEAR")));
+                book.setSellingPrice(resultSet.getDouble("SELLING_PRICE"));
+                book.setStockQuantity(resultSet.getInt("STOCK_QUANTITY"));
+                book.setMinQuantity(resultSet.getInt("MIN_QUANTITY"));
+            }
+            return book;
+        }
+        throw new SQLException(); // Book must exist in the database, since it was just ordered
     }
 
     private List<Order> getOrders(ResultSet resultSet) throws SQLException {
@@ -413,11 +443,10 @@ public class JDBCController implements Connector {
         return query.toString();
     }
 
-    private String buildSelectQuery (String ISBN) {
+    private String buildSelectQuery(String ISBN) {
         StringBuilder query = new StringBuilder("SELECT BOOK_ISBN, BOOK_TITLE, GENRE_NAME, AUTHOR_NAME, PUBLISHER_NAME"
-                + ", PUBLICATION_YEAR, SELLING_PRICE, STOCK_QUANTITY, MIN_QUANTITY FROM BOOK NATURAL JOIN AUTHOR NATURAL JOIN PUBLISHER");
-        query.append(" WHERE BOOK_ISBN = ");
-        query.append("'" + ISBN + "'");
+                + ", PUBLICATION_YEAR, SELLING_PRICE, STOCK_QUANTITY, MIN_QUANTITY FROM BOOK NATURAL JOIN AUTHOR NATURAL JOIN PUBLISHER"
+                + " WHERE BOOK_ISBN = " + "'" + ISBN + "'" + ";");
         return query.toString();
     }
 
