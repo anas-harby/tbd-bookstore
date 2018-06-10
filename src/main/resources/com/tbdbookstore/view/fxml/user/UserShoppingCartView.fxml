@@ -4,20 +4,83 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
+<?import com.jfoenix.controls.JFXDialog?>
+<?import com.jfoenix.controls.JFXDialogLayout?>
+<?import javafx.scene.layout.Pane?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.layout.HBox?>
 <BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tbdbookstore.core.control.user.UserShoppingCartViewController">
     <padding>
         <Insets left="20.0" right="10.0" top="10" />
     </padding>
     <top>
-        <JFXButton graphicTextGap="5.0" style="-fx-background-color: #00000000; -fx-text-fill: #757575;" text="Proceed To Checkout">
-            <graphic>
-                <FontAwesomeIconView glyphName="CREDIT_CARD" glyphStyle="-fx-fill: #757575" />
-            </graphic>
-        </JFXButton>
+      <VBox>
+         <children>
+            <Label text="Order Summary" textFill="#757575">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="22.0" right="5.0" top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <GridPane hgap="15.0" vgap="5.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="35.0" right="5.0" top="5.0" />
+               </VBox.margin>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" percentWidth="0.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="NEVER" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="Subtotal:" textFill="#757575" />
+                  <Label fx:id="subtotalPrice" nodeOrientation="RIGHT_TO_LEFT" text="127$" textFill="#757575" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label text="Shipping and Handling:" textFill="#757575" GridPane.rowIndex="1" />
+                  <Label fx:id="shippingPrice" alignment="TOP_LEFT" nodeOrientation="RIGHT_TO_LEFT" text="0$" textFill="#757575" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Separator prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+                  <Label text="Total:" textFill="#757575" GridPane.rowIndex="3" />
+                  <Label fx:id="totalPrice" nodeOrientation="RIGHT_TO_LEFT" text="132$" textFill="#757575" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+              <JFXButton onMouseClicked="#checkout" graphicTextGap="5.0" style="-fx-background-color: #2F39470f; -fx-text-fill: #757575;" text="Proceed To Checkout">
+                  <graphic>
+                      <FontAwesomeIconView glyphName="CREDIT_CARD" glyphStyle="-fx-fill: #757575" text="" />
+                  </graphic>
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+              </JFXButton>
+         </children>
+      </VBox>
     </top>
     <center>
         <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-fit-to-height: true; -fx-fit-to-width: true;" BorderPane.alignment="CENTER">
@@ -36,12 +99,96 @@
     <bottom>
         <AnchorPane prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
-                <JFXButton layoutX="38.0" maxWidth="60.0" prefWidth="60.0" style="-fx-background-color: rgba(0,0,0,0); -fx-text-fill: #757575;" text="Prev" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="898.0" />
-                <JFXButton layoutX="889.0" maxWidth="60.0" prefWidth="60.0" style="-fx-background-color: rgba(0,0,0,0); -fx-text-fill: #757575;" text="Next" AnchorPane.leftAnchor="889.0" AnchorPane.rightAnchor="47.0" />
+                <JFXButton fx:id="prevButton" onMouseClicked="#getPrevPage" layoutX="38.0" maxWidth="60.0" prefWidth="60.0" style="-fx-background-color: rgba(0,0,0,0); -fx-text-fill: #757575;" text="Prev" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="898.0" />
+                <JFXButton fx:id="nextButton" onMouseClicked="#getNextPage" layoutX="889.0" maxWidth="60.0" prefWidth="60.0" style="-fx-background-color: rgba(0,0,0,0); -fx-text-fill: #757575;" text="Next" AnchorPane.leftAnchor="889.0" AnchorPane.rightAnchor="47.0" />
             </children>
             <BorderPane.margin>
                 <Insets bottom="10.0" top="-10.0" />
             </BorderPane.margin>
         </AnchorPane>
     </bottom>
+
+    <JFXDialog fx:id="checkoutDialog">
+        <JFXDialogLayout>
+            <heading>
+                <Label style="-fx-text-fill: #757575;">Payment Methods</Label>
+            </heading>
+            <body>
+                <VBox prefWidth="600">
+                    <GridPane hgap="5.0" vgap="5.0">
+                        <columnConstraints>
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="0.0" prefWidth="35.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        </rowConstraints>
+                        <children>
+                            <JFXTextField promptText="Credit Card Number" style="-fx-prompt-text-fill: #757575;" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+                            <JFXTextField promptText="Card Holder Name" style="-fx-prompt-text-fill: #757575;" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                                <GridPane.margin>
+                                    <Insets top="5.0" />
+                                </GridPane.margin>
+                            </JFXTextField>
+                            <JFXTextField maxWidth="35.0" prefHeight="26.0" prefWidth="35.0" promptText="CVC" style="-fx-prompt-text-fill: #757575;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                            <JFXTextField maxWidth="150.0" promptText="Expiration (MM/YYYY)" style="-fx-prompt-text-fill: #757575;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                            <FontAwesomeIconView fill="#757575" glyphName="CREDIT_CARD" size="16" />
+                            <FontAwesomeIconView fill="#757575" glyphName="USER" size="16" GridPane.rowIndex="1" />
+                            <FontAwesomeIconView fill="#757575" glyphName="INFO" size="16" GridPane.rowIndex="2" />
+                            <FontAwesomeIconView fill="#757575" glyphName="CALENDAR" size="16" GridPane.rowIndex="3" />
+                        </children>
+                        <VBox.margin>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </VBox.margin>
+                        <padding>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                    </GridPane>
+                    <HBox prefWidth="200.0" spacing="5.0">
+                        <children>
+                            <FontAwesomeIconView fill="#c4c4c4" glyphName="CC_AMEX" size="20">
+                                <HBox.margin>
+                                    <Insets top="10.0" />
+                                </HBox.margin></FontAwesomeIconView>
+                            <FontAwesomeIconView fill="#c4c4c4" glyphName="CC_DISCOVER" size="20">
+                                <HBox.margin>
+                                    <Insets top="10.0" />
+                                </HBox.margin></FontAwesomeIconView>
+                            <FontAwesomeIconView fill="#c4c4c4" glyphName="CC_PAYPAL" size="20">
+                                <HBox.margin>
+                                    <Insets top="10.0" />
+                                </HBox.margin></FontAwesomeIconView>
+                            <FontAwesomeIconView fill="#c4c4c4" glyphName="CC_STRIPE" size="20">
+                                <HBox.margin>
+                                    <Insets top="10.0" />
+                                </HBox.margin></FontAwesomeIconView>
+                            <FontAwesomeIconView fill="#c4c4c4" glyphName="CC_VISA" size="20">
+                                <HBox.margin>
+                                    <Insets top="10.0" />
+                                </HBox.margin></FontAwesomeIconView>
+                            <Pane prefHeight="40.0" prefWidth="109.0" />
+                            <JFXButton alignment="CENTER" maxWidth="140.0" minHeight="35.0" minWidth="70.0" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #00000000;" text="Cancel" textFill="#757575">
+                                <HBox.margin>
+                                    <Insets />
+                                </HBox.margin>
+                            </JFXButton>
+                            <JFXButton alignment="CENTER" maxWidth="140.0" minHeight="35.0" minWidth="70.0" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #757575;" text="Confirm" textFill="WHITE" />
+                        </children>
+                        <VBox.margin>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="20.0" />
+                        </VBox.margin>
+                        <padding>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                    </HBox>
+                </VBox>
+            </body>
+        </JFXDialogLayout>
+    </JFXDialog>
 </BorderPane>
+
+

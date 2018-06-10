@@ -34,6 +34,7 @@ public class UserBookCardControl extends VBox {
     @FXML private JFXDialog dialog;
     private JFXPopup popup;
     private JFXButton checkPopup;
+    private JFXTextField quantityField;
 
     private int quantity;
 
@@ -67,11 +68,6 @@ public class UserBookCardControl extends VBox {
             System.out.println(e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
-    }
-
-    private void logAll() {
-        System.out.println("Title: " + title.getText());
-        System.out.println("Author: " + author.getText());
     }
 
     public void setISBN(String isbn) {
@@ -113,7 +109,7 @@ public class UserBookCardControl extends VBox {
         hbox.setSpacing(5);
         hbox.setPadding(new Insets(5, 5, 5, 5));
         hbox.setStyle("-fx-background-color: #E0E0E0;");
-        JFXTextField quantityField = new JFXTextField("1");
+        quantityField = new JFXTextField("1");
         quantityField.setMinWidth(20);
         quantityField.setMaxWidth(40);
         quantityField.setStyle("-fx-background-color: #00000000;");
@@ -159,5 +155,9 @@ public class UserBookCardControl extends VBox {
 
     public void hidePopup() {
         popup.hide();
+    }
+
+    public int getQuantity() {
+        return Integer.parseInt(quantityField.getText());
     }
 }

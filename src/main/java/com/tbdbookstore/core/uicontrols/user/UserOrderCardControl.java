@@ -15,8 +15,7 @@ import java.io.IOException;
 public class UserOrderCardControl extends VBox {
 
     /* Model properties. */
-    @FXML
-    private ImageView coverimg;
+    @FXML private ImageView coverimg;
     @FXML private Label title;
     @FXML private Label author;
     @FXML private Label isbn;
@@ -24,8 +23,9 @@ public class UserOrderCardControl extends VBox {
     @FXML private Label publisher;
     @FXML private Label year;
     @FXML private Label price;
-    @FXML private Button editButton;
+    @FXML private Label quantity;
     @FXML private Button deleteButton;
+    private double priceVal;
 
     public UserOrderCardControl() {
         loadFxml("/com/tbdbookstore/view/fxml/user/UserOrderCard.fxml");
@@ -39,7 +39,9 @@ public class UserOrderCardControl extends VBox {
         publisher.setText(book.getPublisher());
         year.setText(book.getPublicationYear());
         genre.setText(book.getGenre());
-        price.setText(Double.toString(book.getSellingPrice()));
+        quantity.setText(Integer.toString(book.getStockQuantity()));
+        price.setText(Double.toString(book.getSellingPrice()) + "$");
+        priceVal = book.getSellingPrice();
     }
 
     private void loadFxml(String path) {
@@ -83,11 +85,8 @@ public class UserOrderCardControl extends VBox {
         this.publisher.setText(publisher);
     }
 
-    public void setOnEditButtonClick(EventHandler<? super MouseEvent> eventHandler) {
-        this.editButton.setOnMouseClicked(eventHandler);
-    }
-
     public void setOnDeleteButtonClick(EventHandler<? super MouseEvent> eventHandler) {
         this.deleteButton.setOnMouseClicked(eventHandler);
     }
+
 }

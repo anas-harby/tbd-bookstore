@@ -39,14 +39,14 @@ public class Main extends Application {
     }
     @Override
     public void start(Stage primaryStage) throws Exception {
-        loader = new FXMLLoader(getClass().getResource("/com/tbdbookstore/view/fxml/main/HomePageView.fxml"));
+        loader = new FXMLLoader(getClass().getResource("/com/tbdbookstore/view/fxml/user/User.fxml"));
         loader.load();
         Scene scene = new Scene(loader.getRoot(), 1280, 800);
         primaryStage.setTitle("");
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        //connector = JDBCController.logIn("new1", "new");
+        connector = JDBCController.logIn("new1", "new");
 
         /*for jasper trial only*/ //TODO remove later
 //        Connection connection = connectToDatabase("jdbc:mysql://localhost:3306/BOOKSTORE", "root", "sara1201");
