@@ -8,6 +8,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.collections.FXCollections?>
 <GridPane hgap="50.0" style="-fx-text-fill: #898989;" vgap="5.0"
           xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
@@ -41,12 +43,12 @@
                 <Insets left="10.0" top="15.0" />
             </GridPane.margin>
         </Label>
-        <Label style="-fx-text-fill: #757575;" text="Manage user-base or view selling reports." GridPane.rowIndex="1">
+        <Label style="-fx-text-fill: #757575;" text="Manage user-base or view sales reports." GridPane.rowIndex="1">
             <GridPane.margin>
                 <Insets left="10.0" />
             </GridPane.margin>
         </Label>
-        <JFXTextField promptText="username" style="-fx-background-color: #00000000;" GridPane.rowIndex="5">
+        <JFXTextField fx:id="userNameField" promptText="username" style="-fx-background-color: #00000000;" GridPane.rowIndex="5">
             <GridPane.margin>
                 <Insets bottom="5.0" left="10.0" right="5.0" />
             </GridPane.margin></JFXTextField>
@@ -55,17 +57,17 @@
                 <Insets left="10.0" />
             </GridPane.margin>
         </Label>
-        <Label style="-fx-text-fill: #757575;" text="Promote a user to become a manager, giving him management prvileges (add or modify books, place books orders)." GridPane.columnSpan="2" GridPane.rowIndex="4">
+        <Label style="-fx-text-fill: #757575;" text="Promote a user to become a manager, giving him management privileges (add or modify books, place books orders)." GridPane.columnSpan="2" GridPane.rowIndex="4">
             <GridPane.margin>
                 <Insets left="10.0" />
             </GridPane.margin>
         </Label>
-        <JFXButton style="-fx-background-color: #00000000; -fx-text-fill: #757575;" text=" " GridPane.columnIndex="1" GridPane.rowIndex="5">
+        <JFXButton  fx:id="promoteUser" style="-fx-background-color: #00000000; -fx-text-fill: #757575;" text=" " GridPane.columnIndex="1" GridPane.rowIndex="5">
             <graphic>
-                <FontAwesomeIconView glyphName="CHECK" glyphSize="16" fill="#757575" />
+                <FontAwesomeIconView fx:id="check" glyphName="CHECK" glyphSize="16" fill="#757575" />
             </graphic>
         </JFXButton>
-        <Label style="-fx-text-fill: #757575; -fx-font-size: 20;" text="View Sailing Reports" GridPane.rowIndex="7">
+        <Label style="-fx-text-fill: #757575; -fx-font-size: 20;" text="View Sales Reports" GridPane.rowIndex="7">
             <opaqueInsets>
                 <Insets />
             </opaqueInsets>
@@ -73,7 +75,7 @@
                 <Insets left="10.0" />
             </padding>
         </Label>
-        <Label style="-fx-text-fill: #757575;" text="View Sailing reports for the last 3 months." GridPane.rowIndex="8">
+        <Label style="-fx-text-fill: #757575;" text="View Sales reports for the last 3 months." GridPane.rowIndex="8">
             <opaqueInsets>
                 <Insets />
             </opaqueInsets>
@@ -81,7 +83,7 @@
                 <Insets left="10.0" />
             </padding>
         </Label>
-        <JFXButton contentDisplay="RIGHT" style="-fx-background-color: #a1a1a1; -fx-text-fill: #FFFFFF;" text="JASPER" GridPane.rowIndex="9" graphicTextGap="5">
+        <JFXButton fx:id="jasperButton" contentDisplay="RIGHT" style="-fx-background-color: #a1a1a1; -fx-text-fill: #FFFFFF;" text="JASPER" GridPane.rowIndex="9" graphicTextGap="5">
             <graphic>
                 <FontAwesomeIconView glyphStyle="15" glyphName="EXTERNAL_LINK" fill="#FFFFFF"/>
             </graphic>
@@ -95,5 +97,27 @@
                 <Insets left="10.0" />
             </GridPane.margin>
         </JFXButton>
+            <JFXComboBox fx:id="exportCombobox" prefWidth="200"
+                         promptText="Export Report As" style="-fx-font-weight: BOLD; -fx-prompt-text-fill: #757575" GridPane.rowIndex="9">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <Label fx:id="PDF" text="PDF">
+                            PDF
+                        </Label>
+                        <Label fx:id="HTML" text="HTML">
+                            HTML
+                        </Label>
+                        <Label fx:id="XLS" text="XLS">
+                            EXCEL
+                        </Label>
+                    </FXCollections>
+                </items>
+                <padding>
+                    <Insets left="200.0" />
+                </padding>
+                <GridPane.margin>
+                    <Insets left="200.0" />
+                </GridPane.margin>
+            </JFXComboBox>
     </children>
 </GridPane>

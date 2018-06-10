@@ -19,8 +19,6 @@ public class Report implements JasperReport {
         compileReport(jrxmlPath);
         jasperSource = getFileName(jrxmlPath) + ".jasper";
         fillReport(jasperSource,connection);
-        exportReport(Format.HTML,"output");
-        viewReport();
     }
 
     @Override
