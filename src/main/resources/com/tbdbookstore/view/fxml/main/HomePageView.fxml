@@ -16,10 +16,10 @@
            minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #E0E0E0;"
            stylesheets="@../../css/style.css">
     <HBox alignment="TOP_RIGHT" spacing="15">
-        <JFXButton style="-fx-background-color: #80DEEA; -fx-pref-width: 100; -fx-font-size: 12; -fx-font-weight: bold"
+        <JFXButton style="-fx-background-color: #84FFFF; -fx-pref-width: 100; -fx-font-size: 12; -fx-font-weight: bold"
                    onMouseClicked="#LogIn" text="LOG IN">
         </JFXButton>
-        <JFXButton style="-fx-background-color: #9E9E9E; -fx-pref-width: 100; -fx-font-size: 12;-fx-font-weight: bold"
+        <JFXButton style="-fx-background-color: #BDBDBD; -fx-pref-width: 100; -fx-font-size: 12;-fx-font-weight: bold"
                    onMouseClicked="#signUp" text="SIGN UP">
         </JFXButton>
         <padding>
