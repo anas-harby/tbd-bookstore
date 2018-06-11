@@ -11,6 +11,7 @@ import com.tbdbookstore.core.shared.Attribute;
 import com.tbdbookstore.core.shared.OrderMode;
 import com.tbdbookstore.core.uicontrols.manager.ManagerBookCardControl;
 import com.tbdbookstore.core.uicontrols.manager.ManagerBookDialogControl;
+import com.tbdbookstore.core.uicontrols.manager.ModifyBookDialogControl;
 import com.tbdbookstore.core.uicontrols.user.UserBookCardControl;
 import com.tbdbookstore.core.util.BookSearchProcessor;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -39,6 +40,8 @@ public class ManagerHomeViewController implements Initializable {
     @FXML private FontAwesomeIconView priceIcon;
 
     private ManagerBookDialogControl dialogControl;
+    private ModifyBookDialogControl modifyDialogControl;
+
     private int offset = 0;
     private Book currSearchVal = null;
     private Ordering currentOrdering = null;
@@ -48,7 +51,10 @@ public class ManagerHomeViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         dialogControl = new ManagerBookDialogControl();
+        modifyDialogControl = new ModifyBookDialogControl();
+
         bar = new JFXSnackbar(Main.getRoot());
+
         dialogControl.setOnAcceptClick(e -> {
             dialogControl.validate();
             if (dialogControl.hasErrors())
@@ -66,6 +72,25 @@ public class ManagerHomeViewController implements Initializable {
             dialogControl.clearFields();
             dialogControl.close();
         });
+
+//        modifyDialogControl.setOnAcceptClick(e -> {
+//            modifyDialogControl.validate();
+//            if (modifyDialogControl.hasErrors())
+//                return;
+//            Book newBook = modifyDialogControl.getValue();
+//            try {
+//                Main.getDBConnector().addNewBook(newBook);
+//                modifyDialogControl.clearFields();
+//                modifyDialogControl.close();
+//            } catch (DBException e1) {
+//                bar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(e1)));
+//            }
+//        });
+//        modifyDialogControl.setOnCancelClick(e -> {
+//            modifyDialogControl.clearFields();
+//            modifyDialogControl.close();
+//        });
+
         search(null);
     }
 
@@ -139,7 +164,7 @@ public class ManagerHomeViewController implements Initializable {
         ManagerBookCardControl card = new ManagerBookCardControl(book);
 
         card.setOnEditButtonClick(e -> {
-            ;
+//            modifyDialogControl.show(Main.getRoot());
         });
 
         card.setOnDeleteButtonClick(e-> {

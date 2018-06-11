@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<?import com.jfoenix.validation.RequiredFieldValidator?>
+<?import com.jfoenix.validation.NumberValidator?>
+<?import com.tbdbookstore.core.util.validators.YearValidator?>
+<fx:root fx:id="root" maxHeight="-Infinity" style="-fx-background-color:#00000000;" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="800.0" type="com.jfoenix.controls.JFXDialog" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+    <JFXDialogLayout>
+        <heading>
+            <Label fx:id="heading" >Modify Book</Label>
+        </heading>
+        <body>
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="30.0">
+                <children>
+                    <JFXTextField fx:id="titleField" prefWidth="500.0" promptText="Title" style="-fx-prompt-text-fill: #757575;">
+                        <validators>
+                            <RequiredFieldValidator message="Input Required!">
+                                <FontAwesomeIconView glyphName="WARNING" style="-fx-font-family: FontAwesome;"/>
+                            </RequiredFieldValidator>
+                        </validators>
+                    </JFXTextField>
+                    <JFXTextField fx:id="authorsField" prefWidth="500.0" promptText="Author1,  Author2,  etc..." style="-fx-prompt-text-fill: #757575;">
+                        <validators>
+                            <RequiredFieldValidator message="Input Required!">
+                                <FontAwesomeIconView glyphName="WARNING" style="-fx-font-family: FontAwesome;"/>
+                            </RequiredFieldValidator>
+                        </validators>
+                    </JFXTextField>
+                    <HBox spacing="20.0">
+                        <children>
+                            <JFXTextField fx:id="publisherField" promptText="Publisher" style="-fx-prompt-text-fill: #757575;" HBox.hgrow="ALWAYS">
+                                <validators>
+                                    <RequiredFieldValidator message="Input Required!">
+                                        <FontAwesomeIconView glyphName="WARNING" style="-fx-font-family: FontAwesome;"/>
+                                    </RequiredFieldValidator>
+                                </validators>
+                            </JFXTextField>
+                            <JFXTextField fx:id="yearField" prefWidth="60.0" promptText="Year" style="-fx-prompt-text-fill: #757575;">
+                                <validators>
+                                    <RequiredFieldValidator message="Input Required!">
+                                        <FontAwesomeIconView glyphName="WARNING" style="-fx-font-family: FontAwesome;"/>
+                                    </RequiredFieldValidator>
+                                    <YearValidator message="Invalid Year Format!">
+                                        <FontAwesomeIconView glyphName="WARNING" style="-fx-font-family: FontAwesome;"/>
+                                    </YearValidator>
+                                </validators>
+                            </JFXTextField>
+                        </children>
+                    </HBox>
+                    <HBox spacing="20.0">
+                        <children>
+                            <JFXComboBox fx:id="genreField" prefWidth="150.0" promptText="Genre" style="-fx-font-weight: BOLD; -fx-prompt-text-fill: #757575;">
+                            </JFXComboBox>
+                            <JFXTextField fx:id="priceField" prefWidth="150.0" promptText="Price ($)" style="-fx-prompt-text-fill: #757575;" HBox.hgrow="ALWAYS">
+                                <validators>
+                                    <RequiredFieldValidator message="Input Required!">
+                                        <FontAwesomeIconView glyphName="WARNING" style="-fx-font-family: FontAwesome;"/>
+                                    </RequiredFieldValidator>
+                                </validators>
+                            </JFXTextField>
+                            <JFXTextField fx:id="stockQuantityField" prefWidth="150" promptText="Stock Quantity" style="-fx-prompt-text-fill: #757575;" HBox.hgrow="ALWAYS">
+                                <validators>
+                                    <RequiredFieldValidator message="Input Required!">
+                                        <FontAwesomeIconView glyphName="WARNING" style="-fx-font-family: FontAwesome;"/>
+                                    </RequiredFieldValidator>
+                                    <NumberValidator message="Input must be a number!">
+                                        <FontAwesomeIconView glyphName="WARNING" style="-fx-font-family: FontAwesome;"/>
+                                    </NumberValidator>
+                                </validators>
+                            </JFXTextField>
+                            <JFXTextField fx:id="minQuantityField" prefWidth="150" promptText="Min Quantity" style="-fx-prompt-text-fill: #757575;" HBox.hgrow="ALWAYS">
+                                <validators>
+                                    <RequiredFieldValidator message="Input Required!">
+                                        <FontAwesomeIconView glyphName="WARNING" style="-fx-font-family: FontAwesome;"/>
+                                    </RequiredFieldValidator>
+                                    <NumberValidator message="Input must be a number!">
+                                        <FontAwesomeIconView glyphName="WARNING" style="-fx-font-family: FontAwesome;"/>
+                                    </NumberValidator>
+                                </validators>
+                            </JFXTextField>
+                        </children>
+                    </HBox>
+                </children>
+                <padding>
+                    <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                </padding>
+            </VBox>
+
+        </body>
+        <actions>
+            <JFXButton fx:id="acceptButton" prefWidth="100" style="-fx-background-color: #757575; -fx-text-fill: #ffffff;">Add
+            </JFXButton>
+            <JFXButton fx:id="cancelButton" prefWidth="100">Cancel
+            </JFXButton>
+        </actions>
+    </JFXDialogLayout>
+</fx:root>

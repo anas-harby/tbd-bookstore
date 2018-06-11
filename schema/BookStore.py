@@ -3,7 +3,12 @@ from faker import Faker
 from random import randint
 import csv
 
-SIZE = 500
+def randN(n):
+    range_start = 10**(n-1)
+    range_end = (10**n)-1
+    return randint(range_start, range_end)
+
+SIZE = 1000000
 fake = Faker('it_IT')
 
 #Genre
@@ -44,7 +49,7 @@ with open('publisher.csv', 'w') as f:
         wr.writerow([publisher_id[i]] + [publisher_name[i]] + [publisher_address[i]] + [publisher_phone[i]])
 
 #Book
-book_isbn = [fake.isbn10() for _ in range(SIZE)]
+book_isbn = [randN(13) for _ in range(SIZE)]
 book_title = [fake.sentence(3) for _ in range(SIZE)]
 book_publicationyear = [fake.year() for _ in range(SIZE)]
 book_price = [i * 4.4 for i in range(SIZE)]
