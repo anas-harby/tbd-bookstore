@@ -63,7 +63,7 @@
         <actions>
             <TextFlow>
                 <Text> Don`t Have An Account?</Text>
-                <Hyperlink>Sign Up</Hyperlink>
+                <Hyperlink fx:id="signupLink">Sign Up</Hyperlink>
             </TextFlow>
             <JFXButton fx:id="acceptButton" prefWidth="100"
                        style="-fx-background-color: #757575; -fx-text-fill: #ffffff;">Log In
