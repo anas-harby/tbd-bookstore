@@ -60,15 +60,22 @@
                 </HBox>
                 <HBox spacing="20.0">
                     <children>
-                        <JFXComboBox fx:id="genreField" prefWidth="200.0" promptText="Genre" style="-fx-prompt-text-fill: #757575;" />
-                        <JFXTextField fx:id="priceField" prefWidth="200.0" promptText="Price ($)" style="-fx-prompt-text-fill: #757575;" HBox.hgrow="ALWAYS">
+                        <JFXComboBox fx:id="genreField" prefWidth="150.0" promptText="Genre" style="-fx-font-weight: BOLD; -fx-prompt-text-fill: #757575;" />
+                        <JFXTextField fx:id="priceField" prefWidth="150.0" promptText="Price ($)" style="-fx-prompt-text-fill: #757575;" HBox.hgrow="ALWAYS">
                             <validators>
                                 <RequiredFieldValidator message="Input Required!">
                                     <FontAwesomeIconView glyphName="WARNING" style="-fx-font-family: FontAwesome;"/>
                                 </RequiredFieldValidator>
                             </validators>
                         </JFXTextField>
-                        <JFXTextField fx:id="quantityField" prefWidth="200" promptText="Quantity" style="-fx-prompt-text-fill: #757575;" HBox.hgrow="ALWAYS">
+                        <JFXTextField fx:id="stockQuantityField" prefWidth="150" promptText="Stock Quantity" style="-fx-prompt-text-fill: #757575;" HBox.hgrow="ALWAYS">
+                            <validators>
+                                <NumberValidator message="Input must be a number!">
+                                    <FontAwesomeIconView glyphName="WARNING" style="-fx-font-family: FontAwesome;"/>
+                                </NumberValidator>
+                            </validators>
+                        </JFXTextField>
+                        <JFXTextField fx:id="minQuantityField" prefWidth="150" promptText="Min Quantity" style="-fx-prompt-text-fill: #757575;" HBox.hgrow="ALWAYS">
                             <validators>
                                 <NumberValidator message="Input must be a number!">
                                     <FontAwesomeIconView glyphName="WARNING" style="-fx-font-family: FontAwesome;"/>

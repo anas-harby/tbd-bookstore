@@ -45,7 +45,7 @@ public class HomePageViewController implements Initializable {
                 //switch to user view
                 switchView("/com/tbdbookstore/view/fxml/user/User.fxml");
             } catch (DBException ex) {
-                showError(ex);
+                bar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(ex)));
             }
 
         });
@@ -64,7 +64,7 @@ public class HomePageViewController implements Initializable {
                     switchView("/com/tbdbookstore/view/fxml/user/User.fxml");
                 }
             } catch (DBException ex) {
-               showError(ex);
+               bar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(ex)));
             }
         });
     }
@@ -86,29 +86,6 @@ public class HomePageViewController implements Initializable {
         } catch (IOException ex) {
 
         }
-    }
-    private void showError(DBException e){
-       switch (e.getError()){
-           case HEAVY_LOAD:
-               bar.enqueue(new JFXSnackbar.SnackbarEvent("Heavy Load, Too Many Connections! Try Again Later"));
-               break;
-           case ACCESS_DENIED:
-               bar.enqueue(new JFXSnackbar.SnackbarEvent("User Unregistered or Incorrect Password !"));
-               break;
-           case ALREADY_REGISTERED:
-               bar.enqueue(new JFXSnackbar.SnackbarEvent("User Already Registered! Try A Different UserName"));
-               break;
-           case CONNECTION_FAILED:
-               bar.enqueue(new JFXSnackbar.SnackbarEvent("Connection Failed! Try Again Later"));
-               break;
-           case INTERNAL_ISSUE:
-               bar.enqueue(new JFXSnackbar.SnackbarEvent("Internal Database Issues! Try Again Later "));
-               break;
-           case DATA_TOO_LONG:
-               bar.enqueue(new JFXSnackbar.SnackbarEvent("UserName Is Too Long! Try A Different One"));
-               break;
-
-       }
     }
 
 }

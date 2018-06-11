@@ -24,7 +24,6 @@ public class ManagerViewController implements Initializable {
     @FXML
     private JFXButton logOut;
     private Map<String, FXMLLoader> loadedFxmls;
-    private JFXSnackbar snackbar;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

@@ -42,7 +42,7 @@ public class ManagerAdministrationController implements Initializable {
                 Main.getDBConnector().promoteUser(userNameField.getText());
                 bar.enqueue(new JFXSnackbar.SnackbarEvent("User Promoted Successfully !"));
             } catch (DBException ex) {
-
+                bar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(ex)));
             }
         });
         jasperButton.setOnMouseClicked(event -> {
@@ -50,7 +50,7 @@ public class ManagerAdministrationController implements Initializable {
                 report = new Report(reportFile.getAbsolutePath(), Main.getDBConnector().getConnection());
                 report.viewReport();
             } catch (DBException e) {
-
+               bar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(e)));
             }
         });
         exportCombobox.setOnAction((e) -> {
@@ -76,6 +76,7 @@ public class ManagerAdministrationController implements Initializable {
             }
 
         } catch (DBException exception) {
+            bar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(exception)));
         }
     }
 }

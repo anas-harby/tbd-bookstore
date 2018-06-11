@@ -178,6 +178,25 @@ public class JDBCController implements Connector {
     }
 
     @Override
+    public List<String> getGenres() throws DBException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DataSource.getInstance().getConnection(username, password);
+            String query = "{CALL get_genres()}";
+            statement = connection.prepareCall(query);
+            resultSet = statement.executeQuery();
+            return getGenres(resultSet);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw new DBException(JDBCLoader.getErrorHandler().getError(e.getErrorCode()));
+        } finally {
+            cleanUpResources(resultSet, statement, connection);
+        }
+    }
+
+    @Override
     public void addNewBook(Book book) throws DBException {
         Connection connection = null;
         CallableStatement statement = null;
@@ -405,6 +424,13 @@ public class JDBCController implements Connector {
             return book;
         }
         throw new SQLException(); // Book must exist in the database, since it was just ordered
+    }
+
+    private List<String> getGenres(ResultSet resultSet) throws SQLException {
+        List<String> genres = new ArrayList<>();
+        while (resultSet.next())
+            genres.add(resultSet.getString("GENRE_NAME"));
+        return genres;
     }
 
     private List<Order> getOrders(ResultSet resultSet) throws SQLException {

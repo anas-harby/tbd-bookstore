@@ -2,6 +2,7 @@ package com.tbdbookstore.core.control.user;
 
 import com.gluonhq.charm.glisten.control.CardPane;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTextField;
 import com.tbdbookstore.core.Main;
 import com.tbdbookstore.core.jdbc.DBException;
@@ -32,6 +33,8 @@ public class UserHomeViewController implements Initializable {
     @FXML private FontAwesomeIconView titleIcon;
     @FXML private FontAwesomeIconView priceIcon;
 
+    private JFXSnackbar bar;
+
     private int offset = 0;
     private Book currSearchVal = null;
     private Ordering currentOrdering = null;
@@ -40,13 +43,14 @@ public class UserHomeViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         search(null);
+        bar = new JFXSnackbar(Main.getRoot());
     }
 
     private LinkedHashMap<String, Book> getSearchResults() {
         try {
             return Main.getDBConnector().search(currSearchVal, currentOrdering, offset * PAGE_COUNT, PAGE_COUNT);
         } catch (DBException e) {
-            e.printStackTrace();
+            bar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(e)));
         }
         return new LinkedHashMap<>();
     }
