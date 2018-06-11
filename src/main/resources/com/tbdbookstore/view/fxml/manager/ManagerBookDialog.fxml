@@ -33,7 +33,7 @@
                         </RequiredFieldValidator>
                     </validators>
                 </JFXTextField>
-                <JFXTextField fx:id="authorsField" prefWidth="500.0" promptText="Author(s)" style="-fx-prompt-text-fill: #757575;">
+                <JFXTextField fx:id="authorsField" prefWidth="500.0" promptText="Author1,  Author2,  etc..." style="-fx-prompt-text-fill: #757575;">
                     <validators>
                         <RequiredFieldValidator message="Input Required!">
                             <FontAwesomeIconView glyphName="WARNING" style="-fx-font-family: FontAwesome;"/>

@@ -55,12 +55,12 @@ public class ManagerHomeViewController implements Initializable {
             Book newBook = dialogControl.getValue();
             try {
                 Main.getDBConnector().addNewBook(newBook);
+                dialogControl.clearFields();
                 dialogControl.close();
             } catch (DBException e1) {
                 bar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(e1)));
             }
         });
-
         search(null);
     }
 
