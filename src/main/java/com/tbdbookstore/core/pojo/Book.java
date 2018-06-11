@@ -96,4 +96,9 @@ public class Book {
         book.setMinQuantity(this.minQuantity);
         return book;
     }
+
+    @Override
+    public String toString() {
+        return "isbn: " + ISBN + ", title: " + title + ", authors: " + authors + ", publisher: " + publisher;
+    }
 }

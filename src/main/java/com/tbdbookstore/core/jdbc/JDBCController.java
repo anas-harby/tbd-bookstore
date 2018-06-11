@@ -430,12 +430,12 @@ public class JDBCController implements Connector {
         if (book.getGenre() != null)
             conditions.add("GENRE_NAME = " + "'" + book.getGenre() + "'");
         if (book.getPublisher() != null)
-            conditions.add("PUBLISHER_NAME = " + "'" + book.getPublisher() + "'");
+            conditions.add("PUBLISHER_NAME LIKE " + "'%" + book.getPublisher() + "%'");
         if (!conditions.isEmpty()) {
             int i = 0;
             query.append(" WHERE ").append(conditions.get(i++));
             while (i < conditions.size())
-                query.append(" OR ").append(conditions.get(i++));
+                query.append(" AND ").append(conditions.get(i++));
         }
         if (ordering != null)
             query.append(" ORDER BY " + ordering.getAttribute() + " " + ordering.getMode());
