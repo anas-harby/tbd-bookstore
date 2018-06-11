@@ -49,11 +49,49 @@ public class ManagerBookDialogControl extends JFXDialog {
         cancelButton.setOnMouseClicked(e -> root.close());
     }
 
+    public void setOnAcceptClick(EventHandler<? super MouseEvent> eventHandler) {
+        this.acceptButton.setOnMouseClicked(eventHandler);
+    }
+
+    public void setOnCancelClick(EventHandler<? super MouseEvent> eventHandler) {
+        this.cancelButton.setOnMouseClicked(eventHandler);
+    }
+
+    public Book getValue() {
+        Book book = new Book(isbnField.getText());
+        book.setTitle(titleField.getText());
+        book.setAuthors(getAuthors());
+        book.setGenre((String) genreField.getValue());
+        book.setPublisher(publisherField.getText());
+        book.setPublicationYear(yearField.getText());
+        book.setSellingPrice(Integer.parseInt(priceField.getText()));
+        book.setMinQuantity(Integer.parseInt(minQuantityField.getText()));
+        book.setStockQuantity(Integer.parseInt(stockQuantityField.getText()));
+        return book;
+    }
+
+    public boolean hasErrors() {
+        for (JFXTextField tf : dialogFields)
+            for (ValidatorBase v : tf.getValidators())
+                if (v.getHasErrors())
+                    return true;
+        return false;
+    }
+
+    public void setHeading(String s) {
+        this.heading.setText(s);
+    }
+
+    public void clearFields() {
+        for (JFXTextField jfxTextField : dialogFields)
+            jfxTextField.setText("");
+    }
+
     private void loadGenres() {
         try {
             List<String> genres = Main.getDBConnector().getGenres();
             for (String genre : genres)
-                genreField.getItems().add(new Label(genre));
+                genreField.getItems().add(genre);
         } catch (DBException e) {
             e.printStackTrace();
         }
@@ -80,34 +118,10 @@ public class ManagerBookDialogControl extends JFXDialog {
         }
     }
 
-    public void setOnAcceptClick(EventHandler<? super MouseEvent> eventHandler) {
-        this.acceptButton.setOnMouseClicked(eventHandler);
-    }
-
-    public void setOnCancelClick(EventHandler<? super MouseEvent> eventHandler) {
-        this.cancelButton.setOnMouseClicked(eventHandler);
-    }
-
-    public Book getValue() {
-        Book book = new Book(isbnField.getText());
-        book.setTitle(titleField.getText());
-        book.setPublicationYear(yearField.getText());
-        book.setMinQuantity(Integer.parseInt(minQuantityField.getText()));
-        book.setSellingPrice(Integer.parseInt(priceField.getText()));
-        book.setStockQuantity(Integer.parseInt(stockQuantityField.getText()));
-        book.setGenre(""); //TODO
-        return book;
-    }
-
-    public boolean hasErrors() {
-        for (JFXTextField tf : dialogFields)
-            for (ValidatorBase v : tf.getValidators())
-                if (v.getHasErrors())
-                    return true;
-        return false;
-    }
-
-    public void setHeading(String s) {
-        this.heading.setText(s);
+    private List<String> getAuthors() {
+        List<String> authors = Arrays.asList(authorsField.getText().split(","));
+        for (String author : authors)
+            author = author.trim();
+        return authors;
     }
 }
