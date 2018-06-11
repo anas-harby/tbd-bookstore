@@ -35,7 +35,7 @@ public class ManagerBookCardControl extends VBox {
 
         isbn.setText(book.getISBN());
         title.setText(book.getTitle());
-        author.setText(book.getAuthors().get(0));
+        author.setText(book.getAuthorsString());
         publisher.setText(book.getPublisher());
         year.setText(book.getPublicationYear());
         genre.setText(book.getGenre());
