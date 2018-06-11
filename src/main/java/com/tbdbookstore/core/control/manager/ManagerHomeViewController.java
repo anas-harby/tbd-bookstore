@@ -73,24 +73,6 @@ public class ManagerHomeViewController implements Initializable {
             dialogControl.close();
         });
 
-//        modifyDialogControl.setOnAcceptClick(e -> {
-//            modifyDialogControl.validate();
-//            if (modifyDialogControl.hasErrors())
-//                return;
-//            Book newBook = modifyDialogControl.getValue();
-//            try {
-//                Main.getDBConnector().addNewBook(newBook);
-//                modifyDialogControl.clearFields();
-//                modifyDialogControl.close();
-//            } catch (DBException e1) {
-//                bar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(e1)));
-//            }
-//        });
-//        modifyDialogControl.setOnCancelClick(e -> {
-//            modifyDialogControl.clearFields();
-//            modifyDialogControl.close();
-//        });
-
         search(null);
     }
 
@@ -170,11 +152,11 @@ public class ManagerHomeViewController implements Initializable {
                 modifyDialogControl.validate();
                 if (modifyDialogControl.hasErrors())
                     return;
-                Book updatedBook = modifyDialogControl.getValue();
 
+                Book updatedBook = modifyDialogControl.getValue();
+                updatedBook.setISBN(book.getISBN());
                 try {
                     Main.getDBConnector().modifyBook(updatedBook);
-                    updatedBook.setISBN(book.getISBN());
                     card.update(updatedBook);
                     modifyDialogControl.close();
                 } catch (DBException e1) {
@@ -217,7 +199,6 @@ public class ManagerHomeViewController implements Initializable {
             alert.setContent(layout);
             alert.show(Main.getRoot());
         });
-
 
         return card;
     }
