@@ -446,13 +446,27 @@ public class JDBCController implements Connector {
     private String buildSelectQuery(Book book, Ordering ordering, int offset, int count) {
         List<String> conditions = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT BOOK_ISBN, BOOK_TITLE, GENRE_NAME, AUTHOR_NAME, PUBLISHER_NAME"
-                + ", PUBLICATION_YEAR, SELLING_PRICE, STOCK_QUANTITY, MIN_QUANTITY FROM BOOK NATURAL JOIN AUTHOR NATURAL JOIN PUBLISHER");
+                + ", PUBLICATION_YEAR, SELLING_PRICE, STOCK_QUANTITY, MIN_QUANTITY FROM BOOK B NATURAL JOIN AUTHOR NATURAL JOIN PUBLISHER");
         if (book.getISBN() != null)
             conditions.add("BOOK_ISBN = " + "'" + book.getISBN() + "'");
         if (book.getTitle() != null)
             conditions.add("BOOK_TITLE LIKE " + "'%" + book.getTitle() + "%'");
-        if (book.getAuthors() != null)
-            conditions.add("AUTHOR_NAME LIKE " + "'%" + book.getAuthors().get(0) + "%'");
+        if (book.getAuthors() != null && book.getAuthors().size() > 0) {
+//            conditions.add("AUTHOR_NAME LIKE " + "'%" + book.getAuthors().get(0) + "%'");
+            int i = 0;
+            String subq = "( SELECT BOOK_ISBN FROM AUTHOR WHERE AUTHOR_NAME LIKE '%$author%' ) AS $alias";
+            StringBuilder authorsQuery = new StringBuilder();
+
+            authorsQuery.append(subq.replace("$author", book.getAuthors().get(0))
+                                    .replace("$alias", "A" + Integer.toString(i)));
+            for (i = 1; i < book.getAuthors().size(); i++) {
+                authorsQuery.append(" NATURAL JOIN ");
+                authorsQuery.append(subq.replace("$author", book.getAuthors().get(i))
+                        .replace("$alias", "A" + Integer.toString(i)));
+            }
+
+            conditions.add("B.BOOK_ISBN IN ( SELECT BOOK_ISBN FROM ( " + authorsQuery.toString() + " ) )");
+        }
         if (book.getGenre() != null)
             conditions.add("GENRE_NAME = " + "'" + book.getGenre() + "'");
         if (book.getPublisher() != null)
@@ -466,6 +480,7 @@ public class JDBCController implements Connector {
         if (ordering != null)
             query.append(" ORDER BY " + ordering.getAttribute() + " " + ordering.getMode());
         query.append(" LIMIT ").append(Integer.toString(offset)).append(", ").append(Integer.toString(count)).append(';');
+        System.out.println(query);
         return query.toString();
     }
 
