@@ -35,7 +35,7 @@ public class UserOrderCardControl extends VBox {
         loadFxml("/com/tbdbookstore/view/fxml/user/UserOrderCard.fxml");
         isbn.setText(book.getISBN());
         title.setText(book.getTitle());
-        author.setText(book.getAuthors().get(0));
+        author.setText(book.getAuthorsString());
         publisher.setText(book.getPublisher());
         year.setText(book.getPublicationYear());
         genre.setText(book.getGenre());
