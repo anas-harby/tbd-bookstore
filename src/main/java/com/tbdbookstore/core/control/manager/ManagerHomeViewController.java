@@ -61,6 +61,10 @@ public class ManagerHomeViewController implements Initializable {
                 bar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(e1)));
             }
         });
+        dialogControl.setOnCancelClick(e -> {
+            dialogControl.clearFields();
+            dialogControl.close();
+        });
         search(null);
     }
 
