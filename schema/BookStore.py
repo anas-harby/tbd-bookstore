@@ -57,12 +57,13 @@ with open('book.csv', 'w') as f:
         wr.writerow([book_isbn[i]] + [book_title[i]] + [genre[randint(0, 4)]] + [publisher_id[randint(0, SIZE -1)]] + [book_publicationyear[i]] +
         [book_price[i]] + [book_stock[i]] + [book_minQuantity[i]])
 #Author
-author_name = [str(fake.sha1()) for _ in range(SIZE)]
+author_name = [str(fake.name()) for _ in range(SIZE)]
 
 with open('author.csv', 'w') as f:
     wr = csv.writer(f, lineterminator='\n')
     for i in range(SIZE):
         wr.writerow([author_name[i]] + [book_isbn[randint(0, SIZE -1)]])
+        wr.writerow([author_name[i]] + [book_isbn[i]])
 
 #Order
 order_id = [i for i in range(SIZE)]
@@ -73,7 +74,7 @@ with open('order.csv', 'w') as f:
     for i in range(SIZE):
         wr.writerow([order_id[i]] + [book_isbn[randint(0, SIZE -1)]] + [order_quantity[i]] )
 
-#Sales //check time format
+#Sales
 sales_time = [str(fake.iso8601()).replace("T"," ") for _ in range(SIZE)]
 sales_quantity = [i for i in range(SIZE)]
 with open('sales.csv', 'w') as f:
