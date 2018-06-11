@@ -6,6 +6,7 @@ import com.tbdbookstore.core.pojo.User;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
@@ -47,6 +48,8 @@ public class SignUpDialogControl extends JFXDialog {
     private JFXButton acceptButton;
     @FXML
     private JFXButton cancelButton;
+    @FXML
+    private Hyperlink loginLink;
 
     private List<JFXTextField> dialogFields;
     private List<JFXPasswordField> passwordFields;
@@ -60,6 +63,7 @@ public class SignUpDialogControl extends JFXDialog {
         confirmPasswordCheck();
         acceptButton.setOnMouseClicked(e -> root.close());
         cancelButton.setOnMouseClicked(e -> root.close());
+        loginLink.setOnMouseClicked(e->root.close());
     }
 
     private void attachValidators() {
@@ -94,6 +98,9 @@ public class SignUpDialogControl extends JFXDialog {
 
     public void setOnCancelClick(EventHandler<? super MouseEvent> eventHandler) {
         this.cancelButton.setOnMouseClicked(eventHandler);
+    }
+    public void setloginLinkClick(EventHandler<? super MouseEvent> eventHandler) {
+        this.loginLink.setOnMouseClicked(eventHandler);
     }
 
     public void confirmPasswordCheck() {

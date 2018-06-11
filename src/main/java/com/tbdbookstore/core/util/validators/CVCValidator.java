@@ -16,7 +16,7 @@ public class CVCValidator extends ValidatorBase {
 
     private void evalTextInputField() {
         TextInputControl textField = (TextInputControl) srcControl.get();
-        String text = textField.getText();
+        String text = textField.getText().trim();
         hasErrors.set(true);
         if (!text.isEmpty())
             hasErrors.set(!text.matches(REGEX));

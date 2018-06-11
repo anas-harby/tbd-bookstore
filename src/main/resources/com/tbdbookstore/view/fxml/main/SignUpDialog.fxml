@@ -155,7 +155,7 @@
         <actions>
             <TextFlow>
                 <Text>Already Registered?</Text>
-                <Hyperlink>Log In</Hyperlink>
+                <Hyperlink fx:id="loginLink">Log In</Hyperlink>
             </TextFlow>
             <JFXButton fx:id="acceptButton" prefWidth="100"
                        style="-fx-background-color: #757575; -fx-text-fill: #ffffff;">Sign Up

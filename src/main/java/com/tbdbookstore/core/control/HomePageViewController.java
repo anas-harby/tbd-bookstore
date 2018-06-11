@@ -67,6 +67,15 @@ public class HomePageViewController implements Initializable {
                bar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(ex)));
             }
         });
+
+        logInDialogControl.setSignupLinkClick(event -> {
+            logInDialogControl.close();
+            signUp(null);
+        });
+        signUpDialogControl.setloginLinkClick(event -> {
+            signUpDialogControl.close();
+            LogIn(null);
+        });
     }
 
     public void signUp(MouseEvent mouseEvent) {

@@ -8,6 +8,7 @@ import com.jfoenix.validation.base.ValidatorBase;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
@@ -30,6 +31,8 @@ public class LogInDialogControl extends JFXDialog {
     private JFXButton acceptButton;
     @FXML
     private JFXButton cancelButton;
+    @FXML
+    private Hyperlink signupLink;
 
     public LogInDialogControl() {
         loadFxml("/com/tbdbookstore/view/fxml/main/LogInDialog.fxml");
@@ -37,6 +40,7 @@ public class LogInDialogControl extends JFXDialog {
 
         acceptButton.setOnMouseClicked(e -> root.close());
         cancelButton.setOnMouseClicked(e -> root.close());
+        signupLink.setOnMouseClicked(e->root.close());
     }
 
     private void attachValidators() {
@@ -70,6 +74,11 @@ public class LogInDialogControl extends JFXDialog {
     public void setOnCancelClick(EventHandler<? super MouseEvent> eventHandler) {
         this.cancelButton.setOnMouseClicked(eventHandler);
     }
+
+    public void setSignupLinkClick(EventHandler<? super MouseEvent> eventHandler) {
+        this.signupLink.setOnMouseClicked(eventHandler);
+    }
+
 
     public String getUserName() {
         return userNameField.getText();
