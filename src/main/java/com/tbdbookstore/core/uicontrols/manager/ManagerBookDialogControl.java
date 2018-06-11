@@ -107,7 +107,6 @@ public class ManagerBookDialogControl extends JFXDialog {
                 if (!newVal)
                     tf.validate();
             });
-            tf.validate();
         }
     }
 
@@ -127,5 +126,10 @@ public class ManagerBookDialogControl extends JFXDialog {
     private List<String> getAuthors() {
         List<String> authors = Arrays.asList(authorsField.getText().split(","));
         return authors.stream().map(String::trim).collect(Collectors.toList());
+    }
+
+    public void validate() {
+        for (JFXTextField tf : dialogFields)
+            tf.validate();
     }
 }

@@ -50,6 +50,7 @@ public class ManagerHomeViewController implements Initializable {
         dialogControl = new ManagerBookDialogControl();
         bar = new JFXSnackbar(Main.getRoot());
         dialogControl.setOnAcceptClick(e -> {
+            dialogControl.validate();
             if (dialogControl.hasErrors())
                 return;
             Book newBook = dialogControl.getValue();
