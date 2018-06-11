@@ -6,6 +6,8 @@ import com.tbdbookstore.core.jdbc.Connector;
 import com.tbdbookstore.core.jdbc.DBException;
 import com.tbdbookstore.core.jdbc.JDBCController;
 import com.tbdbookstore.core.pojo.User;
+import com.tbdbookstore.core.uicontrols.manager.ManagerModesDialogControl;
+import com.tbdbookstore.core.uicontrols.manager.ManagerOrderCardControl;
 import com.tbdbookstore.core.uicontrols.shared.LogInDialogControl;
 import com.tbdbookstore.core.uicontrols.shared.SignUpDialogControl;
 import javafx.fxml.FXML;
@@ -23,6 +25,7 @@ import java.util.ResourceBundle;
 public class HomePageViewController implements Initializable {
     private SignUpDialogControl signUpDialogControl;
     private LogInDialogControl logInDialogControl;
+    private ManagerModesDialogControl managerModesDialogControl;
     private Connector connector;
 
     @FXML
@@ -33,6 +36,7 @@ public class HomePageViewController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         signUpDialogControl = new SignUpDialogControl();
         logInDialogControl = new LogInDialogControl();
+        managerModesDialogControl = new ManagerModesDialogControl();
          bar = new JFXSnackbar(HomePane);
         signUpDialogControl.setOnAcceptClick(e -> {
             if (signUpDialogControl.hasErrors())
@@ -59,7 +63,8 @@ public class HomePageViewController implements Initializable {
                 Main.setConnector(connector);
                 User user = connector.getUserInfo();
                 if (user.getRole().equals("manager")) {
-                    switchView("/com/tbdbookstore/view/fxml/manager/Manager.fxml");
+                    logInDialogControl.close();
+                    managerModesDialogControl.show(Main.getRoot());
                 } else if (user.getRole().equals("user")) {
                     switchView("/com/tbdbookstore/view/fxml/user/User.fxml");
                 }
@@ -75,6 +80,12 @@ public class HomePageViewController implements Initializable {
         signUpDialogControl.setloginLinkClick(event -> {
             signUpDialogControl.close();
             LogIn(null);
+        });
+        managerModesDialogControl.managerModeClick(event -> {
+            switchView("/com/tbdbookstore/view/fxml/manager/Manager.fxml");
+        });
+        managerModesDialogControl.userModeClick(event -> {
+            switchView("/com/tbdbookstore/view/fxml/user/User.fxml");
         });
     }
 
