@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ModifyBookDialogControl {
+public class ModifyBookDialogControl extends JFXDialog {
     @FXML private JFXDialog root;
     @FXML private Label heading;
 
@@ -57,18 +57,7 @@ public class ModifyBookDialogControl {
         this.cancelButton.setOnMouseClicked(eventHandler);
     }
 
-//    public Book getValue() {
-//        Book book = new Book(isbnField.getText());
-//        book.setTitle(titleField.getText());
-//        book.setAuthors(getAuthors());
-//        book.setGenre((String) genreField.getValue());
-//        book.setPublisher(publisherField.getText());
-//        book.setPublicationYear(yearField.getText());
-//        book.setSellingPrice(Integer.parseInt(priceField.getText()));
-//        book.setMinQuantity(Integer.parseInt(minQuantityField.getText()));
-//        book.setStockQuantity(Integer.parseInt(stockQuantityField.getText()));
-//        return book;
-//    }
+
 
     public boolean hasErrors() {
         for (JFXTextField tf : dialogFields)
@@ -130,5 +119,29 @@ public class ModifyBookDialogControl {
     public void validate() {
         for (JFXTextField tf : dialogFields)
             tf.validate();
+    }
+
+    public void fillData(Book book) {
+        titleField.setText(book.getTitle());
+        authorsField.setText(book.getAuthorsString());
+        publisherField.setText(book.getPublisher());
+        yearField.setText(book.getPublicationYear());
+        genreField.setValue(book.getGenre());
+        priceField.setText(Double.toString(book.getSellingPrice()));
+        stockQuantityField.setText(Integer.toString(book.getStockQuantity()));
+        minQuantityField.setText(Integer.toString(book.getStockQuantity()));
+    }
+
+    public Book getValue() {
+        Book book = new Book(null);
+        book.setTitle(titleField.getText());
+        book.setAuthors(getAuthors());
+        book.setGenre((String) genreField.getValue());
+        book.setPublisher(publisherField.getText());
+        book.setPublicationYear(yearField.getText());
+        book.setSellingPrice(Double.parseDouble(priceField.getText()));
+        book.setMinQuantity(Integer.parseInt(minQuantityField.getText()));
+        book.setStockQuantity(Integer.parseInt(stockQuantityField.getText()));
+        return book;
     }
 }

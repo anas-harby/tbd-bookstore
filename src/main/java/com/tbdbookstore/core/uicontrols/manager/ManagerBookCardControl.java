@@ -33,14 +33,7 @@ public class ManagerBookCardControl extends VBox {
     public ManagerBookCardControl(Book book) {
         loadFxml("/com/tbdbookstore/view/fxml/manager/ManagerBookCard.fxml");
 
-        isbn.setText(book.getISBN());
-        title.setText(book.getTitle());
-        author.setText(book.getAuthorsString());
-        publisher.setText(book.getPublisher());
-        year.setText(book.getPublicationYear());
-        genre.setText(book.getGenre());
-        quantity.setText(Integer.toString(book.getStockQuantity()));
-        price.setText(Double.toString(book.getSellingPrice()) + "$");
+        update(book);
     }
 
     private void loadFxml(String path) {
@@ -90,5 +83,16 @@ public class ManagerBookCardControl extends VBox {
 
     public void setOnDeleteButtonClick(EventHandler<? super MouseEvent> eventHandler) {
         this.deleteButton.setOnMouseClicked(eventHandler);
+    }
+
+    public void update(Book updated) {
+        isbn.setText(updated.getISBN());
+        title.setText(updated.getTitle());
+        author.setText(updated.getAuthorsString());
+        publisher.setText(updated.getPublisher());
+        year.setText(updated.getPublicationYear());
+        genre.setText(updated.getGenre());
+        quantity.setText(Integer.toString(updated.getStockQuantity()));
+        price.setText(Double.toString(updated.getSellingPrice()) + "$");
     }
 }

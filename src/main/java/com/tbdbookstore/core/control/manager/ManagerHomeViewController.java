@@ -164,7 +164,23 @@ public class ManagerHomeViewController implements Initializable {
         ManagerBookCardControl card = new ManagerBookCardControl(book);
 
         card.setOnEditButtonClick(e -> {
-//            modifyDialogControl.show(Main.getRoot());
+            modifyDialogControl.fillData(book);
+            modifyDialogControl.show(Main.getRoot());
+            modifyDialogControl.setOnAcceptClick(mouseEvent-> {
+                modifyDialogControl.validate();
+                if (modifyDialogControl.hasErrors())
+                    return;
+                Book updatedBook = modifyDialogControl.getValue();
+
+                try {
+                    Main.getDBConnector().modifyBook(updatedBook);
+                    updatedBook.setISBN(book.getISBN());
+                    card.update(updatedBook);
+                    modifyDialogControl.close();
+                } catch (DBException e1) {
+                    bar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(e1)));
+                }
+            });
         });
 
         card.setOnDeleteButtonClick(e-> {
