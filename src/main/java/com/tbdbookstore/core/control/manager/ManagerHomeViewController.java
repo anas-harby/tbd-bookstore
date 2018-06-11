@@ -50,6 +50,7 @@ public class ManagerHomeViewController implements Initializable {
         dialogControl = new ManagerBookDialogControl();
         bar = new JFXSnackbar(Main.getRoot());
         dialogControl.setOnAcceptClick(e -> {
+            dialogControl.validate();
             if (dialogControl.hasErrors())
                 return;
             Book newBook = dialogControl.getValue();
@@ -60,6 +61,10 @@ public class ManagerHomeViewController implements Initializable {
             } catch (DBException e1) {
                 bar.enqueue(new JFXSnackbar.SnackbarEvent(Main.getErrorMsg(e1)));
             }
+        });
+        dialogControl.setOnCancelClick(e -> {
+            dialogControl.clearFields();
+            dialogControl.close();
         });
         search(null);
     }

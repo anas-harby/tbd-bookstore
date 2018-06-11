@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ManagerBookDialogControl extends JFXDialog {
     @FXML private JFXDialog root;
@@ -83,8 +84,11 @@ public class ManagerBookDialogControl extends JFXDialog {
     }
 
     public void clearFields() {
-        for (JFXTextField jfxTextField : dialogFields)
+        for (JFXTextField jfxTextField : dialogFields) {
             jfxTextField.setText("");
+            jfxTextField.resetValidation();
+        }
+        genreField.valueProperty().set(null);
     }
 
     private void loadGenres() {
@@ -98,11 +102,12 @@ public class ManagerBookDialogControl extends JFXDialog {
     }
 
     private void attachValidators() {
-        for (JFXTextField tf : dialogFields)
+        for (JFXTextField tf : dialogFields) {
             tf.focusedProperty().addListener((o, oldVal, newVal) -> {
                 if (!newVal)
                     tf.validate();
             });
+        }
     }
 
     private void loadFxml(String path) {
@@ -120,8 +125,11 @@ public class ManagerBookDialogControl extends JFXDialog {
 
     private List<String> getAuthors() {
         List<String> authors = Arrays.asList(authorsField.getText().split(","));
-        for (String author : authors)
-            author = author.trim();
-        return authors;
+        return authors.stream().map(String::trim).collect(Collectors.toList());
+    }
+
+    public void validate() {
+        for (JFXTextField tf : dialogFields)
+            tf.validate();
     }
 }

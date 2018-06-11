@@ -48,7 +48,7 @@ CREATE TABLE `BOOK` (
   `STOCK_QUANTITY` int(11) NOT NULL DEFAULT '0',
   `MIN_QUANTITY` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`BOOK_ISBN`),
-  UNIQUE KEY `BOOK_TITLE` (`BOOK_TITLE`),
+  KEY `BOOK_TITLE` (`BOOK_TITLE`),
   KEY `PUBLISHER_ID` (`PUBLISHER_ID`),
   KEY `GENRE_NAME` (`GENRE_NAME`),
   KEY `SELLING_PRICE` (`SELLING_PRICE`),
@@ -145,7 +145,7 @@ CREATE TABLE `ORDER` (
   PRIMARY KEY (`ORDER_ID`),
   KEY `BOOK_ISBN` (`BOOK_ISBN`),
   CONSTRAINT `ORDER_ibfk_1` FOREIGN KEY (`BOOK_ISBN`) REFERENCES `BOOK` (`BOOK_ISBN`)
-) ENGINE=InnoDB AUTO_INCREMENT=504 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=506 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -494,6 +494,27 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_genres` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_genres`()
+BEGIN
+
+SELECT * FROM `GENRE`;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `get_orders` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -655,6 +676,10 @@ SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.delete_order TO 
 PREPARE STMT FROM @GRANT_QUERY;
 EXECUTE STMT;
 
+SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.get_genres TO "', `USER_NAME`, '"@"localhost"');
+PREPARE STMT FROM @GRANT_QUERY;
+EXECUTE STMT;
+
 SET @GRANT_QUERY = CONCAT('GRANT EXECUTE ON PROCEDURE BOOKSTORE.promote_user TO "', `USER_NAME`, '"@"localhost"');
 PREPARE STMT FROM @GRANT_QUERY;
 EXECUTE STMT;
@@ -677,4 +702,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-11  0:15:29
+-- Dump completed on 2018-06-11  5:46:12

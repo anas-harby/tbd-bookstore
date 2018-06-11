@@ -83,6 +83,18 @@ public class Book {
         this.minQuantity = minQuantity;
     }
 
+    public String getAuthorsString() {
+        if (this.authors == null)
+            return null;
+        StringBuilder sb = new StringBuilder();
+        if (this.authors.size() > 0) {
+            sb.append(this.authors.get(0));
+            for (int i = 1; i < authors.size(); i++)
+                sb.append(", ").append(this.authors.get(i));
+        }
+        return sb.toString();
+    }
+
     @Override
     public Book clone() {
         Book book = new Book(this.ISBN);
